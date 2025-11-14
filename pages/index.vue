@@ -25,6 +25,17 @@
         </div>
       </div>
     </section>
+    <form name="contact" netlify>
+  <p>
+    <label>Name <input type="text" name="name" /></label>
+  </p>
+  <p>
+    <label>Email <input type="email" name="email" /></label>
+  </p>
+  <p>
+    <button type="submit">Send</button>
+  </p>
+</form>
 
     <!-- Features Grid -->
     <section class="py-16 bg-slate-50 dark:bg-[#0E1117]">

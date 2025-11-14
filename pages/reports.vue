@@ -17,18 +17,17 @@
           Submit a New Report
         </h2>
 
-        <!-- Netlify Form -->
+        <!-- Netlify Form - Using traditional form submission -->
         <form 
-          name="water-report"
+          name="water-report" 
           method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          @submit.prevent="handleSubmit"
+          netlify
+          netlify-honeypot="bot-field"
+          action="/success"
           class="space-y-6"
         >
           <!-- Hidden Netlify Fields -->
           <input type="hidden" name="form-name" value="water-report" />
-          <input type="hidden" name="subject" :value="`Water Report: ${formData.type}`" />
           <p class="hidden">
             <label>Don't fill this out if you're human: <input name="bot-field" /></label>
           </p>
@@ -164,25 +163,22 @@
           <div class="flex justify-end pt-4">
             <button
               type="submit"
-              :disabled="isSubmitting"
               :class="[
-                'px-8 py-3 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg font-medium transition-[transform,shadow,opacity,border] duration-200 ease-in-out flex items-center gap-2',
-                isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+                'px-8 py-3 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg font-medium transition-[transform,shadow,opacity,border] duration-200 ease-in-out hover:scale-105'
               ]"
             >
-              <span v-if="isSubmitting" class="animate-spin">⟳</span>
-              {{ isSubmitting ? 'Submitting...' : 'Submit Report' }}
+              Submit Report
             </button>
           </div>
         </form>
       </div>
 
-      <!-- Success Message -->
-      <div v-if="showSuccess" class="fixed top-4 right-4 bg-[#2ECC71] text-white p-4 rounded-lg shadow-lg z-50 transition-all duration-300">
+      <!-- Success Message (shown via query param) -->
+      <div v-if="$route.query.success" class="fixed top-4 right-4 bg-[#2ECC71] text-white p-4 rounded-lg shadow-lg z-50 transition-all duration-300">
         ✅ Report submitted successfully!
       </div>
 
-      <!-- Recent Reports Section remains the same -->
+      <!-- Recent Reports -->
       <div class="bg-white dark:bg-[#212832] rounded-2xl p-8 shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
         <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-6">
           Recent Community Reports
@@ -225,6 +221,9 @@
 </template>
 
 <script setup>
+// Import route for success message
+const route = useRoute()
+
 // Reactive form data
 const formData = ref({
   type: 'pollution',
@@ -235,9 +234,6 @@ const formData = ref({
   email: '',
   phone: ''
 })
-
-const isSubmitting = ref(false)
-const showSuccess = ref(false)
 
 // Report types
 const reportTypes = [
@@ -302,57 +298,6 @@ const recentReports = ref([
     date: '3 days ago'
   }
 ])
-
-// Handle form submission
-const handleSubmit = async () => {
-  isSubmitting.value = true
-
-  try {
-    // Netlify Forms will automatically handle the submission
-    // because we have data-netlify="true" and the form-name hidden field
-    
-    // You can also send to your own endpoint if needed:
-    // await $fetch('/api/reports', {
-    //   method: 'POST',
-    //   body: JSON.stringify(formData.value)
-    // })
-
-    // Show success message
-    showSuccess.value = true
-    
-    // Add to recent reports locally
-    recentReports.value.unshift({
-      id: Date.now(),
-      type: formData.value.type.charAt(0).toUpperCase() + formData.value.type.slice(1),
-      location: formData.value.location,
-      description: formData.value.description,
-      severity: formData.value.severity,
-      date: 'Just now'
-    })
-
-    // Reset form
-    formData.value = {
-      type: 'pollution',
-      location: '',
-      coordinates: '',
-      description: '',
-      severity: 'medium',
-      email: '',
-      phone: ''
-    }
-
-    // Hide success message after 5 seconds
-    setTimeout(() => {
-      showSuccess.value = false
-    }, 5000)
-
-  } catch (error) {
-    console.error('Error submitting form:', error)
-    alert('There was an error submitting your report. Please try again.')
-  } finally {
-    isSubmitting.value = false
-  }
-}
 
 const getSeverityColor = (severity) => {
   const severityMap = {
