@@ -24,7 +24,6 @@
         <LPopup>
           <strong>{{ lake.name }}</strong><br />
           Coordinates: {{ lake.lat }}, {{ lake.lng }}<br />
-          Water temperature: {{ lake.temperature }} °C
         </LPopup>
       </LMarker>
     </LMap>
@@ -44,17 +43,17 @@ const isMounted = ref(false)
 
 const petropavl = ref<[number, number]>([54.88, 69.16])
 
-interface Lake { name: string; lat: number; lng: number; temperature: number}
+interface Lake { name: string; lat: number; lng: number; transparency: number}
 const lakes = ref<Lake[]>([
-  { name: 'Pestroe Lake', lat: 54.836699, lng: 69.111328, temperature: 17.4 },
-  { name: 'Beloe Lake', lat: 54.927154, lng: 69.254322, temperature: 16.1 },
-  { name: 'Gorkoe Lake', lat: 54.947573, lng: 68.951122, temperature: 15.8 },
-  { name: 'Poganka Lake', lat: 54.921205, lng: 69.053476, temperature: 18.2 },
-  { name: 'Dickoe Lake', lat: 54.840156, lng: 69.131957, temperature: 17.0 },
-  { name: 'Kishtibish 1', lat: 54.970375, lng: 69.180688, temperature: 14.9 },
-  { name: 'Kishtibish 2', lat: 54.960860, lng: 69.162569, temperature: 15.3 },
-  { name: 'Kishtibish 3', lat: 54.954006, lng: 69.179125, temperature: 15.7 },
-  { name: 'Minkeser Lake', lat: 54.527220, lng: 67.930560, temperature: 20.5 }
+  { name: 'Pestroe Lake', lat: 54.836699, lng: 69.111328, transparency: 1.2 },
+  { name: 'Beloe Lake', lat: 54.927154, lng: 69.254322, transparency: 1.8 },
+  { name: 'Gorkoe Lake', lat: 54.947573, lng: 68.951122, transparency: 0.9 },
+  { name: 'Poganka Lake', lat: 54.921205, lng: 69.053476, transparency: 0.6 },
+  { name: 'Dickoe Lake', lat: 54.840156, lng: 69.131957, transparency: 1.4 },
+  { name: 'Kishtibish 1', lat: 54.970375, lng: 69.180688, transparency: 2.1 },
+  { name: 'Kishtibish 2', lat: 54.960860, lng: 69.162569, transparency: 1.6 },
+  { name: 'Kishtibish 3', lat: 54.954006, lng: 69.179125, transparency: 2.3 },
+  { name: 'Minkeser Lake', lat: 54.527220, lng: 67.930560, transparency: 3.8 }
 ])
 
 const defaultIcon = ref<Icon | null>(null)
