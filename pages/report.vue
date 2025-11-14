@@ -1,26 +1,41 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-[#0E1117] transition-colors duration-300 py-8">
+  <div class="py-8">
     <div class="container mx-auto px-4 max-w-4xl">
       <!-- Header -->
       <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-primary dark:text-[#F1F5FF] mb-4">
+        <h1 class="text-4xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-4">
           Water Condition Reports
         </h1>
-        <p class="text-xl text-secondary dark:text-[#A9B4C6] max-w-2xl mx-auto">
+        <p class="text-xl text-[#5A6A85] dark:text-[#A9B4C6] max-w-2xl mx-auto">
           Help us monitor water quality by reporting unusual conditions, pollution, or changes in your local water bodies
         </p>
       </div>
 
       <!-- Report Form -->
-      <div class="bg-[#FFFFFF] dark:bg-[#212832] rounded-2xl p-8 shadow-md border border-[#E2E8F0] dark:border-[#313B47] mb-12 transition-[transform,shadow,opacity,border] duration-300 ease-in-out">
-        <h2 class="text-2xl font-bold text-primary dark:text-[#F1F5FF] mb-6">
+      <div class="bg-white dark:bg-[#212832] rounded-2xl p-8 shadow-sm border border-[#E2E8F0] dark:border-[#313B47] mb-12">
+        <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-6">
           Submit a New Report
         </h2>
 
-        <form @submit.prevent="submitReport" class="space-y-6">
+        <!-- Netlify Form -->
+        <form 
+          name="water-report"
+          method="POST"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          @submit.prevent="handleSubmit"
+          class="space-y-6"
+        >
+          <!-- Hidden Netlify Fields -->
+          <input type="hidden" name="form-name" value="water-report" />
+          <input type="hidden" name="subject" :value="`Water Report: ${formData.type}`" />
+          <p class="hidden">
+            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+          </p>
+
           <!-- Report Type -->
           <div>
-            <label class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-3">
+            <label class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-3">
               Report Type *
             </label>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -33,39 +48,42 @@
                   'py-3 px-4 rounded-lg border text-sm font-medium transition-[transform,shadow,opacity,border] duration-200 ease-in-out',
                   formData.type === type.value
                     ? 'bg-[#1E6DFF] text-white border-[#1E6DFF] dark:bg-[#6CA8FF] dark:border-[#6CA8FF]'
-                    : 'bg-[#F5F8FF] dark:bg-[#1A1F27] text-secondary dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-[#1E6DFF] dark:hover:border-[#6CA8FF]'
+                    : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-[#1E6DFF] dark:hover:border-[#6CA8FF]'
                 ]"
               >
                 {{ type.label }}
               </button>
             </div>
+            <input type="hidden" name="report-type" :value="formData.type" />
           </div>
 
           <!-- Location -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label for="location" class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-2">
+              <label for="location" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
                 Location Name *
               </label>
               <input
                 id="location"
                 v-model="formData.location"
+                name="location"
                 type="text"
                 required
-                class="w-full px-4 py-3 bg-[#F5F8FF] dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-primary dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
+                class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
                 placeholder="e.g., Lake Pobeda, Ishim River"
               >
             </div>
 
             <div>
-              <label for="coordinates" class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-2">
+              <label for="coordinates" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
                 Coordinates (Optional)
               </label>
               <input
                 id="coordinates"
                 v-model="formData.coordinates"
+                name="coordinates"
                 type="text"
-                class="w-full px-4 py-3 bg-[#F5F8FF] dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-primary dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
+                class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
                 placeholder="e.g., 54.872, 69.143"
               >
             </div>
@@ -73,22 +91,23 @@
 
           <!-- Description -->
           <div>
-            <label for="description" class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-2">
+            <label for="description" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
               Description *
             </label>
             <textarea
               id="description"
               v-model="formData.description"
+              name="description"
               required
               rows="4"
-              class="w-full px-4 py-3 bg-[#F5F8FF] dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-primary dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out resize-none"
+              class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out resize-none"
               placeholder="Please describe what you observed in detail..."
             ></textarea>
           </div>
 
           <!-- Severity -->
           <div>
-            <label class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-3">
+            <label class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-3">
               Severity Level
             </label>
             <div class="grid grid-cols-4 gap-3">
@@ -101,57 +120,41 @@
                   'py-3 px-4 rounded-lg border text-sm font-medium transition-[transform,shadow,opacity,border] duration-200 ease-in-out',
                   formData.severity === severity.value
                     ? severity.bgColor + ' ' + severity.textColor + ' border-current'
-                    : 'bg-[#F5F8FF] dark:bg-[#1A1F27] text-secondary dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-current'
+                    : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-current'
                 ]"
               >
                 {{ severity.label }}
               </button>
             </div>
-          </div>
-
-          <!-- Photo Upload -->
-          <div>
-            <label class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-2">
-              Upload Photos (Optional)
-            </label>
-            <div class="flex items-center justify-center w-full">
-              <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#E2E8F0] dark:border-[#313B47] rounded-lg cursor-pointer hover:border-[#1E6DFF] dark:hover:border-[#6CA8FF] transition-[transform,shadow,opacity,border] duration-200 ease-in-out">
-                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg class="w-8 h-8 mb-4 text-[#5A6A85] dark:text-[#A9B4C6]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                  </svg>
-                  <p class="mb-2 text-sm text-[#5A6A85] dark:text-[#A9B4C6]"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                  <p class="text-xs text-[#5A6A85] dark:text-[#A9B4C6]">PNG, JPG, GIF (MAX. 5MB)</p>
-                </div>
-                <input type="file" class="hidden" multiple accept="image/*" @change="handleFileUpload">
-              </label>
-            </div>
+            <input type="hidden" name="severity" :value="formData.severity" />
           </div>
 
           <!-- Contact Info -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label for="email" class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-2">
+              <label for="email" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
                 Email (Optional)
               </label>
               <input
                 id="email"
                 v-model="formData.email"
+                name="email"
                 type="email"
-                class="w-full px-4 py-3 bg-[#F5F8FF] dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-primary dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
+                class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
                 placeholder="your@email.com"
               >
             </div>
 
             <div>
-              <label for="phone" class="block text-sm font-medium text-primary dark:text-[#F1F5FF] mb-2">
+              <label for="phone" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
                 Phone (Optional)
               </label>
               <input
                 id="phone"
                 v-model="formData.phone"
+                name="phone"
                 type="tel"
-                class="w-full px-4 py-3 bg-[#F5F8FF] dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-primary dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
+                class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
                 placeholder="+7 (XXX) XXX-XXXX"
               >
             </div>
@@ -174,17 +177,21 @@
         </form>
       </div>
 
-      <!-- Recent Reports -->
-      <div class="bg-[#FFFFFF] dark:bg-[#212832] rounded-2xl p-8 shadow-md border border-[#E2E8F0] dark:border-[#313B47] transition-[transform,shadow,opacity,border] duration-300 ease-in-out">
-        <h2 class="text-2xl font-bold text-primary dark:text-[#F1F5FF] mb-6">
+      <!-- Success Message -->
+      <div v-if="showSuccess" class="fixed top-4 right-4 bg-[#2ECC71] text-white p-4 rounded-lg shadow-lg z-50 transition-all duration-300">
+        ✅ Report submitted successfully!
+      </div>
+
+      <!-- Recent Reports Section remains the same -->
+      <div class="bg-white dark:bg-[#212832] rounded-2xl p-8 shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+        <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-6">
           Recent Community Reports
         </h2>
-
         <div class="space-y-4">
           <div
             v-for="report in recentReports"
             :key="report.id"
-            class="p-4 border border-[#E2E8F0] dark:border-[#313B47] rounded-lg hover:shadow-md transition-[transform,shadow,opacity,border] duration-200 ease-in-out"
+            class="p-4 border border-[#E2E8F0] dark:border-[#313B47] rounded-lg hover:shadow-md transition-[transform,shadow,opacity,border] duration-200 ease-in-out bg-white dark:bg-[#212832]"
           >
             <div class="flex justify-between items-start mb-2">
               <div class="flex items-center gap-3">
@@ -200,14 +207,14 @@
                   {{ report.type }}
                 </span>
               </div>
-              <span class="text-xs text-secondary dark:text-[#A9B4C6]">
+              <span class="text-xs text-[#5A6A85] dark:text-[#A9B4C6]">
                 {{ report.date }}
               </span>
             </div>
-            <h3 class="font-semibold text-primary dark:text-[#F1F5FF] mb-1">
+            <h3 class="font-semibold text-[#1A1A1A] dark:text-[#F1F5FF] mb-1">
               {{ report.location }}
             </h3>
-            <p class="text-secondary dark:text-[#A9B4C6] text-sm">
+            <p class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">
               {{ report.description }}
             </p>
           </div>
@@ -230,6 +237,7 @@ const formData = ref({
 })
 
 const isSubmitting = ref(false)
+const showSuccess = ref(false)
 
 // Report types
 const reportTypes = [
@@ -295,44 +303,55 @@ const recentReports = ref([
   }
 ])
 
-// Methods
-const submitReport = async () => {
+// Handle form submission
+const handleSubmit = async () => {
   isSubmitting.value = true
-  
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1500))
-  
-  // Add to recent reports (in a real app, this would go to a backend)
-  recentReports.value.unshift({
-    id: Date.now(),
-    type: formData.value.type.charAt(0).toUpperCase() + formData.value.type.slice(1),
-    location: formData.value.location,
-    description: formData.value.description,
-    severity: formData.value.severity,
-    date: 'Just now'
-  })
-  
-  // Reset form
-  formData.value = {
-    type: 'pollution',
-    location: '',
-    coordinates: '',
-    description: '',
-    severity: 'medium',
-    email: '',
-    phone: ''
-  }
-  
-  isSubmitting.value = false
-  
-  // Show success message (you could use a toast library)
-  alert('Report submitted successfully! Thank you for your contribution.')
-}
 
-const handleFileUpload = (event) => {
-  const files = event.target.files
-  // Handle file upload logic here
-  console.log('Files uploaded:', files)
+  try {
+    // Netlify Forms will automatically handle the submission
+    // because we have data-netlify="true" and the form-name hidden field
+    
+    // You can also send to your own endpoint if needed:
+    // await $fetch('/api/reports', {
+    //   method: 'POST',
+    //   body: JSON.stringify(formData.value)
+    // })
+
+    // Show success message
+    showSuccess.value = true
+    
+    // Add to recent reports locally
+    recentReports.value.unshift({
+      id: Date.now(),
+      type: formData.value.type.charAt(0).toUpperCase() + formData.value.type.slice(1),
+      location: formData.value.location,
+      description: formData.value.description,
+      severity: formData.value.severity,
+      date: 'Just now'
+    })
+
+    // Reset form
+    formData.value = {
+      type: 'pollution',
+      location: '',
+      coordinates: '',
+      description: '',
+      severity: 'medium',
+      email: '',
+      phone: ''
+    }
+
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+      showSuccess.value = false
+    }, 5000)
+
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    alert('There was an error submitting your report. Please try again.')
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 const getSeverityColor = (severity) => {

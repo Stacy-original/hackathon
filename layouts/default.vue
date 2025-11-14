@@ -20,7 +20,7 @@
       </div>
     </header>
     <main class="min-h-screen transition-none sm:pt-16 bg-[#F5F8FF] dark:bg-[#1A1F27] text-[#1A1A1A] dark:text-[#F1F5FF]" :class="{ 'ml-64 max-sm:overflow-hidden max-sm:h-screen max-sm:hidden': sidebar }">
-      <div class="mx-auto">
+      <div class="container mx-auto w-full">
         <slot />
       </div>
     </main>
