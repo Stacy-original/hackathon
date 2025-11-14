@@ -1,0 +1,1 @@
+<template>Lab 4 page</template>

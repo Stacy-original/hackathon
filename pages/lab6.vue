@@ -1,0 +1,1 @@
+<template>Lab 6 page</template>
