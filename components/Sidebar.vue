@@ -81,7 +81,29 @@
         </svg>
         <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">Home</span>
       </NuxtLink>
-
+      <!-- Reports -->
+      <NuxtLink
+        to="/reports"
+        @click="closeSidebar"
+        class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-3 mt-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
+        dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
+        hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]"
+      >
+        <svg
+          class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          />
+        </svg>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">Report</span>
+      </NuxtLink>
       <!-- Gamehub -->
       <NuxtLink
         to="/inform"
