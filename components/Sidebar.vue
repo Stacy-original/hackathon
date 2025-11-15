@@ -35,7 +35,7 @@
         <div class="relative">
           <input
             type="text"
-            placeholder="Search..."
+            :placeholder="t('search')"
             class="w-full px-4 py-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent
             dark:bg-[#212832] dark:text-[#F1F5FF] dark:border-[#313B47] dark:focus:ring-[#6CA8FF]
             bg-[#FFFFFF] text-[#1A1A1A] border-[#E2E8F0] placeholder-[#5A6A85] focus:ring-[#1E6DFF]"
@@ -79,7 +79,7 @@
             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
           />
         </svg>
-        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">Home</span>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ t('home') }}</span>
       </NuxtLink>
       <!-- Reports -->
       <NuxtLink
@@ -102,9 +102,9 @@
             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
           />
         </svg>
-        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">Report</span>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ t('report') }}</span>
       </NuxtLink>
-      <!-- Gamehub -->
+      <!-- Information -->
       <NuxtLink
         to="/inform"
         @click="closeSidebar"
@@ -125,7 +125,7 @@
             d="M6 18L18 6M6 6l12 12M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
           />
         </svg>
-        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">Information</span>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ t('information') }}</span>
       </NuxtLink>
 
       <!-- Lab Menu -->
@@ -158,7 +158,7 @@
               d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
             />
           </svg>
-          <span class="font-medium transition-[transform,shadow,opacity] duration-300">Maps</span>
+          <span class="font-medium transition-[transform,shadow,opacity] duration-300">{{ t('maps') }}</span>
           <svg
             class="w-4 h-4 ml-auto transition-transform duration-300"
             :class="{ 'rotate-180': submenu }"
@@ -185,44 +185,12 @@
                 dark:hover:bg-[#6CA8FF] dark:hover:border-[#75B9FF]
                 hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:border-[#1E6DFF]">
                 <div class="w-2 h-2 rounded-full transition-transform duration-300 dark:bg-[#75B9FF] bg-[#1E6DFF]"></div>
-                <span class="font-medium">{{ lab.name }}</span>
+                <span class="font-medium">{{ t(lab.nameKey as TranslationKey) }}</span>
             </NuxtLink>
             </div>
 
         </div>
       </div>
-
-      <!-- Login + Logout -->
-      <!-- <div
-        class="transition-[transform,shadow,opacity] duration-500 ease-out overflow-hidden mt-2 max-sm:mx-0"
-        :class="{ 'max-h-0': submenu, 'max-h-40': !submenu }"
-      >
-        <NuxtLink
-          to="/login"
-          @click="closeSidebar"
-          class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 flex items-center justify-start gap-3 px-4 py-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
-          dark:hover:bg-[#6CA8FF] dark:hover:border-[#38E39A]
-          hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]"
-        >
-          <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-          </svg>
-          <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">Log in</span>
-        </NuxtLink>
-
-        <NuxtLink
-          to="/logout"
-          @click="closeSidebar"
-          class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 flex items-center justify-start gap-3 px-4 py-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
-          dark:hover:bg-[#6CA8FF] dark:hover:border-[#FF6B6B]
-          hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]"
-        >
-          <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
-          <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">Log out</span>
-        </NuxtLink>
-      </div> -->
 
       <!-- Footer -->
       <div
@@ -235,7 +203,7 @@
             </svg>
             <span>© 2025 SKO GEOHYDRO PORTAL</span>
           </div>
-          <div class="text-xs dark:text-[#5A6A85] text-[#5A6A85]">All rights reserved</div>
+          <div class="text-xs dark:text-[#5A6A85] text-[#5A6A85]">{{ t('allRightsReserved') }}</div>
 
           <footer class="flex flex-row mt-2 w-full items-center justify-center px-4 gap-4">
             <a href="https://github.com/">
@@ -259,7 +227,7 @@
 
 <script setup lang="ts">
 const colorMode = useColorMode();
-
+const { t } = useTranslations();
 
 const props = defineProps<{ sidebar: boolean }>();
 const emit = defineEmits<{ "update:sidebar": [value: boolean]; "close-sidebar": [] }>();
@@ -315,9 +283,9 @@ const handleMouseEnter = () => {
 };
 
 const labs = [
-  { path: 'lab3', name: 'Level of Water' },
-  { path: 'lab4', name: 'Transparency' },
-  { path: 'lab5', name: 'Temperature' },
-  { path: 'lab6', name: 'Electrical Conductivity' }
+  { path: 'lab3', nameKey: 'levelOfWater' },
+  { path: 'lab4', nameKey: 'transparency' },
+  { path: 'lab5', nameKey: 'temperatureShort' },
+  { path: 'lab6', nameKey: 'electricalConductivityShort' }
 ];
 </script>

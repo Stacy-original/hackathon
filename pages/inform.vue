@@ -8,8 +8,8 @@
 
       <!-- City marker -->
       <LMarker v-if="defaultIcon" :lat-lng="petropavl" :Icon="defaultIcon">
-        <LTooltip permanent direction="top">Petropavl (SKO)</LTooltip>
-        <LPopup>Petropavl, Northern Kazakhstan</LPopup>
+        <LTooltip permanent direction="top">{{ t('petropavlSKO') }}</LTooltip>
+        <LPopup>{{ t('petropavlNorthernKazakhstan') }}</LPopup>
       </LMarker>
 
       <!-- Lakes -->
@@ -23,8 +23,8 @@
         <LTooltip permanent direction="top">{{ lake.name }}</LTooltip>
         <LPopup>
           <strong>{{ lake.name }}</strong><br />
-          Coordinates: {{ lake.lat }}, {{ lake.lng }}<br />
-          Pathogens risk: {{ lake.pathogens }} 
+          {{ t('coordinates') }}: {{ lake.lat }}, {{ lake.lng }}<br />
+          {{ t('pathogensRisk') }}: {{ lake.pathogens }} 
         </LPopup>
       </LMarker>
     </LMap>
@@ -39,6 +39,8 @@ import { LMap, LTileLayer, LMarker, LTooltip, LPopup } from '@vue-leaflet/vue-le
 import { Icon } from 'leaflet'
 import markerIconPng from 'leaflet/dist/images/marker-icon.png'
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png'
+
+const { t } = useTranslations();
 
 const isMounted = ref(false)
 

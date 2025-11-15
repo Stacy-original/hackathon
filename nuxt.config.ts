@@ -5,19 +5,34 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
+    '@nuxtjs/i18n',
     '@nuxtjs/leaflet'
   ],
-   colorMode: {
-    classSuffix: '', // makes it use 'dark' instead of 'dark-mode'
-    preference: 'system', // default theme
-    fallback: 'light', // fallback when preference not available
-    storageKey: 'nuxt-color-mode', // localStorage key
+  colorMode: {
+    classSuffix: '',
+    preference: 'system',
+    fallback: 'light',
+    storageKey: 'nuxt-color-mode',
+  },
+  i18n: {
+    locales: [
+      { code: 'en', name: 'English', iso: 'en-US' },
+      { code: 'ru', name: 'Русский', iso: 'ru-RU' },
+      { code: 'kk', name: 'Қазақша', iso: 'kk-KZ' }
+    ],
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root'
+    },
+    vueI18n: './i18n.config.ts' // Remove this line completely
   },
   app: {
     head: {
       title: 'HACKATHON',
       link: [
-        // { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },,
         { rel: 'icon', type: 'image/png', href: '/favicon.png'}
       ],
     },

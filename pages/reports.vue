@@ -4,24 +4,24 @@
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-4">
-          Water Condition Reports
+          {{ t('waterConditionReports') }}
         </h1>
         <p class="text-xl text-[#5A6A85] dark:text-[#A9B4C6] max-w-2xl mx-auto">
-          Help us monitor water quality by reporting unusual conditions, pollution, or changes in your local water bodies
+          {{ t('helpUsMonitor') }}
         </p>
       </div>
 
       <!-- Report Form -->
       <div class="bg-white dark:bg-[#212832] rounded-2xl p-8 shadow-sm border border-[#E2E8F0] dark:border-[#313B47] mb-12">
         <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-6">
-          Submit a New Report
+          {{ t('submitNewReport') }}
         </h2>
 
         <form @submit.prevent="submitReport" class="space-y-6">
           <!-- Report Type -->
           <div>
             <label class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-3">
-              Report Type *
+              {{ t('reportType') }} *
             </label>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
               <button
@@ -36,7 +36,7 @@
                     : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-[#1E6DFF] dark:hover:border-[#6CA8FF]'
                 ]"
               >
-                {{ type.label }}
+                {{ t(type.value) }}
               </button>
             </div>
           </div>
@@ -45,7 +45,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label for="location" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                Location Name *
+                {{ t('locationName') }} *
               </label>
               <input
                 id="location"
@@ -53,20 +53,20 @@
                 type="text"
                 required
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                placeholder="e.g., Lake Pobeda, Ishim River"
+                :placeholder="t('locationName')"
               >
             </div>
 
             <div>
               <label for="coordinates" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                Coordinates (Optional)
+                {{ t('coordinatesOptional') }}
               </label>
               <input
                 id="coordinates"
                 v-model="formData.coordinates"
                 type="text"
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                placeholder="e.g., 54.872, 69.143"
+                :placeholder="t('coordinatesOptional')"
               >
             </div>
           </div>
@@ -74,7 +74,7 @@
           <!-- Description -->
           <div>
             <label for="description" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-              Description *
+              {{ t('description') }} *
             </label>
             <textarea
               id="description"
@@ -82,14 +82,14 @@
               required
               rows="4"
               class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200 resize-none"
-              placeholder="Please describe what you observed in detail..."
+              :placeholder="t('description')"
             ></textarea>
           </div>
 
           <!-- Severity -->
           <div>
             <label class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-3">
-              Severity Level
+              {{ t('severityLevel') }}
             </label>
             <div class="grid grid-cols-4 gap-3">
               <button
@@ -104,7 +104,7 @@
                     : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-current'
                 ]"
               >
-                {{ severity.label }}
+                {{ t(severity.value) }}
               </button>
             </div>
           </div>
@@ -113,27 +113,27 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label for="email" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                Email (Optional)
+                {{ t('emailOptional') }}
               </label>
               <input
                 id="email"
                 v-model="formData.email"
                 type="email"
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                placeholder="your@email.com"
+                :placeholder="t('emailOptional')"
               >
             </div>
 
             <div>
               <label for="phone" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                Phone (Optional)
+                {{ t('phoneOptional') }}
               </label>
               <input
                 id="phone"
                 v-model="formData.phone"
                 type="tel"
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                placeholder="+7 (XXX) XXX-XXXX"
+                :placeholder="t('phoneOptional')"
               >
             </div>
           </div>
@@ -148,7 +148,7 @@
                 isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
               ]"
             >
-              {{ isSubmitting ? 'Submitting...' : 'Submit Report' }}
+              {{ isSubmitting ? t('submitting') : t('submitReport') }}
             </button>
           </div>
         </form>
@@ -166,23 +166,23 @@
       <div class="bg-white dark:bg-[#212832] rounded-2xl p-8 shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">
-            Recent Community Reports
+            {{ t('recentCommunityReports') }}
           </h2>
           <button 
             @click="fetchReports"
             class="px-4 py-2 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg text-sm font-medium transition-colors"
           >
-            Refresh
+            {{ t('refresh') }}
           </button>
         </div>
         
         <div v-if="loading" class="text-center py-8">
           <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
-          <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">Loading reports...</p>
+          <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">{{ t('loadingReports') }}</p>
         </div>
 
         <div v-else-if="recentReports.length === 0" class="text-center py-8">
-          <p class="text-[#5A6A85] dark:text-[#A9B4C6]">No reports yet. Be the first to submit one!</p>
+          <p class="text-[#5A6A85] dark:text-[#A9B4C6]">{{ t('noReportsYet') }}</p>
         </div>
 
         <div v-else class="space-y-4">
@@ -199,16 +199,16 @@
                     getSeverityColor(report.severity)
                   ]"
                 >
-                  {{ getSeverityLabel(report.severity) }}
+                  {{ t(report.severity) }}
                 </span>
                 <span class="text-sm text-[#1E6DFF] dark:text-[#6CA8FF] font-medium capitalize">
-                  {{ report.type }}
+                  {{ t(report.type) }}
                 </span>
                 <span :class="[
                   'px-2 py-1 rounded-full text-xs font-medium',
                   getStatusColor(report.status)
                 ]">
-                  {{ report.status }}
+                  {{ t(report.status) }}
                 </span>
               </div>
               <span class="text-xs text-[#5A6A85] dark:text-[#A9B4C6] whitespace-nowrap">
@@ -222,7 +222,7 @@
               {{ report.description }}
             </p>
             <div v-if="report.coordinates" class="text-xs text-[#5A6A85] dark:text-[#A9B4C6]">
-              Coordinates: {{ report.coordinates }}
+              {{ t('coordinates') }}: {{ report.coordinates }}
             </div>
           </div>
         </div>
@@ -231,12 +231,41 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const { t } = useTranslations();
+
 // ✅ UPDATE THIS URL WITH YOUR RENDER URL
 const API_BASE = 'https://skogeohydro-backend.onrender.com';
 
+// Define types for our data
+interface Report {
+  id: string;
+  type: string;
+  location: string;
+  coordinates: string;
+  description: string;
+  severity: string;
+  status: string;
+  createdAt: string;
+}
+
+interface FormData {
+  type: string;
+  location: string;
+  coordinates: string;
+  description: string;
+  severity: string;
+  email: string;
+  phone: string;
+}
+
+interface Message {
+  text: string;
+  type: 'success' | 'error';
+}
+
 // Reactive data
-const formData = ref({
+const formData = ref<FormData>({
   type: 'pollution',
   location: '',
   coordinates: '',
@@ -246,10 +275,10 @@ const formData = ref({
   phone: ''
 });
 
-const recentReports = ref([]);
-const loading = ref(false);
-const isSubmitting = ref(false);
-const message = ref(null);
+const recentReports = ref<Report[]>([]);
+const loading = ref<boolean>(false);
+const isSubmitting = ref<boolean>(false);
+const message = ref<Message | null>(null);
 
 // Report types
 const reportTypes = [
@@ -291,7 +320,7 @@ const severityLevels = [
 ];
 
 // Show message
-const showMessage = (text, type = 'success') => {
+const showMessage = (text: string, type: 'success' | 'error' = 'success') => {
   message.value = { text, type };
   setTimeout(() => {
     message.value = null;
@@ -361,10 +390,10 @@ const fetchReports = async () => {
 };
 
 // Format date for display
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const now = new Date();
-  const diffMs = now - date;
+  const diffMs = now.getTime() - date.getTime();
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
@@ -377,8 +406,8 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString();
 };
 
-const getSeverityColor = (severity) => {
-  const severityMap = {
+const getSeverityColor = (severity: string) => {
+  const severityMap: Record<string, string> = {
     low: 'bg-[#2ECC71] dark:bg-[#38E39A] text-white',
     medium: 'bg-[#FFCB2F] dark:bg-[#FFDD57] text-[#1A1A1A]',
     high: 'bg-[#FF4E4E] dark:bg-[#FF6B6B] text-white',
@@ -387,18 +416,8 @@ const getSeverityColor = (severity) => {
   return severityMap[severity] || severityMap.medium;
 };
 
-const getSeverityLabel = (severity) => {
-  const labelMap = {
-    low: 'Low',
-    medium: 'Medium',
-    high: 'High',
-    critical: 'Critical'
-  };
-  return labelMap[severity] || 'Medium';
-};
-
-const getStatusColor = (status) => {
-  const statusMap = {
+const getStatusColor = (status: string) => {
+  const statusMap: Record<string, string> = {
     pending: 'bg-[#FFCB2F] dark:bg-[#FFDD57] text-[#1A1A1A]',
     reviewed: 'bg-[#1E6DFF] dark:bg-[#6CA8FF] text-white',
     resolved: 'bg-[#2ECC71] dark:bg-[#38E39A] text-white'
