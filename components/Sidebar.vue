@@ -260,6 +260,7 @@
 <script setup lang="ts">
 const colorMode = useColorMode();
 
+
 const props = defineProps<{ sidebar: boolean }>();
 const emit = defineEmits<{ "update:sidebar": [value: boolean]; "close-sidebar": [] }>();
 

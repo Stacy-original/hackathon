@@ -22,4 +22,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  routeRules: {
+    '/admin-reports': { 
+      // This will help with client-side protection
+    }
+  },
 })
