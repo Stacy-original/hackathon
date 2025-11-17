@@ -26,7 +26,13 @@
         </span>
       </div>
     </header>
-    <main class="min-h-screen transition-none sm:pt-16 bg-[#F5F8FF] dark:bg-[#1A1F27] text-[#1A1A1A] dark:text-[#F1F5FF]" :class="{ 'ml-64 max-sm:overflow-hidden max-sm:h-screen max-sm:hidden': sidebar }">
+    <main 
+      class="min-h-screen transition-all duration-300 sm:pt-16 bg-[#F5F8FF] dark:bg-[#1A1F27] text-[#1A1A1A] dark:text-[#F1F5FF]"
+      :class="{
+        'sm:ml-64': sidebar,
+        'max-sm:translate-x-full max-sm:opacity-0 max-sm:overflow-hidden': sidebar
+      }"
+    >
       <div class="mx-auto">
         <slot />
       </div>
