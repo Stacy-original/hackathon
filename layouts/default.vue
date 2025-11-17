@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { useHead } from "#app";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 const colorMode = useColorMode();
 const { locale, locales, setLocale } = useI18n();
@@ -60,10 +60,20 @@ function toggleTheme() {
   colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
 }
 
+// KEEP ONLY THIS - remove everything else below
 function switchLanguage() {
-  const availableLocales = locales.value.map(loc => typeof loc === 'string' ? loc : loc.code);
-  const currentIndex = availableLocales.indexOf(locale.value);
-  const nextIndex = (currentIndex + 1) % availableLocales.length;
+  const rawLocales = (locales as any)?.value ?? (locales as any) ?? [];
+  const availableLocales = Array.isArray(rawLocales)
+    ? rawLocales.map((loc: any) => (typeof loc === 'string' ? loc : loc?.code)).filter(Boolean)
+    : [];
+
+  if (!availableLocales.length) return;
+
+  const current = (locale as any)?.value ?? '';
+  const currentCode = typeof current === 'string' ? current : current?.code ?? '';
+  const currentIndex = availableLocales.indexOf(currentCode);
+  const nextIndex = (currentIndex >= 0 ? currentIndex + 1 : 0) % availableLocales.length;
+
   setLocale(availableLocales[nextIndex]);
 }
 
@@ -71,7 +81,7 @@ const currentLanguage = computed(() => {
   switch (locale.value) {
     case 'en': return 'EN';
     case 'ru': return 'RU';
-    case 'kk': return 'KK';
+    case 'kk': return 'KZ';
     default: return 'EN';
   }
 });

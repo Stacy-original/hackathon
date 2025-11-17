@@ -4,24 +4,24 @@
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-4">
-          {{ t('waterConditionReports') }}
+          {{ $t('waterConditionReports') }}
         </h1>
         <p class="text-xl text-[#5A6A85] dark:text-[#A9B4C6] max-w-2xl mx-auto">
-          {{ t('helpUsMonitor') }}
+          {{ $t('helpUsMonitor') }}
         </p>
       </div>
 
       <!-- Report Form -->
       <div class="bg-white dark:bg-[#212832] rounded-2xl p-8 shadow-sm border border-[#E2E8F0] dark:border-[#313B47] mb-12">
         <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-6">
-          {{ t('submitNewReport') }}
+          {{ $t('submitNewReport') }}
         </h2>
 
         <form @submit.prevent="submitReport" class="space-y-6">
           <!-- Report Type -->
           <div>
             <label class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-3">
-              {{ t('reportType') }} *
+              {{ $t('reportType') }} *
             </label>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
               <button
@@ -36,7 +36,7 @@
                     : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-[#1E6DFF] dark:hover:border-[#6CA8FF]'
                 ]"
               >
-                {{ t(type.value) }}
+                {{ $t(type.value) }}
               </button>
             </div>
           </div>
@@ -45,7 +45,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label for="location" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                {{ t('locationName') }} *
+                {{ $t('locationName') }} *
               </label>
               <input
                 id="location"
@@ -53,20 +53,20 @@
                 type="text"
                 required
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                :placeholder="t('locationName')"
+                :placeholder="$t('locationName')"
               >
             </div>
 
             <div>
               <label for="coordinates" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                {{ t('coordinatesOptional') }}
+                {{ $t('coordinatesOptional') }}
               </label>
               <input
                 id="coordinates"
                 v-model="formData.coordinates"
                 type="text"
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                :placeholder="t('coordinatesOptional')"
+                :placeholder="$t('coordinatesOptional')"
               >
             </div>
           </div>
@@ -74,7 +74,7 @@
           <!-- Description -->
           <div>
             <label for="description" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-              {{ t('description') }} *
+              {{ $t('description') }} *
             </label>
             <textarea
               id="description"
@@ -82,14 +82,14 @@
               required
               rows="4"
               class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200 resize-none"
-              :placeholder="t('description')"
+              :placeholder="$t('description')"
             ></textarea>
           </div>
 
           <!-- Severity -->
           <div>
             <label class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-3">
-              {{ t('severityLevel') }}
+              {{ $t('severityLevel') }}
             </label>
             <div class="grid grid-cols-4 gap-3">
               <button
@@ -104,7 +104,7 @@
                     : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-current'
                 ]"
               >
-                {{ t(severity.value) }}
+                {{ $t(severity.value) }}
               </button>
             </div>
           </div>
@@ -113,27 +113,27 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label for="email" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                {{ t('emailOptional') }}
+                {{ $t('emailOptional') }}
               </label>
               <input
                 id="email"
                 v-model="formData.email"
                 type="email"
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                :placeholder="t('emailOptional')"
+                :placeholder="$t('emailOptional')"
               >
             </div>
 
             <div>
               <label for="phone" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-                {{ t('phoneOptional') }}
+                {{ $t('phoneOptional') }}
               </label>
               <input
                 id="phone"
                 v-model="formData.phone"
                 type="tel"
                 class="w-full px-4 py-3 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF] focus:border-transparent transition-all duration-200"
-                :placeholder="t('phoneOptional')"
+                :placeholder="$t('phoneOptional')"
               >
             </div>
           </div>
@@ -148,7 +148,7 @@
                 isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
               ]"
             >
-              {{ isSubmitting ? t('submitting') : t('submitReport') }}
+              {{ isSubmitting ? $t('submitting') : $t('submitReport') }}
             </button>
           </div>
         </form>
@@ -166,23 +166,23 @@
       <div class="bg-white dark:bg-[#212832] rounded-2xl p-8 shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">
-            {{ t('recentCommunityReports') }}
+            {{ $t('recentCommunityReports') }}
           </h2>
           <button 
             @click="fetchReports"
             class="px-4 py-2 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg text-sm font-medium transition-colors"
           >
-            {{ t('refresh') }}
+            {{ $t('refresh') }}
           </button>
         </div>
         
         <div v-if="loading" class="text-center py-8">
           <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
-          <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">{{ t('loadingReports') }}</p>
+          <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">{{ $t('loadingReports') }}</p>
         </div>
 
         <div v-else-if="recentReports.length === 0" class="text-center py-8">
-          <p class="text-[#5A6A85] dark:text-[#A9B4C6]">{{ t('noReportsYet') }}</p>
+          <p class="text-[#5A6A85] dark:text-[#A9B4C6]">{{ $t('noReportsYet') }}</p>
         </div>
 
         <div v-else class="space-y-4">
@@ -199,16 +199,16 @@
                     getSeverityColor(report.severity)
                   ]"
                 >
-                  {{ t(report.severity) }}
+                  {{ $t(report.severity) }}
                 </span>
                 <span class="text-sm text-[#1E6DFF] dark:text-[#6CA8FF] font-medium capitalize">
-                  {{ t(report.type) }}
+                  {{ $t(report.type) }}
                 </span>
                 <span :class="[
                   'px-2 py-1 rounded-full text-xs font-medium',
                   getStatusColor(report.status)
                 ]">
-                  {{ t(report.status) }}
+                  {{ $t(report.status) }}
                 </span>
               </div>
               <span class="text-xs text-[#5A6A85] dark:text-[#A9B4C6] whitespace-nowrap">
@@ -222,7 +222,7 @@
               {{ report.description }}
             </p>
             <div v-if="report.coordinates" class="text-xs text-[#5A6A85] dark:text-[#A9B4C6]">
-              {{ t('coordinates') }}: {{ report.coordinates }}
+              {{ $t('coordinates') }}: {{ report.coordinates }}
             </div>
           </div>
         </div>
@@ -232,7 +232,110 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useTranslations();
+// Define translations for this page only
+const { $i18n } = useNuxtApp()
+
+$i18n.mergeLocaleMessage('en', {
+  waterConditionReports: 'Water Condition Reports',
+  helpUsMonitor: 'Help us monitor water quality by reporting unusual conditions, pollution, or changes in your local water bodies',
+  submitNewReport: 'Submit a New Report',
+  reportType: 'Report Type',
+  locationName: 'Location Name',
+  coordinatesOptional: 'Coordinates (Optional)',
+  description: 'Description',
+  severityLevel: 'Severity Level',
+  emailOptional: 'Email (Optional)',
+  phoneOptional: 'Phone (Optional)',
+  submitReport: 'Submit Report',
+  submitting: 'Submitting...',
+  recentCommunityReports: 'Recent Community Reports',
+  refresh: 'Refresh',
+  loadingReports: 'Loading reports...',
+  noReportsYet: 'No reports yet. Be the first to submit one!',
+  pollution: 'Pollution',
+  algaeBloom: 'Algae Bloom',
+  unusualOdor: 'Unusual Odor',
+  colorChange: 'Color Change',
+  flooding: 'Flooding',
+  wildlifeImpact: 'Wildlife Impact',
+  other: 'Other',
+  low: 'Low',
+  medium: 'Medium',
+  high: 'High',
+  critical: 'Critical',
+  pending: 'pending',
+  reviewed: 'reviewed',
+  resolved: 'resolved',
+  coordinates: 'Coordinates'
+})
+
+$i18n.mergeLocaleMessage('ru', {
+  waterConditionReports: 'Отчеты о состоянии воды',
+  helpUsMonitor: 'Помогите нам контролировать качество воды, сообщая о необычных условиях, загрязнении или изменениях в местных водных объектах',
+  submitNewReport: 'Отправить новый отчет',
+  reportType: 'Тип отчета',
+  locationName: 'Название места',
+  coordinatesOptional: 'Координаты (необязательно)',
+  description: 'Описание',
+  severityLevel: 'Уровень серьезности',
+  emailOptional: 'Email (необязательно)',
+  phoneOptional: 'Телефон (необязательно)',
+  submitReport: 'Отправить отчет',
+  submitting: 'Отправка...',
+  recentCommunityReports: 'Недавние отчеты сообщества',
+  refresh: 'Обновить',
+  loadingReports: 'Загрузка отчетов...',
+  noReportsYet: 'Пока нет отчетов. Будьте первым!',
+  pollution: 'Загрязнение',
+  algaeBloom: 'Цветение водорослей',
+  unusualOdor: 'Необычный запах',
+  colorChange: 'Изменение цвета',
+  flooding: 'Наводнение',
+  wildlifeImpact: 'Влияние на дикую природу',
+  other: 'Другое',
+  low: 'Низкий',
+  medium: 'Средний',
+  high: 'Высокий',
+  critical: 'Критический',
+  pending: 'в ожидании',
+  reviewed: 'рассмотрен',
+  resolved: 'решено',
+  coordinates: 'Координаты'
+})
+
+$i18n.mergeLocaleMessage('kk', {
+  waterConditionReports: 'Су жағдайы туралы есептер',
+  helpUsMonitor: 'Жергілікті су объектілеріндегі ерекше жағдайлар, ластану немесе өзгерістер туралы хабарлау арқылы су сапасын бақылауға көмектесіңіз',
+  submitNewReport: 'Жаңа есепті жіберу',
+  reportType: 'Есеп түрі',
+  locationName: 'Орналасқан жер атауы',
+  coordinatesOptional: 'Координаттар (міндетті емес)',
+  description: 'Сипаттама',
+  severityLevel: 'Маңыздылық деңгейі',
+  emailOptional: 'Электрондық пошта (міндетті емес)',
+  phoneOptional: 'Телефон (міндетті емес)',
+  submitReport: 'Есепті жіберу',
+  submitting: 'Жіберілуде...',
+  recentCommunityReports: 'Қауымдастықтың соңғы есептері',
+  refresh: 'Жаңарту',
+  loadingReports: 'Есептер жүктелуде...',
+  noReportsYet: 'Әлі есептер жоқ. Бірінші болыңыз!',
+  pollution: 'Ластану',
+  algaeBloom: 'Балдырлардың гүлденуі',
+  unusualOdor: 'Ерекше иіс',
+  colorChange: 'Түс өзгеруі',
+  flooding: 'Сел',
+  wildlifeImpact: 'Жануарлар әлеміне әсер',
+  other: 'Басқа',
+  low: 'Төмен',
+  medium: 'Орташа',
+  high: 'Жоғары',
+  critical: 'Сыни',
+  pending: 'күтілуде',
+  reviewed: 'қаралды',
+  resolved: 'шешілді',
+  coordinates: 'Координаттар'
+})
 
 // ✅ UPDATE THIS URL WITH YOUR RENDER URL
 const API_BASE = 'https://skogeohydro-backend.onrender.com';

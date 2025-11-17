@@ -35,7 +35,7 @@
         <div class="relative">
           <input
             type="text"
-            :placeholder="t('search')"
+            :placeholder="$t('search')"
             class="w-full px-4 py-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent
             dark:bg-[#212832] dark:text-[#F1F5FF] dark:border-[#313B47] dark:focus:ring-[#6CA8FF]
             bg-[#FFFFFF] text-[#1A1A1A] border-[#E2E8F0] placeholder-[#5A6A85] focus:ring-[#1E6DFF]"
@@ -79,7 +79,7 @@
             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
           />
         </svg>
-        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ t('home') }}</span>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('home') }}</span>
       </NuxtLink>
       <!-- Reports -->
       <NuxtLink
@@ -102,7 +102,7 @@
             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
           />
         </svg>
-        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ t('report') }}</span>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('report') }}</span>
       </NuxtLink>
       <!-- Information -->
       <NuxtLink
@@ -125,7 +125,7 @@
             d="M6 18L18 6M6 6l12 12M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
           />
         </svg>
-        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ t('information') }}</span>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('information') }}</span>
       </NuxtLink>
 
       <!-- Lab Menu -->
@@ -158,7 +158,7 @@
               d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
             />
           </svg>
-          <span class="font-medium transition-[transform,shadow,opacity] duration-300">{{ t('maps') }}</span>
+          <span class="font-medium transition-[transform,shadow,opacity] duration-300">{{ $t('maps') }}</span>
           <svg
             class="w-4 h-4 ml-auto transition-transform duration-300"
             :class="{ 'rotate-180': submenu }"
@@ -185,7 +185,7 @@
                 dark:hover:bg-[#6CA8FF] dark:hover:border-[#75B9FF]
                 hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:border-[#1E6DFF]">
                 <div class="w-2 h-2 rounded-full transition-transform duration-300 dark:bg-[#75B9FF] bg-[#1E6DFF]"></div>
-                <span class="font-medium">{{ t(lab.nameKey as TranslationKey) }}</span>
+                <span class="font-medium">{{ $t(lab.nameKey) }}</span>
             </NuxtLink>
             </div>
 
@@ -203,7 +203,7 @@
             </svg>
             <span>© 2025 SKO GEOHYDRO PORTAL</span>
           </div>
-          <div class="text-xs dark:text-[#5A6A85] text-[#5A6A85]">{{ t('allRightsReserved') }}</div>
+          <div class="text-xs dark:text-[#5A6A85] text-[#5A6A85]">{{ $t('allRightsReserved') }}</div>
 
           <footer class="flex flex-row mt-2 w-full items-center justify-center px-4 gap-4">
             <a href="https://github.com/">
@@ -227,7 +227,6 @@
 
 <script setup lang="ts">
 const colorMode = useColorMode();
-const { t } = useTranslations();
 
 const props = defineProps<{ sidebar: boolean }>();
 const emit = defineEmits<{ "update:sidebar": [value: boolean]; "close-sidebar": [] }>();
@@ -288,4 +287,46 @@ const labs = [
   { path: 'lab5', nameKey: 'temperatureShort' },
   { path: 'lab6', nameKey: 'electricalConductivityShort' }
 ];
+
+// Define translations for this component only
+const { $i18n } = useNuxtApp()
+
+$i18n.mergeLocaleMessage('en', {
+  home: 'Home',
+  report: 'Report',
+  information: 'Information',
+  maps: 'Maps',
+  levelOfWater: 'Level of Water',
+  transparency: 'Transparency',
+  temperatureShort: 'Temperature',
+  electricalConductivityShort: 'Electrical Conductivity',
+  search: 'Search...',
+  allRightsReserved: 'All rights reserved'
+})
+
+$i18n.mergeLocaleMessage('ru', {
+  home: 'Главная',
+  report: 'Отчет',
+  information: 'Информация',
+  maps: 'Карты',
+  levelOfWater: 'Уровень воды',
+  transparency: 'Прозрачность',
+  temperatureShort: 'Температура',
+  electricalConductivityShort: 'Электропроводность',
+  search: 'Поиск...',
+  allRightsReserved: 'Все права защищены'
+})
+
+$i18n.mergeLocaleMessage('kk', {
+  home: 'Басты',
+  report: 'Есеп',
+  information: 'Ақпарат',
+  maps: 'Карталар',
+  levelOfWater: 'Су деңгейі',
+  transparency: 'Өткізгіштік',
+  temperatureShort: 'Температура',
+  electricalConductivityShort: 'Электр өткізгіштік',
+  search: 'Іздеу...',
+  allRightsReserved: 'Барлық құқықтар қорғалған'
+})
 </script>

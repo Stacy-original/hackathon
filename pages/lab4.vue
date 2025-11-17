@@ -8,8 +8,8 @@
 
       <!-- City marker -->
       <LMarker v-if="defaultIcon" :lat-lng="petropavl" :Icon="defaultIcon">
-        <LTooltip permanent direction="top">{{ t('petropavlSKO') }}</LTooltip>
-        <LPopup>{{ t('petropavlNorthernKazakhstan') }}</LPopup>
+        <LTooltip permanent direction="top">{{ $t('petropavlSKO') }}</LTooltip>
+        <LPopup>{{ $t('petropavlNorthernKazakhstan') }}</LPopup>
       </LMarker>
 
       <!-- Lakes -->
@@ -23,8 +23,8 @@
         <LTooltip permanent direction="top">{{ lake.name }}</LTooltip>
         <LPopup>
           <strong>{{ lake.name }}</strong><br />
-          {{ t('coordinates') }}: {{ lake.lat }}, {{ lake.lng }}<br />
-          {{ t('waterTransparencyMeters') }}: {{ lake.transparency }} {{ t('metersSecchiDepth') }}
+          {{ $t('coordinates') }}: {{ lake.lat }}, {{ lake.lng }}<br />
+          {{ $t('waterTransparencyMeters') }}: {{ lake.transparency }} {{ $t('metersSecchiDepth') }}
         </LPopup>
       </LMarker>
     </LMap>
@@ -40,7 +40,32 @@ import { Icon } from 'leaflet'
 import markerIconPng from 'leaflet/dist/images/marker-icon.png'
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png'
 
-const { t } = useTranslations();
+// Define translations for this page only
+const { $i18n } = useNuxtApp()
+
+$i18n.mergeLocaleMessage('en', {
+  petropavlSKO: 'Petropavl (SKO)',
+  petropavlNorthernKazakhstan: 'Petropavl, Northern Kazakhstan',
+  coordinates: 'Coordinates',
+  waterTransparencyMeters: 'Water transparency',
+  metersSecchiDepth: 'meters Secchi depth'
+})
+
+$i18n.mergeLocaleMessage('ru', {
+  petropavlSKO: 'Петропавловск (СКО)',
+  petropavlNorthernKazakhstan: 'Петропавловск, Северный Казахстан',
+  coordinates: 'Координаты',
+  waterTransparencyMeters: 'Прозрачность воды',
+  metersSecchiDepth: 'метров (диск Секки)'
+})
+
+$i18n.mergeLocaleMessage('kk', {
+  petropavlSKO: 'Петропавл (СҚО)',
+  petropavlNorthernKazakhstan: 'Петропавл, Солтүстік Қазахстан',
+  coordinates: 'Координаттар',
+  waterTransparencyMeters: 'Су өткізгіштігі',
+  metersSecchiDepth: 'метр (Секки дискісі)'
+})
 
 const isMounted = ref(false)
 
@@ -74,4 +99,30 @@ onMounted(() => {
 
   isMounted.value = true
 })
+// ...existing code...
+
+
+// Add language persistence to every page (no duplicate merge calls)
+const i18n = useI18n();
+const { locale, setLocale, locales } = i18n as any;
+
+onMounted(() => {
+  const cookieValue = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('i18n_redirected='))
+    ?.split('=')[1];
+
+  if (!cookieValue || cookieValue === locale.value) return;
+
+  // validate cookie against available locales (handles string/code shapes)
+  const raw = (locales as any)?.value ?? locales ?? [];
+  const available = Array.isArray(raw)
+    ? raw.map((l: any) => (typeof l === 'string' ? l : l?.code)).filter(Boolean)
+    : [];
+
+  if (available.length === 0 || available.includes(cookieValue)) {
+    setLocale(cookieValue);
+  }
+});
+// ...existing code...
 </script>

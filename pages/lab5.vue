@@ -8,8 +8,8 @@
 
       <!-- City marker -->
       <LMarker v-if="defaultIcon" :lat-lng="petropavl" :Icon="defaultIcon">
-        <LTooltip permanent direction="top">{{ t('petropavlSKO') }}</LTooltip>
-        <LPopup>{{ t('petropavlNorthernKazakhstan') }}</LPopup>
+        <LTooltip permanent direction="top">{{ $t('petropavlSKO') }}</LTooltip>
+        <LPopup>{{ $t('petropavlNorthernKazakhstan') }}</LPopup>
       </LMarker>
 
       <!-- Lakes -->
@@ -23,8 +23,8 @@
         <LTooltip permanent direction="top">{{ lake.name }}</LTooltip>
         <LPopup>
           <strong>{{ lake.name }}</strong><br />
-          {{ t('coordinates') }}: {{ lake.lat }}, {{ lake.lng }}<br />
-          {{ t('waterTemperature') }}: {{ lake.temperature }} {{ t('degreesCelsius') }}
+          {{ $t('coordinates') }}: {{ lake.lat }}, {{ lake.lng }}<br />
+          {{ $t('waterTemperature') }}: {{ lake.temperature }} {{ $t('degreesCelsius') }}
         </LPopup>
       </LMarker>
     </LMap>
@@ -40,7 +40,32 @@ import { Icon } from 'leaflet'
 import markerIconPng from 'leaflet/dist/images/marker-icon.png'
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png'
 
-const { t } = useTranslations();
+// Define translations for this page only
+const { $i18n } = useNuxtApp()
+
+$i18n.mergeLocaleMessage('en', {
+  petropavlSKO: 'Petropavl (SKO)',
+  petropavlNorthernKazakhstan: 'Petropavl, Northern Kazakhstan',
+  coordinates: 'Coordinates',
+  waterTemperature: 'Water temperature',
+  degreesCelsius: '°C'
+})
+
+$i18n.mergeLocaleMessage('ru', {
+  petropavlSKO: 'Петропавловск (СКО)',
+  petropavlNorthernKazakhstan: 'Петропавловск, Северный Казахстан',
+  coordinates: 'Координаты',
+  waterTemperature: 'Температура воды',
+  degreesCelsius: '°C'
+})
+
+$i18n.mergeLocaleMessage('kk', {
+  petropavlSKO: 'Петропавл (СҚО)',
+  petropavlNorthernKazakhstan: 'Петропавл, Солтүстік Қазахстан',
+  coordinates: 'Координаттар',
+  waterTemperature: 'Су температурасы',
+  degreesCelsius: '°C'
+})
 
 const isMounted = ref(false)
 

@@ -4,23 +4,23 @@
     <section class="relative py-20 bg-surface dark:bg-[#1A1F27]">
       <div class="container mx-auto px-6 text-center">
         <h1 class="text-4xl md:text-6xl font-bold text-primary dark:text-[#F1F5FF] mb-6">
-          {{ t('northKazakhstanWaterPortal') }}
+          {{ $t('northKazakhstanWaterPortal') }}
         </h1>
         <p class="text-xl text-secondary dark:text-[#A9B4C6] max-w-2xl mx-auto mb-8">
-          {{ t('monitoringHydrological') }}
+          {{ $t('monitoringHydrological') }}
         </p>
         <div class="flex justify-center gap-4 flex-wrap">
           <NuxtLink 
             to="/map" 
             class="px-8 py-3 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
           >
-            {{ t('viewInteractiveMap') }}
+            {{ $t('viewInteractiveMap') }}
           </NuxtLink>
           <NuxtLink 
             to="/inform" 
             class="px-8 py-3 border-2 border-[#1E6DFF] text-[#1E6DFF] dark:text-[#6CA8FF] dark:border-[#6CA8FF] rounded-lg hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-all duration-200"
           >
-            {{ t('pathogenInformation') }}
+            {{ $t('pathogenInformation') }}
           </NuxtLink>
         </div>
       </div>
@@ -31,7 +31,7 @@
     <section class="py-16 bg-slate-50 dark:bg-[#0E1117]">
       <div class="container mx-auto px-6">
         <h2 class="text-3xl font-bold text-center text-primary dark:text-[#F1F5FF] mb-12">
-          {{ t('waterQualityParameters') }}
+          {{ $t('waterQualityParameters') }}
         </h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -42,10 +42,10 @@
                 <span class="text-white font-bold">💧</span>
               </div>
               <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
-                {{ t('waterLevel') }}
+                {{ $t('waterLevel') }}
               </h3>
               <p class="text-secondary dark:text-[#A9B4C6]">
-                {{ t('monitorCurrentWater') }}
+                {{ $t('monitorCurrentWater') }}
               </p>
             </div>
           </NuxtLink>
@@ -57,10 +57,10 @@
                 <span class="text-white font-bold">🔍</span>
               </div>
               <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
-                {{ t('waterTransparency') }}
+                {{ $t('waterTransparency') }}
               </h3>
               <p class="text-secondary dark:text-[#A9B4C6]">
-                {{ t('analyzeClarity') }}
+                {{ $t('analyzeClarity') }}
               </p>
             </div>
           </NuxtLink>
@@ -72,10 +72,10 @@
                 <span class="text-white font-bold">🌡️</span>
               </div>
               <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
-                {{ t('temperature') }}
+                {{ $t('temperature') }}
               </h3>
               <p class="text-secondary dark:text-[#A9B4C6]">
-                {{ t('trackWaterTemperature') }}
+                {{ $t('trackWaterTemperature') }}
               </p>
             </div>
           </NuxtLink>
@@ -87,10 +87,10 @@
                 <span class="text-white font-bold">⚡</span>
               </div>
               <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
-                {{ t('electricalConductivity') }}
+                {{ $t('electricalConductivity') }}
               </h3>
               <p class="text-secondary dark:text-[#A9B4C6]">
-                {{ t('measureSalinity') }}
+                {{ $t('measureSalinity') }}
               </p>
             </div>
           </NuxtLink>
@@ -102,10 +102,10 @@
                 <span class="text-white font-bold">🦠</span>
               </div>
               <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
-                {{ t('pathogenRisk') }}
+                {{ $t('pathogenRisk') }}
               </h3>
               <p class="text-secondary dark:text-[#A9B4C6]">
-                {{ t('assessContamination') }}
+                {{ $t('assessContamination') }}
               </p>
             </div>
           </NuxtLink>
@@ -117,10 +117,10 @@
                 <span class="text-white font-bold">🗺️</span>
               </div>
               <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
-                {{ t('interactiveMap') }}
+                {{ $t('interactiveMap') }}
               </h3>
               <p class="text-secondary dark:text-[#A9B4C6]">
-                {{ t('exploreAllMonitoring') }}
+                {{ $t('exploreAllMonitoring') }}
               </p>
             </div>
           </NuxtLink>
@@ -134,19 +134,19 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
             <div class="text-3xl font-bold text-[#1E6DFF] dark:text-[#6CA8FF] mb-2">15+</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ t('monitoringSites') }}</div>
+            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('monitoringSites') }}</div>
           </div>
           <div>
             <div class="text-3xl font-bold text-[#2ECC71] dark:text-[#38E39A] mb-2">24/7</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ t('dataCollection') }}</div>
+            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('dataCollection') }}</div>
           </div>
           <div>
             <div class="text-3xl font-bold text-[#FFCB2F] dark:text-[#FFDD57] mb-2">6</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ t('parameters') }}</div>
+            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('parameters') }}</div>
           </div>
           <div>
             <div class="text-3xl font-bold text-[#FF4E4E] dark:text-[#FF6B6B] mb-2">99%</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ t('systemUptime') }}</div>
+            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('systemUptime') }}</div>
           </div>
         </div>
       </div>
@@ -155,9 +155,79 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useTranslations();
-</script>
+// Define translations for this page only
+const { $i18n } = useNuxtApp()
 
-<style scoped>
-/* Custom styles can be added here if needed */
-</style>
+// KEEP ONLY TRANSLATIONS - no language persistence code
+$i18n.mergeLocaleMessage('en', {
+  northKazakhstanWaterPortal: 'North Kazakhstan Water Portal',
+  monitoringHydrological: 'Monitoring hydrological parameters and water quality across reservoirs in the Petropavlovsk region',
+  viewInteractiveMap: 'View Interactive Map',
+  pathogenInformation: 'Pathogen Information',
+  waterQualityParameters: 'Water Quality Parameters',
+  waterLevel: 'Water Level',
+  monitorCurrentWater: 'Monitor current water levels and historical trends in regional reservoirs',
+  waterTransparency: 'Water Transparency',
+  analyzeClarity: 'Analyze clarity and turbidity measurements across different water bodies',
+  temperature: 'Temperature',
+  trackWaterTemperature: 'Track water temperature variations and thermal patterns',
+  electricalConductivity: 'Electrical Conductivity',
+  measureSalinity: 'Measure salinity and mineral content through conductivity readings',
+  pathogenRisk: 'Pathogen Risk',
+  assessContamination: 'Assess contamination levels and potential health risks',
+  interactiveMap: 'Interactive Map',
+  exploreAllMonitoring: 'Explore all monitoring locations and real-time data visualization',
+  monitoringSites: 'Monitoring Sites',
+  dataCollection: 'Data Collection',
+  parameters: 'Parameters',
+  systemUptime: 'System Uptime'
+})
+
+$i18n.mergeLocaleMessage('ru', {
+  northKazakhstanWaterPortal: 'Водный портал Северного Казахстана',
+  monitoringHydrological: 'Мониторинг гидрологических параметров и качества воды в водоемах Петропавловского региона',
+  viewInteractiveMap: 'Посмотреть интерактивную карту',
+  pathogenInformation: 'Информация о патогенах',
+  waterQualityParameters: 'Параметры качества воды',
+  waterLevel: 'Уровень воды',
+  monitorCurrentWater: 'Мониторинг текущих уровней воды и исторических тенденций в региональных водоемах',
+  waterTransparency: 'Прозрачность воды',
+  analyzeClarity: 'Анализ измерений прозрачности и мутности в различных водных объектах',
+  temperature: 'Температура',
+  trackWaterTemperature: 'Отслеживание изменений температуры воды и тепловых режимов',
+  electricalConductivity: 'Электропроводность',
+  measureSalinity: 'Измерение солености и минерального содержания через показания проводимости',
+  pathogenRisk: 'Риск патогенов',
+  assessContamination: 'Оценка уровней загрязнения и потенциальных рисков для здоровья',
+  interactiveMap: 'Интерактивная карта',
+  exploreAllMonitoring: 'Исследуйте все точки мониторинга и визуализацию данных в реальном времени',
+  monitoringSites: 'Мониторинговые точки',
+  dataCollection: 'Сбор данных',
+  parameters: 'Параметры',
+  systemUptime: 'Время работы системы'
+})
+
+$i18n.mergeLocaleMessage('kk', {
+  northKazakhstanWaterPortal: 'Солтүстік Қазақстан су порталы',
+  monitoringHydrological: 'Петропавл аймағындағы су қоймаларының гидрологиялық параметрлері мен су сапасын мониторинг',
+  viewInteractiveMap: 'Интерактивті картаны қарау',
+  pathogenInformation: 'Патогендер туралы ақпарат',
+  waterQualityParameters: 'Су сапасы параметрлері',
+  waterLevel: 'Су деңгейі',
+  monitorCurrentWater: 'Аймақтық су қоймаларындағы ағымдағы су деңгейлері мен тарихи тенденцияларды бақылау',
+  waterTransparency: 'Су өткізгіштігі',
+  analyzeClarity: 'Әртүрлі су объектілеріндегі мөлдірлік пен ластық өлшемдерін талдау',
+  temperature: 'Температура',
+  trackWaterTemperature: 'Су температурасының өзгерулерін және жылу режимдерін бақылау',
+  electricalConductivity: 'Электр өткізгіштік',
+  measureSalinity: 'Өткізгіштік көрсеткіштері арқылы тұздылық пен минералдық құрамды өлшеу',
+  pathogenRisk: 'Патогендер қауіпі',
+  assessContamination: 'Ластану деңгейлерін және денсаулыққа әлеуетті тәуекелдерді бағалау',
+  interactiveMap: 'Интерактивті карта',
+  exploreAllMonitoring: 'Барлық мониторинг нүктелерін зерттеңіз және нақты уақыт режимінде деректерді визуализациялаңыз',
+  monitoringSites: 'Мониторинг нүктелері',
+  dataCollection: 'Деректер жинау',
+  parameters: 'Параметрлер',
+  systemUptime: 'Жүйенің жұмыс уақыты'
+})
+</script>
