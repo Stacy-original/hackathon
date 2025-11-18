@@ -26,7 +26,7 @@
     <!-- Sidebar guts -->
     <div
       v-show="sidebar"
-      class="flex flex-col min-h-[calc(100vh-64px)] top-16 left-0 w-64 sm:fixed text-center transition-[transform,shadow,opacity] duration-300 ease-in-out max-sm:absolute max-sm:top-16 max-sm:left-0 max-sm:w-full max-sm:h-[calc(100vh-64px)] max-sm:z-40 shadow-xl border-t
+      class="flex flex-col min-h-[calc(100vh-64px)] top-16 left-0 w-64 sm:fixed text-center transition-all duration-300 ease-in-out max-sm:absolute max-sm:top-16 max-sm:left-0 max-sm:w-full max-sm:h-[calc(100vh-64px)] max-sm:z-40 shadow-xl border-t
       dark:bg-[#1A1F27] dark:text-[#F1F5FF] dark:border-[#313B47]
       bg-[#F5F8FF] text-[#1A1A1A] border-[#E2E8F0]"
     >
