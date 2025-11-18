@@ -12,7 +12,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        'max-sm': {'max': '480px'},
+        'max-sm': {'max': '640px'},
       },
     },
   },
