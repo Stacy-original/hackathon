@@ -3,7 +3,7 @@
     <header class="z-50 sm:fixed flex flex-row w-full max-sm:justify-between min-h-16 max-sm:relative overscroll-none bg-[#FFFFFF] dark:bg-[#0E1117] border-b border-[#E2E8F0] dark:border-[#313B47]">
       <Sidebar :sidebar="sidebar" @update:sidebar="sidebar = $event" @close-sidebar="sidebar = false"/>
       <div class="flex-1 flex items-center justify-start px-8 max-sm:px-4 max-sm:flex-initial select-none">
-        <NuxtLink to="/">
+        <NuxtLink :to="homeUrl">
           <img v-if="colorMode.value === 'light'" src="/assets/images/logoblack.png" class="w-36 h-16" alt="Logo"/>
           <img v-else src="/assets/images/logowhite.png" class="w-36 h-16" alt="Logo"/>
         </NuxtLink>
@@ -31,20 +31,7 @@
         <slot />
       </div>
     </main>
-    <footer class="flex flex-row w-full pt-2 pb-2 min-h-16 items-center justify-center px-4 gap-4 bg-[#FFFFFF] dark:bg-[#0E1117] border-b border-[#E2E8F0] dark:border-[#313B47]">
-            <a href="https://github.com/">
-            <img v-if="colorMode.value === 'light'" src="/assets/images/githubblack.png" class="w-10 h-10" alt="GitHub"/>
-            <img v-else src="/assets/images/githubwhite.png" class="w-10 h-10" alt="GitHub"/>
-            </a>
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-            <img v-if="colorMode.value === 'light'" src="/assets/images/youtubeblack.png" class="w-10 h-10" alt="YouTube"/>
-            <img v-else src="/assets/images/youtubewhite.png" class="w-10 h-10" alt="YouTube"/>
-            </a>
-            <a href="https://www.facebook.com/">
-            <img v-if="colorMode.value === 'light'" src="/assets/images/facebookblack.png" class="w-10 h-10" alt="Facebook"/>
-            <img v-else src="/assets/images/facebookwhite.png" class="w-10 h-10" alt="Facebook"/>
-            </a>
-          </footer>
+    <Footer />
   </div>
 </template>
 
@@ -60,7 +47,6 @@ function toggleTheme() {
   colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
 }
 
-// KEEP ONLY THIS - remove everything else below
 function switchLanguage() {
   const rawLocales = (locales as any)?.value ?? (locales as any) ?? [];
   const availableLocales = Array.isArray(rawLocales)
@@ -81,8 +67,15 @@ const currentLanguage = computed(() => {
   switch (locale.value) {
     case 'en': return 'EN';
     case 'ru': return 'RU';
-    case 'kk': return 'K';
+    case 'kk': return 'KZ';
     default: return 'EN';
   }
+});
+
+const homeUrl = computed(() => {
+  if (locale.value === 'en') return '/'
+  if (locale.value === 'ru') return '/ru/'
+  if (locale.value === 'kk') return '/kk/'
+  return '/'
 });
 </script>

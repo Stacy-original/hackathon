@@ -60,7 +60,7 @@
 
       <!-- Home menu -->
       <NuxtLink
-        to="/"
+        :to="homeUrl"
         @click="closeSidebar"
         class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-3 mt-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
         dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
@@ -83,7 +83,7 @@
       </NuxtLink>
       <!-- Reports -->
       <NuxtLink
-        to="/reports"
+        :to="reportsUrl"
         @click="closeSidebar"
         class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-3 mt-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
         dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
@@ -106,7 +106,7 @@
       </NuxtLink>
       <!-- Information -->
       <NuxtLink
-        to="/inform"
+        :to="informUrl"
         @click="closeSidebar"
         class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-2 mt-2 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
         dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
@@ -180,7 +180,7 @@
           @mouseenter="cancelClose"
         >
           <div class="flex flex-col text-center space-y-1 py-2 px-3">
-            <NuxtLink v-for="lab in labs" :key="lab.path" :to="`/${lab.path}`" @click="closeSidebar"
+            <NuxtLink v-for="lab in localizedLabs" :key="lab.path" :to="lab.url" @click="closeSidebar"
                 class="relative group flex items-center gap-3 px-3 py-2 rounded-lg transition-[transform,shadow,opacity] duration-300 border-l-2 border-transparent
                 dark:hover:bg-[#6CA8FF] dark:hover:border-[#75B9FF]
                 hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:border-[#1E6DFF]">
@@ -227,6 +227,7 @@
 
 <script setup lang="ts">
 const colorMode = useColorMode();
+const { locale } = useI18n();
 
 const props = defineProps<{ sidebar: boolean }>();
 const emit = defineEmits<{ "update:sidebar": [value: boolean]; "close-sidebar": [] }>();
@@ -281,12 +282,40 @@ const handleMouseEnter = () => {
   openWithDelay();
 };
 
+const homeUrl = computed(() => {
+  if (locale.value === 'en') return '/'
+  if (locale.value === 'ru') return '/ru/'
+  if (locale.value === 'kk') return '/kk/'
+  return '/'
+});
+
+const reportsUrl = computed(() => {
+  if (locale.value === 'en') return '/reports'
+  if (locale.value === 'ru') return '/ru/reports'
+  if (locale.value === 'kk') return '/kk/reports'
+  return '/reports'
+});
+
+const informUrl = computed(() => {
+  if (locale.value === 'en') return '/inform'
+  if (locale.value === 'ru') return '/ru/inform'
+  if (locale.value === 'kk') return '/kk/inform'
+  return '/inform'
+});
+
 const labs = [
   { path: 'lab3', nameKey: 'levelOfWater' },
   { path: 'lab4', nameKey: 'transparency' },
   { path: 'lab5', nameKey: 'temperatureShort' },
   { path: 'lab6', nameKey: 'electricalConductivityShort' }
 ];
+
+const localizedLabs = computed(() => {
+  return labs.map(lab => ({
+    ...lab,
+    url: locale.value === 'en' ? `/${lab.path}` : `/${locale.value}/${lab.path}`
+  }))
+});
 
 // Define translations for this component only
 const { $i18n } = useNuxtApp()

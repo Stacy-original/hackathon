@@ -11,13 +11,13 @@
         </p>
         <div class="flex justify-center gap-4 flex-wrap">
           <NuxtLink 
-            to="/map" 
+            :to="mapUrl" 
             class="px-8 py-3 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
           >
             {{ $t('viewInteractiveMap') }}
           </NuxtLink>
           <NuxtLink 
-            to="/inform" 
+            :to="informUrl" 
             class="px-8 py-3 border-2 border-[#1E6DFF] text-[#1E6DFF] dark:text-[#6CA8FF] dark:border-[#6CA8FF] rounded-lg hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-all duration-200"
           >
             {{ $t('pathogenInformation') }}
@@ -36,7 +36,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Water Level Card -->
-          <NuxtLink to="/lab3" class="block group">
+          <NuxtLink :to="lab3Url" class="block group">
             <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
               <div class="w-12 h-12 bg-[#4DA3FF] dark:bg-[#75B9FF] rounded-lg flex items-center justify-center mb-4">
                 <span class="text-white font-bold">💧</span>
@@ -51,7 +51,7 @@
           </NuxtLink>
 
           <!-- Transparency Card -->
-          <NuxtLink to="/lab4" class="block group">
+          <NuxtLink :to="lab4Url" class="block group">
             <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
               <div class="w-12 h-12 bg-[#2ECC71] dark:bg-[#38E39A] rounded-lg flex items-center justify-center mb-4">
                 <span class="text-white font-bold">🔍</span>
@@ -66,7 +66,7 @@
           </NuxtLink>
 
           <!-- Temperature Card -->
-          <NuxtLink to="/lab5" class="block group">
+          <NuxtLink :to="lab5Url" class="block group">
             <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
               <div class="w-12 h-12 bg-[#FFCB2F] dark:bg-[#FFDD57] rounded-lg flex items-center justify-center mb-4">
                 <span class="text-white font-bold">🌡️</span>
@@ -81,7 +81,7 @@
           </NuxtLink>
 
           <!-- Conductivity Card -->
-          <NuxtLink to="/lab6" class="block group">
+          <NuxtLink :to="lab6Url" class="block group">
             <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
               <div class="w-12 h-12 bg-[#FF4E4E] dark:bg-[#FF6B6B] rounded-lg flex items-center justify-center mb-4">
                 <span class="text-white font-bold">⚡</span>
@@ -96,7 +96,7 @@
           </NuxtLink>
 
           <!-- Pathogen Risk Card -->
-          <NuxtLink to="/inform" class="block group">
+          <NuxtLink :to="informUrl" class="block group">
             <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
               <div class="w-12 h-12 bg-[#FF4E4E] dark:bg-[#FF6B6B] rounded-lg flex items-center justify-center mb-4">
                 <span class="text-white font-bold">🦠</span>
@@ -111,7 +111,7 @@
           </NuxtLink>
 
           <!-- Interactive Map Card -->
-          <NuxtLink to="/map" class="block group">
+          <NuxtLink :to="mapUrl" class="block group">
             <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
               <div class="w-12 h-12 bg-[#1E6DFF] dark:bg-[#6CA8FF] rounded-lg flex items-center justify-center mb-4">
                 <span class="text-white font-bold">🗺️</span>
@@ -157,6 +157,50 @@
 <script setup lang="ts">
 // Define translations for this page only
 const { $i18n } = useNuxtApp()
+const { locale } = useI18n()
+
+// Computed properties for localized URLs
+const mapUrl = computed(() => {
+  if (locale.value === 'en') return '/map'
+  if (locale.value === 'ru') return '/ru/map'
+  if (locale.value === 'kk') return '/kk/map'
+  return '/map'
+})
+
+const informUrl = computed(() => {
+  if (locale.value === 'en') return '/inform'
+  if (locale.value === 'ru') return '/ru/inform'
+  if (locale.value === 'kk') return '/kk/inform'
+  return '/inform'
+})
+
+const lab3Url = computed(() => {
+  if (locale.value === 'en') return '/lab3'
+  if (locale.value === 'ru') return '/ru/lab3'
+  if (locale.value === 'kk') return '/kk/lab3'
+  return '/lab3'
+})
+
+const lab4Url = computed(() => {
+  if (locale.value === 'en') return '/lab4'
+  if (locale.value === 'ru') return '/ru/lab4'
+  if (locale.value === 'kk') return '/kk/lab4'
+  return '/lab4'
+})
+
+const lab5Url = computed(() => {
+  if (locale.value === 'en') return '/lab5'
+  if (locale.value === 'ru') return '/ru/lab5'
+  if (locale.value === 'kk') return '/kk/lab5'
+  return '/lab5'
+})
+
+const lab6Url = computed(() => {
+  if (locale.value === 'en') return '/lab6'
+  if (locale.value === 'ru') return '/ru/lab6'
+  if (locale.value === 'kk') return '/kk/lab6'
+  return '/lab6'
+})
 
 // KEEP ONLY TRANSLATIONS - no language persistence code
 $i18n.mergeLocaleMessage('en', {
