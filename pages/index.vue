@@ -1,50 +1,72 @@
 <template>
   <div class="min-h-screen bg-slate-300 dark:bg-[#0E1117] z-0">
     <!-- Hero Section -->
-    <section class="relative py-20 bg-surface dark:bg-[#1A1F27]">
+    <section class="relative py-24 bg-gradient-to-br from-[#1E6DFF] to-[#4DA3FF] dark:from-[#1458CC] dark:to-[#1E6DFF]">
       <div class="container mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-primary dark:text-[#F1F5FF] mb-6">
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
           {{ $t('northKazakhstanWaterPortal') }}
         </h1>
-        <p class="text-xl text-secondary dark:text-[#A9B4C6] max-w-2xl mx-auto mb-8">
+        <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">
           {{ $t('monitoringHydrological') }}
         </p>
-        <div class="flex justify-center gap-4 flex-wrap">
+        <div class="flex justify-center gap-6 flex-wrap">
           <NuxtLink 
             :to="mapUrl" 
-            class="px-8 py-3 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+            class="px-10 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold"
           >
             {{ $t('viewInteractiveMap') }}
           </NuxtLink>
           <NuxtLink 
             :to="informUrl" 
-            class="px-8 py-3 border-2 border-[#1E6DFF] text-[#1E6DFF] dark:text-[#6CA8FF] dark:border-[#6CA8FF] rounded-lg hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-all duration-200"
+            class="px-10 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-semibold"
           >
             {{ $t('pathogenInformation') }}
           </NuxtLink>
         </div>
       </div>
+      <!-- Decorative Wave -->
+      <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full">
+          <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" class="fill-slate-50 dark:fill-[#0E1117]"/>
+        </svg>
+      </div>
     </section>
-    
 
-    <!-- Features Grid -->
+    <!-- Mission Statement -->
     <section class="py-16 bg-slate-50 dark:bg-[#0E1117]">
       <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center text-primary dark:text-[#F1F5FF] mb-12">
-          {{ $t('waterQualityParameters') }}
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl md:text-4xl font-bold text-primary dark:text-[#F1F5FF] mb-6">
+            {{ $t('ourMission') }}
+          </h2>
+          <p class="text-lg text-secondary dark:text-[#A9B4C6] leading-relaxed">
+            {{ $t('missionDescription') }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Monitoring Capabilities -->
+    <section class="py-20 bg-white dark:bg-[#1A1F27]">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-primary dark:text-[#F1F5FF] mb-4">
+          {{ $t('comprehensiveMonitoring') }}
         </h2>
+        <p class="text-center text-secondary dark:text-[#A9B4C6] mb-16 max-w-2xl mx-auto">
+          {{ $t('monitoringSubtitle') }}
+        </p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Water Level Card -->
           <NuxtLink :to="lab3Url" class="block group">
-            <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
-              <div class="w-12 h-12 bg-[#4DA3FF] dark:bg-[#75B9FF] rounded-lg flex items-center justify-center mb-4">
-                <span class="text-white font-bold">💧</span>
+            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300 hover:scale-105">
+              <div class="w-16 h-16 bg-gradient-to-br from-[#4DA3FF] to-[#1E6DFF] dark:from-[#75B9FF] dark:to-[#4DA3FF] rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <span class="text-3xl">💧</span>
               </div>
-              <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
                 {{ $t('waterLevel') }}
               </h3>
-              <p class="text-secondary dark:text-[#A9B4C6]">
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
                 {{ $t('monitorCurrentWater') }}
               </p>
             </div>
@@ -52,14 +74,14 @@
 
           <!-- Transparency Card -->
           <NuxtLink :to="lab4Url" class="block group">
-            <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
-              <div class="w-12 h-12 bg-[#2ECC71] dark:bg-[#38E39A] rounded-lg flex items-center justify-center mb-4">
-                <span class="text-white font-bold">🔍</span>
+            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#2ECC71] dark:group-hover:border-[#38E39A] transition-all duration-300 hover:scale-105">
+              <div class="w-16 h-16 bg-gradient-to-br from-[#2ECC71] to-[#27AE60] dark:from-[#38E39A] dark:to-[#2ECC71] rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <span class="text-3xl">🔍</span>
               </div>
-              <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
                 {{ $t('waterTransparency') }}
               </h3>
-              <p class="text-secondary dark:text-[#A9B4C6]">
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
                 {{ $t('analyzeClarity') }}
               </p>
             </div>
@@ -67,14 +89,14 @@
 
           <!-- Temperature Card -->
           <NuxtLink :to="lab5Url" class="block group">
-            <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
-              <div class="w-12 h-12 bg-[#FFCB2F] dark:bg-[#FFDD57] rounded-lg flex items-center justify-center mb-4">
-                <span class="text-white font-bold">🌡️</span>
+            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#FFCB2F] dark:group-hover:border-[#FFDD57] transition-all duration-300 hover:scale-105">
+              <div class="w-16 h-16 bg-gradient-to-br from-[#FFCB2F] to-[#F39C12] dark:from-[#FFDD57] dark:to-[#FFCB2F] rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <span class="text-3xl">🌡️</span>
               </div>
-              <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
                 {{ $t('temperature') }}
               </h3>
-              <p class="text-secondary dark:text-[#A9B4C6]">
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
                 {{ $t('trackWaterTemperature') }}
               </p>
             </div>
@@ -82,14 +104,14 @@
 
           <!-- Conductivity Card -->
           <NuxtLink :to="lab6Url" class="block group">
-            <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
-              <div class="w-12 h-12 bg-[#FF4E4E] dark:bg-[#FF6B6B] rounded-lg flex items-center justify-center mb-4">
-                <span class="text-white font-bold">⚡</span>
+            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#FF4E4E] dark:group-hover:border-[#FF6B6B] transition-all duration-300 hover:scale-105">
+              <div class="w-16 h-16 bg-gradient-to-br from-[#FF4E4E] to-[#E74C3C] dark:from-[#FF6B6B] dark:to-[#FF4E4E] rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <span class="text-3xl">⚡</span>
               </div>
-              <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
                 {{ $t('electricalConductivity') }}
               </h3>
-              <p class="text-secondary dark:text-[#A9B4C6]">
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
                 {{ $t('measureSalinity') }}
               </p>
             </div>
@@ -97,14 +119,14 @@
 
           <!-- Pathogen Risk Card -->
           <NuxtLink :to="informUrl" class="block group">
-            <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
-              <div class="w-12 h-12 bg-[#FF4E4E] dark:bg-[#FF6B6B] rounded-lg flex items-center justify-center mb-4">
-                <span class="text-white font-bold">🦠</span>
+            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#9B59B6] dark:group-hover:border-[#BB6BD9] transition-all duration-300 hover:scale-105">
+              <div class="w-16 h-16 bg-gradient-to-br from-[#9B59B6] to-[#8E44AD] dark:from-[#BB6BD9] dark:to-[#9B59B6] rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <span class="text-3xl">🦠</span>
               </div>
-              <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
                 {{ $t('pathogenRisk') }}
               </h3>
-              <p class="text-secondary dark:text-[#A9B4C6]">
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
                 {{ $t('assessContamination') }}
               </p>
             </div>
@@ -112,14 +134,14 @@
 
           <!-- Interactive Map Card -->
           <NuxtLink :to="mapUrl" class="block group">
-            <div class="bg-[#FFFFFF] dark:bg-[#212832] h-full rounded-xl p-6 shadow-sm hover:shadow-md border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-200">
-              <div class="w-12 h-12 bg-[#1E6DFF] dark:bg-[#6CA8FF] rounded-lg flex items-center justify-center mb-4">
-                <span class="text-white font-bold">🗺️</span>
+            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300 hover:scale-105">
+              <div class="w-16 h-16 bg-gradient-to-br from-[#1E6DFF] to-[#1458CC] dark:from-[#6CA8FF] dark:to-[#4DA3FF] rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <span class="text-3xl">🗺️</span>
               </div>
-              <h3 class="text-xl font-semibold text-primary dark:text-[#F1F5FF] mb-2">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
                 {{ $t('interactiveMap') }}
               </h3>
-              <p class="text-secondary dark:text-[#A9B4C6]">
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
                 {{ $t('exploreAllMonitoring') }}
               </p>
             </div>
@@ -129,33 +151,118 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="py-16 bg-surface dark:bg-[#1A1F27]">
+    <section class="py-20 bg-slate-50 dark:bg-[#0E1117]">
       <div class="container mx-auto px-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div class="text-3xl font-bold text-[#1E6DFF] dark:text-[#6CA8FF] mb-2">15+</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('monitoringSites') }}</div>
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-primary dark:text-[#F1F5FF] mb-16">
+          {{ $t('byTheNumbers') }}
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="text-center p-6 bg-white dark:bg-[#1A1F27] rounded-xl shadow-md">
+            <div class="text-5xl font-bold text-[#1E6DFF] dark:text-[#6CA8FF] mb-3">15+</div>
+            <div class="text-secondary dark:text-[#A9B4C6] font-medium">{{ $t('monitoringSites') }}</div>
           </div>
-          <div>
-            <div class="text-3xl font-bold text-[#2ECC71] dark:text-[#38E39A] mb-2">24/7</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('dataCollection') }}</div>
+          <div class="text-center p-6 bg-white dark:bg-[#1A1F27] rounded-xl shadow-md">
+            <div class="text-5xl font-bold text-[#2ECC71] dark:text-[#38E39A] mb-3">24/7</div>
+            <div class="text-secondary dark:text-[#A9B4C6] font-medium">{{ $t('dataCollection') }}</div>
           </div>
-          <div>
-            <div class="text-3xl font-bold text-[#FFCB2F] dark:text-[#FFDD57] mb-2">6</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('parameters') }}</div>
+          <div class="text-center p-6 bg-white dark:bg-[#1A1F27] rounded-xl shadow-md">
+            <div class="text-5xl font-bold text-[#FFCB2F] dark:text-[#FFDD57] mb-3">6</div>
+            <div class="text-secondary dark:text-[#A9B4C6] font-medium">{{ $t('parameters') }}</div>
           </div>
-          <div>
-            <div class="text-3xl font-bold text-[#FF4E4E] dark:text-[#FF6B6B] mb-2">99%</div>
-            <div class="text-secondary dark:text-[#A9B4C6]">{{ $t('systemUptime') }}</div>
+          <div class="text-center p-6 bg-white dark:bg-[#1A1F27] rounded-xl shadow-md">
+            <div class="text-5xl font-bold text-[#FF4E4E] dark:text-[#FF6B6B] mb-3">99%</div>
+            <div class="text-secondary dark:text-[#A9B4C6] font-medium">{{ $t('systemUptime') }}</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 bg-white dark:bg-[#1A1F27]">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-primary dark:text-[#F1F5FF] mb-4">
+          {{ $t('howItWorks') }}
+        </h2>
+        <p class="text-center text-secondary dark:text-[#A9B4C6] mb-16 max-w-2xl mx-auto">
+          {{ $t('howItWorksSubtitle') }}
+        </p>
+        
+        <div class="max-w-5xl mx-auto space-y-12">
+          <!-- Step 1 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="w-full md:w-1/3">
+              <div class="w-20 h-20 bg-[#1E6DFF] dark:bg-[#6CA8FF] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg mx-auto md:mx-0">
+                1
+              </div>
+            </div>
+            <div class="w-full md:w-2/3 text-center md:text-left">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
+                {{ $t('step1Title') }}
+              </h3>
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
+                {{ $t('step1Description') }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+            <div class="w-full md:w-1/3">
+              <div class="w-20 h-20 bg-[#2ECC71] dark:bg-[#38E39A] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg mx-auto md:mx-0 md:ml-auto">
+                2
+              </div>
+            </div>
+            <div class="w-full md:w-2/3 text-center md:text-right">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
+                {{ $t('step2Title') }}
+              </h3>
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
+                {{ $t('step2Description') }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="w-full md:w-1/3">
+              <div class="w-20 h-20 bg-[#FFCB2F] dark:bg-[#FFDD57] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg mx-auto md:mx-0">
+                3
+              </div>
+            </div>
+            <div class="w-full md:w-2/3 text-center md:text-left">
+              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
+                {{ $t('step3Title') }}
+              </h3>
+              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
+                {{ $t('step3Description') }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-br from-[#1E6DFF] to-[#4DA3FF] dark:from-[#1458CC] dark:to-[#1E6DFF]">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+          {{ $t('startExploring') }}
+        </h2>
+        <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+          {{ $t('ctaDescription') }}
+        </p>
+        <NuxtLink 
+          :to="mapUrl" 
+          class="inline-block px-12 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 font-semibold text-lg"
+        >
+          {{ $t('exploreNow') }}
+        </NuxtLink>
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-// Define translations for this page only
 const { $i18n } = useNuxtApp()
 const { locale } = useI18n()
 
@@ -202,76 +309,123 @@ const lab6Url = computed(() => {
   return '/lab6'
 })
 
-// KEEP ONLY TRANSLATIONS - no language persistence code
+// English translations
 $i18n.mergeLocaleMessage('en', {
   northKazakhstanWaterPortal: 'North Kazakhstan Water Portal',
-  monitoringHydrological: 'Monitoring hydrological parameters and water quality across reservoirs in the Petropavlovsk region',
+  monitoringHydrological: 'Advanced monitoring of hydrological parameters and water quality across reservoirs in the Petropavlovsk region',
   viewInteractiveMap: 'View Interactive Map',
   pathogenInformation: 'Pathogen Information',
-  waterQualityParameters: 'Water Quality Parameters',
+  ourMission: 'Our Mission',
+  missionDescription: 'We provide real-time water quality monitoring and comprehensive data analysis to ensure safe, sustainable water management for communities across North Kazakhstan. Our system empowers decision-makers with accurate, timely information.',
+  comprehensiveMonitoring: 'Comprehensive Monitoring System',
+  monitoringSubtitle: 'Track essential water quality indicators across multiple sites in real-time',
   waterLevel: 'Water Level',
-  monitorCurrentWater: 'Monitor current water levels and historical trends in regional reservoirs',
+  monitorCurrentWater: 'Monitor current water levels and historical trends in regional reservoirs with precision sensors',
   waterTransparency: 'Water Transparency',
-  analyzeClarity: 'Analyze clarity and turbidity measurements across different water bodies',
+  analyzeClarity: 'Analyze clarity and turbidity measurements to assess water quality across different water bodies',
   temperature: 'Temperature',
-  trackWaterTemperature: 'Track water temperature variations and thermal patterns',
+  trackWaterTemperature: 'Track water temperature variations and thermal patterns affecting aquatic ecosystems',
   electricalConductivity: 'Electrical Conductivity',
-  measureSalinity: 'Measure salinity and mineral content through conductivity readings',
+  measureSalinity: 'Measure salinity and mineral content through conductivity readings for water quality assessment',
   pathogenRisk: 'Pathogen Risk',
-  assessContamination: 'Assess contamination levels and potential health risks',
+  assessContamination: 'Assess contamination levels and potential health risks from waterborne pathogens',
   interactiveMap: 'Interactive Map',
-  exploreAllMonitoring: 'Explore all monitoring locations and real-time data visualization',
+  exploreAllMonitoring: 'Explore all monitoring locations with real-time data visualization and historical trends',
+  byTheNumbers: 'By the Numbers',
   monitoringSites: 'Monitoring Sites',
   dataCollection: 'Data Collection',
-  parameters: 'Parameters',
-  systemUptime: 'System Uptime'
+  parameters: 'Parameters Tracked',
+  systemUptime: 'System Uptime',
+  howItWorks: 'How It Works',
+  howItWorksSubtitle: 'Our advanced monitoring system operates continuously to deliver reliable water quality data',
+  step1Title: 'Continuous Data Collection',
+  step1Description: 'Automated sensors at 15+ locations collect water quality parameters every hour, 24/7, ensuring comprehensive coverage of the region.',
+  step2Title: 'Real-Time Analysis',
+  step2Description: 'Data is instantly processed and analyzed using advanced algorithms to detect trends, anomalies, and potential issues.',
+  step3Title: 'Accessible Insights',
+  step3Description: 'View all data through our interactive dashboard and map interface, with historical comparisons and predictive analytics.',
+  startExploring: 'Start Exploring Water Quality Data',
+  ctaDescription: 'Access real-time monitoring data, historical trends, and comprehensive analysis tools',
+  exploreNow: 'Explore Now'
 })
 
+// Russian translations
 $i18n.mergeLocaleMessage('ru', {
   northKazakhstanWaterPortal: 'Водный портал Северного Казахстана',
-  monitoringHydrological: 'Мониторинг гидрологических параметров и качества воды в водоемах Петропавловского региона',
+  monitoringHydrological: 'Расширенный мониторинг гидрологических параметров и качества воды в водоемах Петропавловского региона',
   viewInteractiveMap: 'Посмотреть интерактивную карту',
   pathogenInformation: 'Информация о патогенах',
-  waterQualityParameters: 'Параметры качества воды',
+  ourMission: 'Наша миссия',
+  missionDescription: 'Мы обеспечиваем мониторинг качества воды в реальном времени и комплексный анализ данных для безопасного и устойчивого управления водными ресурсами сообществ Северного Казахстана. Наша система предоставляет лицам, принимающим решения, точную и своевременную информацию.',
+  comprehensiveMonitoring: 'Комплексная система мониторинга',
+  monitoringSubtitle: 'Отслеживайте важнейшие показатели качества воды на нескольких объектах в режиме реального времени',
   waterLevel: 'Уровень воды',
-  monitorCurrentWater: 'Мониторинг текущих уровней воды и исторических тенденций в региональных водоемах',
+  monitorCurrentWater: 'Мониторинг текущих уровней воды и исторических тенденций в региональных водоемах с помощью точных датчиков',
   waterTransparency: 'Прозрачность воды',
-  analyzeClarity: 'Анализ измерений прозрачности и мутности в различных водных объектах',
+  analyzeClarity: 'Анализ измерений прозрачности и мутности для оценки качества воды в различных водных объектах',
   temperature: 'Температура',
-  trackWaterTemperature: 'Отслеживание изменений температуры воды и тепловых режимов',
+  trackWaterTemperature: 'Отслеживание изменений температуры воды и тепловых режимов, влияющих на водные экосистемы',
   electricalConductivity: 'Электропроводность',
-  measureSalinity: 'Измерение солености и минерального содержания через показания проводимости',
+  measureSalinity: 'Измерение солености и минерального содержания через показания проводимости для оценки качества воды',
   pathogenRisk: 'Риск патогенов',
-  assessContamination: 'Оценка уровней загрязнения и потенциальных рисков для здоровья',
+  assessContamination: 'Оценка уровней загрязнения и потенциальных рисков для здоровья от водных патогенов',
   interactiveMap: 'Интерактивная карта',
-  exploreAllMonitoring: 'Исследуйте все точки мониторинга и визуализацию данных в реальном времени',
-  monitoringSites: 'Мониторинговые точки',
+  exploreAllMonitoring: 'Исследуйте все точки мониторинга с визуализацией данных в реальном времени и историческими трендами',
+  byTheNumbers: 'В цифрах',
+  monitoringSites: 'Точки мониторинга',
   dataCollection: 'Сбор данных',
-  parameters: 'Параметры',
-  systemUptime: 'Время работы системы'
+  parameters: 'Отслеживаемые параметры',
+  systemUptime: 'Время работы системы',
+  howItWorks: 'Как это работает',
+  howItWorksSubtitle: 'Наша передовая система мониторинга работает непрерывно для предоставления надежных данных о качестве воды',
+  step1Title: 'Непрерывный сбор данных',
+  step1Description: 'Автоматические датчики в более чем 15 местах собирают параметры качества воды каждый час, 24/7, обеспечивая полный охват региона.',
+  step2Title: 'Анализ в реальном времени',
+  step2Description: 'Данные мгновенно обрабатываются и анализируются с использованием передовых алгоритмов для выявления тенденций, аномалий и потенциальных проблем.',
+  step3Title: 'Доступная информация',
+  step3Description: 'Просматривайте все данные через нашу интерактивную панель и интерфейс карты с историческими сравнениями и прогнозной аналитикой.',
+  startExploring: 'Начните изучение данных о качестве воды',
+  ctaDescription: 'Получите доступ к данным мониторинга в реальном времени, историческим трендам и комплексным инструментам анализа',
+  exploreNow: 'Исследовать сейчас'
 })
 
+// Kazakh translations
 $i18n.mergeLocaleMessage('kk', {
   northKazakhstanWaterPortal: 'Солтүстік Қазақстан су порталы',
-  monitoringHydrological: 'Петропавл аймағындағы су қоймаларының гидрологиялық параметрлері мен су сапасын мониторинг',
+  monitoringHydrological: 'Петропавл аймағындағы су қоймаларының гидрологиялық параметрлері мен су сапасын кеңейтілген мониторинг',
   viewInteractiveMap: 'Интерактивті картаны қарау',
   pathogenInformation: 'Патогендер туралы ақпарат',
-  waterQualityParameters: 'Су сапасы параметрлері',
+  ourMission: 'Біздің миссиямыз',
+  missionDescription: 'Біз Солтүстік Қазақстандағы қауымдастықтар үшін қауіпсіз, тұрақты су басқаруын қамтамасыз ету үшін нақты уақыттағы су сапасын бақылау және кешенді деректерді талдауды ұсынамыз. Біздің жүйе шешім қабылдаушыларға дәл, уақтылы ақпаратпен қамтамасыз етеді.',
+  comprehensiveMonitoring: 'Кешенді мониторинг жүйесі',
+  monitoringSubtitle: 'Бірнеше нүктелерде су сапасының маңызды көрсеткіштерін нақты уақытта қадағалаңыз',
   waterLevel: 'Су деңгейі',
-  monitorCurrentWater: 'Аймақтық су қоймаларындағы ағымдағы су деңгейлері мен тарихи тенденцияларды бақылау',
+  monitorCurrentWater: 'Аймақтық су қоймаларындағы ағымдағы су деңгейлері мен тарихи тенденцияларды дәл сенсорлармен бақылау',
   waterTransparency: 'Су өткізгіштігі',
-  analyzeClarity: 'Әртүрлі су объектілеріндегі мөлдірлік пен ластық өлшемдерін талдау',
+  analyzeClarity: 'Әртүрлі су объектілеріндегі су сапасын бағалау үшін мөлдірлік пен ластық өлшемдерін талдау',
   temperature: 'Температура',
-  trackWaterTemperature: 'Су температурасының өзгерулерін және жылу режимдерін бақылау',
+  trackWaterTemperature: 'Су экожүйелеріне әсер ететін су температурасының өзгерулері мен жылу режимдерін қадағалау',
   electricalConductivity: 'Электр өткізгіштік',
-  measureSalinity: 'Өткізгіштік көрсеткіштері арқылы тұздылық пен минералдық құрамды өлшеу',
+  measureSalinity: 'Су сапасын бағалау үшін өткізгіштік көрсеткіштері арқылы тұздылық пен минералдық құрамды өлшеу',
   pathogenRisk: 'Патогендер қауіпі',
-  assessContamination: 'Ластану деңгейлерін және денсаулыққа әлеуетті тәуекелдерді бағалау',
+  assessContamination: 'Су арқылы берілетін патогендерден ластану деңгейлерін және денсаулыққа әлеуетті тәуекелдерді бағалау',
   interactiveMap: 'Интерактивті карта',
-  exploreAllMonitoring: 'Барлық мониторинг нүктелерін зерттеңіз және нақты уақыт режимінде деректерді визуализациялаңыз',
+  exploreAllMonitoring: 'Нақты уақыт режиміндегі деректерді визуализациялау және тарихи тенденциялармен барлық мониторинг нүктелерін зерттеңіз',
+  byTheNumbers: 'Сандармен',
   monitoringSites: 'Мониторинг нүктелері',
   dataCollection: 'Деректер жинау',
-  parameters: 'Параметрлер',
-  systemUptime: 'Жүйенің жұмыс уақыты'
+  parameters: 'Қадағаланатын параметрлер',
+  systemUptime: 'Жүйенің жұмыс уақыты',
+  howItWorks: 'Бұл қалай жұмыс істейді',
+  howItWorksSubtitle: 'Біздің озық мониторинг жүйесі су сапасының сенімді деректерін беру үшін үздіксіз жұмыс істейді',
+  step1Title: 'Үздіксіз деректерді жинау',
+  step1Description: '15+ орындағы автоматты сенсорлар су сапасы параметрлерін сағат сайын, 24/7 жинап, аймақтың толық қамтылуын қамтамасыз етеді.',
+  step2Title: 'Нақты уақыттағы талдау',
+  step2Description: 'Деректер тенденцияларды, ауытқуларды және әлеуетті мәселелерді анықтау үшін озық алгоритмдерді қолдана отырып, лезде өңделеді және талданады.',
+  step3Title: 'Қолжетімді түсініктер',
+  step3Description: 'Барлық деректерді тарихи салыстырулар мен болжамды аналитикамен біздің интерактивті панель және карта интерфейсі арқылы қараңыз.',
+  startExploring: 'Су сапасы деректерін зерттеуді бастаңыз',
+  ctaDescription: 'Нақты уақыттағы мониторинг деректеріне, тарихи тенденцияларға және кешенді талдау құралдарына қол жеткізіңіз',
+  exploreNow: 'Қазір зерттеу'
 })
 </script>

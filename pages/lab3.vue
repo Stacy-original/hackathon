@@ -72,17 +72,12 @@ const isMounted = ref(false)
 const petropavl = ref<[number, number]>([54.88, 69.16])
 
 interface Lake { name: string; lat: number; lng: number; waterlevel: number}
-const lakes = ref<Lake[]>([
-  { name: 'Pestroe Lake', lat: 54.836699, lng: 69.111328, waterlevel: 1.8 },
-  { name: 'Beloe Lake', lat: 54.927154, lng: 69.254322, waterlevel: 2.4 },
-  { name: 'Gorkoe Lake', lat: 54.947573, lng: 68.951122, waterlevel: 1.2 },
-  { name: 'Poganka Lake', lat: 54.921205, lng: 69.053476, waterlevel: 0.9 },
-  { name: 'Dickoe Lake', lat: 54.840156, lng: 69.131957, waterlevel: 1.7 },
-  { name: 'Kishtibish 1', lat: 54.970375, lng: 69.180688, waterlevel: 2.1 },
-  { name: 'Kishtibish 2', lat: 54.960860, lng: 69.162569, waterlevel: 1.5 },
-  { name: 'Kishtibish 3', lat: 54.954006, lng: 69.179125, waterlevel: 1.9 },
-  { name: 'Minkeser Lake', lat: 54.527220, lng: 67.930560, waterlevel: 3.2 }
-])
+const lakes = ref(lakesData.map(lake => ({
+  name: lake.name,
+  lat: lake.lat,
+  lng: lake.lng,
+  waterlevel: lake.waterlevel
+})))
 
 const defaultIcon = ref<Icon | null>(null)
 

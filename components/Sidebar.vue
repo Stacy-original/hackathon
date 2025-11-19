@@ -81,6 +81,31 @@
         </svg>
         <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('home') }}</span>
       </NuxtLink>
+      
+      <!-- Map -->
+      <NuxtLink
+        :to="mapUrl"
+        @click="closeSidebar"
+        class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-3 mt-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
+        dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
+        hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]"
+      >
+        <svg
+          class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+          />
+        </svg>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('map') }}</span>
+      </NuxtLink>
+      
       <!-- Reports -->
       <NuxtLink
         :to="reportsUrl"
@@ -99,16 +124,16 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
           />
         </svg>
         <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('report') }}</span>
       </NuxtLink>
-      <!-- Information -->
+      <!-- Pathogens -->
       <NuxtLink
-        :to="informUrl"
+        :to="pathogensUrl"
         @click="closeSidebar"
-        class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-2 mt-2 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
+        class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-3 mt-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
         dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
         hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]"
       >
@@ -122,10 +147,10 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M6 18L18 6M6 6l12 12M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
           />
         </svg>
-        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('information') }}</span>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('pathogens') }}</span>
       </NuxtLink>
 
       <!-- Lab Menu -->
@@ -155,7 +180,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
             />
           </svg>
           <span class="font-medium transition-[transform,shadow,opacity] duration-300">{{ $t('maps') }}</span>
@@ -191,6 +216,30 @@
 
         </div>
       </div>
+
+      <!-- Information Button -->
+      <NuxtLink
+        :to="termsUrl"
+        @click="closeSidebar"
+        class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-3 mt-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
+        dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
+        hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]"
+      >
+        <svg
+          class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('information') }}</span>
+      </NuxtLink>
 
       <!-- Footer -->
       <div
@@ -289,6 +338,13 @@ const homeUrl = computed(() => {
   return '/'
 });
 
+const mapUrl = computed(() => {
+  if (locale.value === 'en') return '/map'
+  if (locale.value === 'ru') return '/ru/map'
+  if (locale.value === 'kk') return '/kk/map'
+  return '/map'
+});
+
 const reportsUrl = computed(() => {
   if (locale.value === 'en') return '/reports'
   if (locale.value === 'ru') return '/ru/reports'
@@ -296,11 +352,18 @@ const reportsUrl = computed(() => {
   return '/reports'
 });
 
-const informUrl = computed(() => {
+const pathogensUrl = computed(() => {
   if (locale.value === 'en') return '/inform'
   if (locale.value === 'ru') return '/ru/inform'
   if (locale.value === 'kk') return '/kk/inform'
   return '/inform'
+});
+
+const termsUrl = computed(() => {
+  if (locale.value === 'en') return '/terms'
+  if (locale.value === 'ru') return '/ru/terms'
+  if (locale.value === 'kk') return '/kk/terms'
+  return '/terms'
 });
 
 const labs = [
@@ -322,7 +385,9 @@ const { $i18n } = useNuxtApp()
 
 $i18n.mergeLocaleMessage('en', {
   home: 'Home',
+  map: 'Map',
   report: 'Report',
+  pathogens: 'Pathogens',
   information: 'Information',
   maps: 'Maps',
   levelOfWater: 'Level of Water',
@@ -335,7 +400,9 @@ $i18n.mergeLocaleMessage('en', {
 
 $i18n.mergeLocaleMessage('ru', {
   home: 'Главная',
+  map: 'Карта',
   report: 'Отчет',
+  pathogens: 'Патогены',
   information: 'Информация',
   maps: 'Карты',
   levelOfWater: 'Уровень воды',
@@ -348,7 +415,9 @@ $i18n.mergeLocaleMessage('ru', {
 
 $i18n.mergeLocaleMessage('kk', {
   home: 'Басты',
+  map: 'Карта',
   report: 'Есеп',
+  pathogens: 'Патогендер',
   information: 'Ақпарат',
   maps: 'Карталар',
   levelOfWater: 'Су деңгейі',

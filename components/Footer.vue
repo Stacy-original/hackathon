@@ -32,7 +32,7 @@
               <NuxtLink :to="informUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Pathogens</NuxtLink>
             </li>
             <li>
-              <NuxtLink :to="mapsUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Maps</NuxtLink>
+              <NuxtLink :to="mapsUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Map</NuxtLink>
             </li>
           </ul>
         </div>
@@ -114,9 +114,9 @@
           <span>© 2025 SKO GEOHYDRO PORTAL. All rights reserved.</span>
         </div>
         <div class="flex gap-6 text-xs dark:text-[#5A6A85] text-[#5A6A85]">
-          <a class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Privacy Policy</a>
+          <NuxtLink :to="soonUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Privacy Policy</NuxtLink>
           <NuxtLink :to="termsUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Terms of Service</NuxtLink>
-          <a class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Contact</a>
+          <NuxtLink :to="soonUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Contact</NuxtLink>
         </div>
       </div>
     </div>
@@ -149,9 +149,9 @@ const informUrl = computed(() => {
 });
 
 const mapsUrl = computed(() => {
-  if (locale.value === 'en') return '/maps'
-  if (locale.value === 'ru') return '/ru/maps'
-  if (locale.value === 'kk') return '/kk/maps'
+  if (locale.value === 'en') return '/map'
+  if (locale.value === 'ru') return '/ru/map'
+  if (locale.value === 'kk') return '/kk/map'
   return '/maps'
 });
 
@@ -160,5 +160,12 @@ const termsUrl = computed(() => {
   if (locale.value === 'ru') return '/ru/terms'
   if (locale.value === 'kk') return '/kk/terms'
   return '/terms'
+});
+
+const soonUrl = computed(() => {
+  if (locale.value === 'en') return '/soon'
+  if (locale.value === 'ru') return '/ru/soon'
+  if (locale.value === 'kk') return '/kk/soon'
+  return '/soon'
 });
 </script>
