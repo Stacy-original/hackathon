@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100vh; width:100vw;">
+  <div style="height:100vh; width:100vw;" class="z=0">
     <LMap v-if="isMounted" :zoom="12" :center="petropavl" style="height:100%; width:100%;">
       <LTileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

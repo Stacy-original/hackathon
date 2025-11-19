@@ -130,7 +130,7 @@
         <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('report') }}</span>
       </NuxtLink>
       <!-- Pathogens -->
-      <NuxtLink
+      <!-- <NuxtLink
         :to="pathogensUrl"
         @click="closeSidebar"
         class="ml-2 mr-2 h-12 text-center text-xl pt-2 p-2 cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-3 mx-3 mt-3 rounded-xl transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
@@ -151,7 +151,7 @@
           />
         </svg>
         <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1">{{ $t('pathogens') }}</span>
-      </NuxtLink>
+      </NuxtLink> -->
 
       <!-- Lab Menu -->
       <div class="max-sm:text-center mt-2 rounded-xl overflow-hidden max-sm:mx-0">
@@ -370,7 +370,9 @@ const labs = [
   { path: 'lab3', nameKey: 'levelOfWater' },
   { path: 'lab4', nameKey: 'transparency' },
   { path: 'lab5', nameKey: 'temperatureShort' },
-  { path: 'lab6', nameKey: 'electricalConductivityShort' }
+  { path: 'lab6', nameKey: 'electricalConductivityShort' },
+  { path: 'inform', nameKey: 'pathogens' }
+
 ];
 
 const localizedLabs = computed(() => {

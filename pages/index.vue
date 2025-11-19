@@ -1,36 +1,37 @@
 <template>
   <div class="min-h-screen bg-slate-300 dark:bg-[#0E1117] z-0">
     <!-- Hero Section -->
-    <section class="relative py-24 bg-gradient-to-br from-[#1E6DFF] to-[#4DA3FF] dark:from-[#1458CC] dark:to-[#1E6DFF]">
-      <div class="container mx-auto px-6 text-center">
-        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
-          {{ $t('northKazakhstanWaterPortal') }}
-        </h1>
-        <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">
-          {{ $t('monitoringHydrological') }}
-        </p>
-        <div class="flex justify-center gap-6 flex-wrap">
-          <NuxtLink 
-            :to="mapUrl" 
-            class="px-10 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold"
-          >
-            {{ $t('viewInteractiveMap') }}
-          </NuxtLink>
-          <NuxtLink 
-            :to="informUrl" 
-            class="px-10 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-semibold"
-          >
-            {{ $t('pathogenInformation') }}
-          </NuxtLink>
-        </div>
-      </div>
-      <!-- Decorative Wave -->
-      <div class="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full">
-          <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" class="fill-slate-50 dark:fill-[#0E1117]"/>
-        </svg>
-      </div>
-    </section>
+    <!-- Hero Section -->
+<section class="relative py-24 bg-gradient-to-br from-[#1E6DFF] to-[#4DA3FF] dark:from-[#1458CC] dark:to-[#1E6DFF]">
+  <div class="container mx-auto px-6 text-center relative z-10">
+    <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
+      {{ $t('northKazakhstanWaterPortal') }}
+    </h1>
+    <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">
+      {{ $t('monitoringHydrological') }}
+    </p>
+    <div class="flex justify-center gap-6 flex-wrap relative z-20">
+      <NuxtLink 
+        :to="mapUrl" 
+        class="px-10 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold relative z-30"
+      >
+        {{ $t('viewInteractiveMap') }}
+      </NuxtLink>
+      <NuxtLink 
+        :to="informUrl" 
+        class="px-10 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-semibold relative z-30"
+      >
+        {{ $t('pathogenInformation') }}
+      </NuxtLink>
+    </div>
+  </div>
+  <!-- Decorative Wave -->
+  <div class="absolute bottom-0 left-0 right-0 z-0">
+    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full pointer-events-none">
+      <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" class="fill-slate-50 dark:fill-[#0E1117]"/>
+    </svg>
+  </div>
+</section>
 
     <!-- Mission Statement -->
     <section class="py-16 bg-slate-50 dark:bg-[#0E1117]">
@@ -47,103 +48,121 @@
     </section>
 
     <!-- Monitoring Capabilities -->
-    <section class="py-20 bg-white dark:bg-[#1A1F27]">
-      <div class="container mx-auto px-6">
+    <section class="py-20 bg-white dark:bg-[#1A1F27] relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute top-0 left-0 w-full h-full opacity-5 dark:opacity-10">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-[#1E6DFF] rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-[#2ECC71] rounded-full blur-3xl"></div>
+      </div>
+      
+      <div class="container mx-auto px-6 relative z-10">
         <h2 class="text-3xl md:text-4xl font-bold text-center text-primary dark:text-[#F1F5FF] mb-4">
           {{ $t('comprehensiveMonitoring') }}
         </h2>
-        <p class="text-center text-secondary dark:text-[#A9B4C6] mb-16 max-w-2xl mx-auto">
+        <p class="text-center text-secondary dark:text-[#A9B4C6] mb-20 max-w-2xl mx-auto text-lg">
           {{ $t('monitoringSubtitle') }}
         </p>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Water Level Card -->
+        <div class="max-w-6xl mx-auto space-y-8">
+          <!-- Water Level - Left -->
           <NuxtLink :to="lab3Url" class="block group">
-            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300 hover:scale-105">
-              <div class="w-16 h-16 bg-gradient-to-br from-[#4DA3FF] to-[#1E6DFF] dark:from-[#75B9FF] dark:to-[#4DA3FF] rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-3xl">💧</span>
+            <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#4DA3FF] to-[#1E6DFF] dark:from-[#75B9FF] dark:to-[#4DA3FF] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">💧</span>
               </div>
-              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
-                {{ $t('waterLevel') }}
-              </h3>
-              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
-                {{ $t('monitorCurrentWater') }}
-              </p>
+              <div class="text-center md:text-left">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('waterLevel') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('monitorCurrentWater') }}
+                </p>
+              </div>
             </div>
           </NuxtLink>
 
-          <!-- Transparency Card -->
+          <!-- Transparency - Right -->
           <NuxtLink :to="lab4Url" class="block group">
-            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#2ECC71] dark:group-hover:border-[#38E39A] transition-all duration-300 hover:scale-105">
-              <div class="w-16 h-16 bg-gradient-to-br from-[#2ECC71] to-[#27AE60] dark:from-[#38E39A] dark:to-[#2ECC71] rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-3xl">🔍</span>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#2ECC71] dark:group-hover:border-[#38E39A] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#2ECC71] to-[#27AE60] dark:from-[#38E39A] dark:to-[#2ECC71] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">🔍</span>
               </div>
-              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
-                {{ $t('waterTransparency') }}
-              </h3>
-              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
-                {{ $t('analyzeClarity') }}
-              </p>
+              <div class="text-center md:text-right">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('waterTransparency') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('analyzeClarity') }}
+                </p>
+              </div>
             </div>
           </NuxtLink>
 
-          <!-- Temperature Card -->
+          <!-- Temperature - Left -->
           <NuxtLink :to="lab5Url" class="block group">
-            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#FFCB2F] dark:group-hover:border-[#FFDD57] transition-all duration-300 hover:scale-105">
-              <div class="w-16 h-16 bg-gradient-to-br from-[#FFCB2F] to-[#F39C12] dark:from-[#FFDD57] dark:to-[#FFCB2F] rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-3xl">🌡️</span>
+            <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#FFCB2F] dark:group-hover:border-[#FFDD57] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#FFCB2F] to-[#F39C12] dark:from-[#FFDD57] dark:to-[#FFCB2F] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">🌡️</span>
               </div>
-              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
-                {{ $t('temperature') }}
-              </h3>
-              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
-                {{ $t('trackWaterTemperature') }}
-              </p>
+              <div class="text-center md:text-left">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('temperature') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('trackWaterTemperature') }}
+                </p>
+              </div>
             </div>
           </NuxtLink>
 
-          <!-- Conductivity Card -->
+          <!-- Conductivity - Right -->
           <NuxtLink :to="lab6Url" class="block group">
-            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#FF4E4E] dark:group-hover:border-[#FF6B6B] transition-all duration-300 hover:scale-105">
-              <div class="w-16 h-16 bg-gradient-to-br from-[#FF4E4E] to-[#E74C3C] dark:from-[#FF6B6B] dark:to-[#FF4E4E] rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-3xl">⚡</span>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#FF4E4E] dark:group-hover:border-[#FF6B6B] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#FF4E4E] to-[#E74C3C] dark:from-[#FF6B6B] dark:to-[#FF4E4E] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">⚡</span>
               </div>
-              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
-                {{ $t('electricalConductivity') }}
-              </h3>
-              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
-                {{ $t('measureSalinity') }}
-              </p>
+              <div class="text-center md:text-right">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('electricalConductivity') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('measureSalinity') }}
+                </p>
+              </div>
             </div>
           </NuxtLink>
 
-          <!-- Pathogen Risk Card -->
+          <!-- Pathogen Risk - Left -->
           <NuxtLink :to="informUrl" class="block group">
-            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#9B59B6] dark:group-hover:border-[#BB6BD9] transition-all duration-300 hover:scale-105">
-              <div class="w-16 h-16 bg-gradient-to-br from-[#9B59B6] to-[#8E44AD] dark:from-[#BB6BD9] dark:to-[#9B59B6] rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-3xl">🦠</span>
+            <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#9B59B6] dark:group-hover:border-[#BB6BD9] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#9B59B6] to-[#8E44AD] dark:from-[#BB6BD9] dark:to-[#9B59B6] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">🦠</span>
               </div>
-              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
-                {{ $t('pathogenRisk') }}
-              </h3>
-              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
-                {{ $t('assessContamination') }}
-              </p>
+              <div class="text-center md:text-left">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('pathogenRisk') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('assessContamination') }}
+                </p>
+              </div>
             </div>
           </NuxtLink>
 
-          <!-- Interactive Map Card -->
+          <!-- Interactive Map - Right -->
           <NuxtLink :to="mapUrl" class="block group">
-            <div class="bg-slate-50 dark:bg-[#212832] h-full rounded-xl p-8 shadow-sm hover:shadow-xl border border-[#E2E8F0] dark:border-[#313B47] group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300 hover:scale-105">
-              <div class="w-16 h-16 bg-gradient-to-br from-[#1E6DFF] to-[#1458CC] dark:from-[#6CA8FF] dark:to-[#4DA3FF] rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-3xl">🗺️</span>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#1E6DFF] to-[#1458CC] dark:from-[#6CA8FF] dark:to-[#4DA3FF] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">🗺️</span>
               </div>
-              <h3 class="text-2xl font-semibold text-primary dark:text-[#F1F5FF] mb-3">
-                {{ $t('interactiveMap') }}
-              </h3>
-              <p class="text-secondary dark:text-[#A9B4C6] leading-relaxed">
-                {{ $t('exploreAllMonitoring') }}
-              </p>
+              <div class="text-center md:text-right">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('interactiveMap') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('exploreAllMonitoring') }}
+                </p>
+              </div>
             </div>
           </NuxtLink>
         </div>

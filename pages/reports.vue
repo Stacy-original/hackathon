@@ -383,14 +383,14 @@ const loading = ref<boolean>(false);
 const isSubmitting = ref<boolean>(false);
 const message = ref<Message | null>(null);
 
-// Report types
+// Report types - updated to match translation keys
 const reportTypes = [
   { value: 'pollution', label: 'Pollution' },
-  { value: 'algae', label: 'Algae Bloom' },
-  { value: 'odor', label: 'Unusual Odor' },
-  { value: 'color', label: 'Color Change' },
+  { value: 'algaeBloom', label: 'Algae Bloom' },
+  { value: 'unusualOdor', label: 'Unusual Odor' },
+  { value: 'colorChange', label: 'Color Change' },
   { value: 'flooding', label: 'Flooding' },
-  { value: 'wildlife', label: 'Wildlife Impact' },
+  { value: 'wildlifeImpact', label: 'Wildlife Impact' },
   { value: 'other', label: 'Other' }
 ];
 
