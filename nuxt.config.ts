@@ -33,9 +33,9 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'HACKATHON',
+      title: 'SKO GeoHydro Portal',
       link: [
-        { rel: 'icon', type: 'image/png', href: '/favicon.png'}
+        { rel: 'icon', type: 'image/png', href: '/newfavicon.png'}
       ],
     },
   },

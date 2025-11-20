@@ -276,8 +276,8 @@ const formattedDate = new Date().toLocaleDateString('en-US', {
   day: 'numeric' 
 })
 
-useSeoMeta({
-  title: 'Terms of Service - SKO GEOHYDRO PORTAL',
-  description: 'Educational disclaimer and terms of service for the SKO GEOHYDRO PORTAL platform'
-})
+// useSeoMeta({
+//   title: 'Terms of Service - SKO GEOHYDRO PORTAL',
+//   description: 'Educational disclaimer and terms of service for the SKO GEOHYDRO PORTAL platform'
+// })
 </script>

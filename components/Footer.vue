@@ -1,3 +1,5 @@
+[file name]: components/Footer.vue
+[file content begin]
 <template>
   <footer class="w-full py-8 bg-[#FFFFFF] dark:bg-[#0E1117] border-t border-[#E2E8F0] dark:border-[#313B47]">
     <div class="max-w-6xl mx-auto px-6">
@@ -7,39 +9,39 @@
           <div class="flex items-center gap-3 mb-4">
             
             <div>
-              <h3 class="text-lg font-bold dark:text-[#F1F5FF] text-[#1A1A1A]">SKO GEOHYDRO PORTAL</h3>
+              <h3 class="text-lg font-bold dark:text-[#F1F5FF] text-[#1A1A1A]">{{ $t('brandName') }}</h3>
               <p class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] mt-1">
-                Advanced hydrogeological monitoring and data analysis platform
+                {{ $t('brandDescription') }}
               </p>
             </div>
           </div>
           <p class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] max-w-md">
-            Comprehensive platform for environmental research and water resource management with real-time monitoring capabilities and advanced analytics.
+            {{ $t('platformDescription') }}
           </p>
         </div>
 
         <!-- Quick Links -->
         <div>
-          <h4 class="font-semibold dark:text-[#F1F5FF] text-[#1A1A1A] mb-4">Quick Links</h4>
+          <h4 class="font-semibold dark:text-[#F1F5FF] text-[#1A1A1A] mb-4">{{ $t('quickLinks') }}</h4>
           <ul class="space-y-2">
             <li>
-              <NuxtLink :to="homeUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Home</NuxtLink>
+              <NuxtLink :to="homeUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">{{ $t('home') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink :to="reportsUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Reports</NuxtLink>
+              <NuxtLink :to="reportsUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">{{ $t('report') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink :to="informUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Pathogens</NuxtLink>
+              <NuxtLink :to="coordsUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">{{ $t('coordinates') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink :to="mapsUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Map</NuxtLink>
+              <NuxtLink :to="mapsUrl" class="text-sm dark:text-[#A9B4C6] text-[#5A6A85] hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">{{ $t('map') }}</NuxtLink>
             </li>
           </ul>
         </div>
 
         <!-- Contact & Social -->
         <div>
-          <h4 class="font-semibold dark:text-[#F1F5FF] text-[#1A1A1A] mb-4">Connect With Us</h4>
+          <h4 class="font-semibold dark:text-[#F1F5FF] text-[#1A1A1A] mb-4">{{ $t('connectWithUs') }}</h4>
           <div class="flex gap-4 mb-4">
             <a 
               href="https://github.com/" 
@@ -100,7 +102,7 @@
             </a>
           </div>
           <p class="text-xs dark:text-[#5A6A85] text-[#5A6A85]">
-            Get in touch with our team for support and inquiries
+            {{ $t('contactDescription') }}
           </p>
         </div>
       </div>
@@ -111,12 +113,12 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
           </svg>
-          <span>© 2025 SKO GEOHYDRO PORTAL. All rights reserved.</span>
+          <span>{{ $t('copyright') }}</span>
         </div>
         <div class="flex gap-6 text-xs dark:text-[#5A6A85] text-[#5A6A85]">
-          <NuxtLink :to="soonUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Privacy Policy</NuxtLink>
-          <NuxtLink :to="termsUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Terms of Service</NuxtLink>
-          <NuxtLink :to="soonUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">Contact</NuxtLink>
+          <NuxtLink :to="soonUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">{{ $t('privacyPolicy') }}</NuxtLink>
+          <NuxtLink :to="termsUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">{{ $t('termsOfService') }}</NuxtLink>
+          <NuxtLink :to="soonUrl" class="hover:text-[#1E6DFF] dark:hover:text-[#6CA8FF] transition-colors">{{ $t('contact') }}</NuxtLink>
         </div>
       </div>
     </div>
@@ -141,11 +143,11 @@ const reportsUrl = computed(() => {
   return '/reports'
 });
 
-const informUrl = computed(() => {
-  if (locale.value === 'en') return '/inform'
-  if (locale.value === 'ru') return '/ru/inform'
-  if (locale.value === 'kk') return '/kk/inform'
-  return '/inform'
+const coordsUrl = computed(() => {
+  if (locale.value === 'en') return '/coords'
+  if (locale.value === 'ru') return '/ru/coords'
+  if (locale.value === 'kk') return '/kk/coords'
+  return '/coords'
 });
 
 const mapsUrl = computed(() => {
@@ -168,4 +170,58 @@ const soonUrl = computed(() => {
   if (locale.value === 'kk') return '/kk/soon'
   return '/soon'
 });
+
+// Define translations for this component only
+const { $i18n } = useNuxtApp()
+
+$i18n.mergeLocaleMessage('en', {
+  brandName: 'SKO GEOHYDRO PORTAL',
+  brandDescription: 'Advanced hydrogeological monitoring and data analysis platform',
+  platformDescription: 'Comprehensive platform for environmental research and water resource management with real-time monitoring capabilities and advanced analytics.',
+  quickLinks: 'Quick Links',
+  home: 'Home',
+  report: 'Reports',
+  coordinates: 'Coordinates',
+  map: 'Map',
+  connectWithUs: 'Connect With Us',
+  contactDescription: 'Get in touch with our team for support and inquiries',
+  copyright: '© 2025 SKO GEOHYDRO PORTAL. All rights reserved.',
+  privacyPolicy: 'Privacy Policy',
+  termsOfService: 'Terms of Service',
+  contact: 'Contact'
+})
+
+$i18n.mergeLocaleMessage('ru', {
+  brandName: 'SKO GEOHYDRO PORTAL',
+  brandDescription: 'Передовая платформа мониторинга и анализа гидрогеологических данных',
+  platformDescription: 'Комплексная платформа для экологических исследований и управления водными ресурсами с возможностями мониторинга в реальном времени и передовой аналитикой.',
+  quickLinks: 'Быстрые ссылки',
+  home: 'Главная',
+  report: 'Отчеты',
+  coordinates: 'Координаты',
+  map: 'Карта',
+  connectWithUs: 'Свяжитесь с нами',
+  contactDescription: 'Свяжитесь с нашей командой для поддержки и запросов',
+  copyright: '© 2025 SKO GEOHYDRO PORTAL. Все права защищены.',
+  privacyPolicy: 'Политика конфиденциальности',
+  termsOfService: 'Условия использования',
+  contact: 'Контакты'
+})
+
+$i18n.mergeLocaleMessage('kk', {
+  brandName: 'SKO GEOHYDRO PORTAL',
+  brandDescription: 'Гидрогеологиялық мониторинг және деректерді талдау платформасы',
+  platformDescription: 'Нақты уақыт режимінде мониторинг және жетілдірілген аналитика мүмкіндіктері бар қоршаған ортаны зерттеу және су ресурстарын басқаруға арналған кешенді платформа.',
+  quickLinks: 'Жылдам сілтемелер',
+  home: 'Басты',
+  report: 'Есептер',
+  coordinates: 'Координаттар',
+  map: 'Карта',
+  connectWithUs: 'Бізбен байланысыңыз',
+  contactDescription: 'Қолдау және сұрақтар үшін біздің командамен байланысыңыз',
+  copyright: '© 2025 SKO GEOHYDRO PORTAL. Барлық құқықтар қорғалған.',
+  privacyPolicy: 'Құпиялылық саясаты',
+  termsOfService: 'Қызмет көрсету шарттары',
+  contact: 'Байланыс'
+})
 </script>

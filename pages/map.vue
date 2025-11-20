@@ -47,9 +47,9 @@
           :lat-lng="[lake.lat, lake.lng]"
           :Icon="defaultIcon"
         >
-          <LTooltip permanent direction="top">{{ lake.name }}</LTooltip>
+          <LTooltip permanent direction="top">{{ getTranslatedLakeName(lake.name, currentLanguage) }}</LTooltip>
           <LPopup>
-            <strong>{{ lake.name }}</strong><br />
+            <strong>{{ getTranslatedLakeName(lake.name, currentLanguage) }}</strong><br />
             {{ $t('coordinates') }}: {{ lake.lat.toFixed(4) }}, {{ lake.lng.toFixed(4) }}<br />
             <span v-if="getParameterValue(lake)">
               {{ getParameterLabel() }}: {{ getParameterValue(lake) }} {{ getParameterUnit() }}
@@ -122,7 +122,7 @@
           >
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="font-medium text-primary dark:text-[#F1F5FF]">{{ lake.name }}</h4>
+                <h4 class="font-medium text-primary dark:text-[#F1F5FF]">{{ getTranslatedLakeName(lake.name, currentLanguage) }}</h4>
                 <p class="text-sm text-secondary dark:text-[#A9B4C6]">
                   {{ getParameterValue(lake) }} {{ getParameterUnit() }}
                 </p>
@@ -147,6 +147,11 @@ import { Icon } from 'leaflet'
 import markerIconPng from 'leaflet/dist/images/marker-icon.png'
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png'
 import { getLakesByCity } from '~/composables/lakes-data'
+import { getTranslatedLakeName } from '~/composables/lakes-data';
+
+// Get current language
+const { locale } = useI18n();
+const currentLanguage = locale.value;
 
 const { $i18n } = useNuxtApp()
 

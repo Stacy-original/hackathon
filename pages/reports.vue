@@ -156,7 +156,7 @@
 
       <!-- Success/Error Messages -->
       <div v-if="message" :class="[
-        'fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300',
+        'fixed top-24 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300',
         message.type === 'success' ? 'bg-[#2ECC71] text-white' : 'bg-[#FF4E4E] text-white'
       ]">
         {{ message.text }}

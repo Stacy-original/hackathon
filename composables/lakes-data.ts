@@ -11,7 +11,131 @@ export interface Lake {
   pathogens?: string;
 }
 
-// Export lakes for each city separately (same format as original petropavl)
+// Translation mappings
+export const lakeTranslations: Record<string, Record<string, string>> = {
+  // Petropavl lakes
+  'Pestroe Lake': {
+    en: 'Pestroe Lake',
+    ru: 'Озеро Пестрое',
+    kk: 'Пестрое көлі'
+  },
+  'Beloe Lake': {
+    en: 'Beloe Lake',
+    ru: 'Озеро Белое',
+    kk: 'Белое көлі'
+  },
+  'Gorkoe Lake': {
+    en: 'Gorkoe Lake',
+    ru: 'Озеро Горькое',
+    kk: 'Горькое көлі'
+  },
+  'Poganka Lake': {
+    en: 'Poganka Lake',
+    ru: 'Озеро Поганка',
+    kk: 'Поганка көлі'
+  },
+  'Dickoe Lake': {
+    en: 'Dickoe Lake',
+    ru: 'Озеро Дикое',
+    kk: 'Дикое көлі'
+  },
+  'Kishtibish 1': {
+    en: 'Kishtibish 1',
+    ru: 'Киштибиш 1',
+    kk: 'Киштибиш 1'
+  },
+  'Kishtibish 2': {
+    en: 'Kishtibish 2',
+    ru: 'Киштибиш 2',
+    kk: 'Киштибиш 2'
+  },
+  'Kishtibish 3': {
+    en: 'Kishtibish 3',
+    ru: 'Киштибиш 3',
+    kk: 'Киштибиш 3'
+  },
+  
+  // Astana lakes
+  'Lake Taldykol': {
+    en: 'Lake Taldykol',
+    ru: 'Озеро Талдыколь',
+    kk: 'Талдыкөл көлі'
+  },
+  'Ishim River (Central)': {
+    en: 'Ishim River (Central)',
+    ru: 'Река Ишим (Центральная)',
+    kk: 'Есіл өзені (Орталық)'
+  },
+  'Lake Zhalpaksor': {
+    en: 'Lake Zhalpaksor',
+    ru: 'Озеро Жалпаксор',
+    kk: 'Жалпақсор көлі'
+  },
+  'Lake Burabay (Borovoe)': {
+    en: 'Lake Burabay (Borovoe)',
+    ru: 'Озеро Бурабай (Боровое)',
+    kk: 'Бурабай көлі (Боровое)'
+  },
+  'Lake Shchuchye': {
+    en: 'Lake Shchuchye',
+    ru: 'Озеро Щучье',
+    kk: 'Шұбар көлі'
+  },
+  'Ishim River (Northern)': {
+    en: 'Ishim River (Northern)',
+    ru: 'Река Ишим (Северная)',
+    kk: 'Есіл өзені (Солтүстік)'
+  },
+  
+  // Almaty lakes
+  'Big Almaty Lake': {
+    en: 'Big Almaty Lake',
+    ru: 'Большое Алматинское озеро',
+    kk: 'Үлкен Алматы көлі'
+  },
+  'Kolsai Lake 1': {
+    en: 'Kolsai Lake 1',
+    ru: 'Озеро Кольсай 1',
+    kk: 'Көлсай көлі 1'
+  },
+  'Kaindy Lake': {
+    en: 'Kaindy Lake',
+    ru: 'Озеро Каинды',
+    kk: 'Қайыңды көлі'
+  },
+  'Lake Issyk': {
+    en: 'Lake Issyk',
+    ru: 'Озеро Иссык',
+    kk: 'Есік көлі'
+  },
+  'Kapchagay Reservoir': {
+    en: 'Kapchagay Reservoir',
+    ru: 'Капчагайское водохранилище',
+    kk: 'Қапшағай бөгені'
+  },
+  'Kolsai Lake 2': {
+    en: 'Kolsai Lake 2',
+    ru: 'Озеро Кольсай 2',
+    kk: 'Көлсай көлі 2'
+  },
+  'Bartogay Reservoir': {
+    en: 'Bartogay Reservoir',
+    ru: 'Бартогайское водохранилище',
+    kk: 'Бартоғай бөгені'
+  },
+  'Turgen Gorge Lake': {
+    en: 'Turgen Gorge Lake',
+    ru: 'Озеро в ущелье Тургень',
+    kk: 'Түрген шатқалы көлі'
+  }
+};
+
+// Helper function to get translated lake name
+export const getTranslatedLakeName = (lakeName: string, language: string = 'en'): string => {
+  return lakeTranslations[lakeName]?.[language] || lakeName;
+};
+
+// Your lakes data stays EXACTLY the same as before!
 export const lakesPetropavl: Lake[] = [
   { name: 'Pestroe Lake', lat: 54.836699, lng: 69.111328, transparency: 1.2, temperature: 17.4, conductivity: 420, waterlevel: 1.8, pathogens: 'Low' },
   { name: 'Beloe Lake', lat: 54.927154, lng: 69.254322, transparency: 1.8, temperature: 16.1, conductivity: 380, waterlevel: 2.4, pathogens: 'Medium' },
@@ -167,6 +291,13 @@ export const lakesAlmaty: Lake[] = [
     waterlevel: 15.3,
     pathogens: 'Low'
   }
+];
+
+// NEW: Simple list of all lakes
+export const allLakes: Lake[] = [
+  ...lakesPetropavl,
+  ...lakesAstana,
+  ...lakesAlmaty
 ];
 
 // For backward compatibility with existing lab pages

@@ -1,37 +1,42 @@
 <template>
   <div class="min-h-screen bg-slate-300 dark:bg-[#0E1117] z-0">
     <!-- Hero Section -->
-    <!-- Hero Section -->
-<section class="relative py-24 bg-gradient-to-br from-[#1E6DFF] to-[#4DA3FF] dark:from-[#1458CC] dark:to-[#1E6DFF]">
-  <div class="container mx-auto px-6 text-center relative z-10">
-    <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
-      {{ $t('northKazakhstanWaterPortal') }}
-    </h1>
-    <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">
-      {{ $t('monitoringHydrological') }}
-    </p>
-    <div class="flex justify-center gap-6 flex-wrap relative z-20">
-      <NuxtLink 
-        :to="mapUrl" 
-        class="px-10 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold relative z-30"
-      >
-        {{ $t('viewInteractiveMap') }}
-      </NuxtLink>
-      <NuxtLink 
-        :to="informUrl" 
-        class="px-10 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-semibold relative z-30"
-      >
-        {{ $t('pathogenInformation') }}
-      </NuxtLink>
-    </div>
-  </div>
-  <!-- Decorative Wave -->
-  <div class="absolute bottom-0 left-0 right-0 z-0">
-    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full pointer-events-none">
-      <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" class="fill-slate-50 dark:fill-[#0E1117]"/>
-    </svg>
-  </div>
-</section>
+    <section class="relative py-24 bg-gradient-to-br from-[#1E6DFF] to-[#4DA3FF] dark:from-[#1458CC] dark:to-[#1E6DFF]">
+      <div class="container mx-auto px-6 text-center relative z-10">
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
+          {{ $t('northKazakhstanWaterPortal') }}
+        </h1>
+        <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">
+          {{ $t('monitoringHydrological') }}
+        </p>
+        <div class="flex justify-center gap-6 flex-wrap relative z-20">
+          <NuxtLink 
+            :to="mapUrl" 
+            class="px-10 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold relative z-30"
+          >
+            {{ $t('viewInteractiveMap') }}
+          </NuxtLink>
+          <NuxtLink 
+            :to="coordinatesUrl" 
+            class="px-10 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold relative z-30"
+          >
+            {{ $t('reportCoordinates') }}
+          </NuxtLink>
+          <NuxtLink 
+            :to="reportsUrl" 
+            class="px-10 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-semibold relative z-30"
+          >
+            {{ $t('waterReports') }}
+          </NuxtLink>
+        </div>
+      </div>
+      <!-- Decorative Wave -->
+      <div class="absolute bottom-0 left-0 right-0 z-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full pointer-events-none">
+          <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" class="fill-slate-50 dark:fill-[#0E1117]"/>
+        </svg>
+      </div>
+    </section>
 
     <!-- Mission Statement -->
     <section class="py-16 bg-slate-50 dark:bg-[#0E1117]">
@@ -64,7 +69,75 @@
         </p>
         
         <div class="max-w-6xl mx-auto space-y-8">
-          <!-- Water Level - Left -->
+          <!-- Interactive Map - Top -->
+          <NuxtLink :to="mapUrl" class="block group">
+            <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#1E6DFF] to-[#1458CC] dark:from-[#6CA8FF] dark:to-[#4DA3FF] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">🗺️</span>
+              </div>
+              <div class="text-center md:text-left">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('interactiveMap') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('exploreAllMonitoring') }}
+                </p>
+              </div>
+            </div>
+          </NuxtLink>
+
+          <!-- Coordinates Reporting - Second -->
+          <NuxtLink :to="coordinatesUrl" class="block group">
+            <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#9B59B6] dark:group-hover:border-[#BB6BD9] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#9B59B6] to-[#8E44AD] dark:from-[#BB6BD9] dark:to-[#9B59B6] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">📍</span>
+              </div>
+              <div class="text-center md:text-right">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('coordinatesReporting') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('reportWaterBodyCoordinates') }}
+                </p>
+              </div>
+            </div>
+          </NuxtLink>
+
+          <!-- Water Reports - Third -->
+          <NuxtLink :to="reportsUrl" class="block group">
+            <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#FF9500] dark:group-hover:border-[#FFAA33] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#FF9500] to-[#E67E22] dark:from-[#FFAA33] dark:to-[#FF9500] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">📊</span>
+              </div>
+              <div class="text-center md:text-left">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('waterReports') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('manageWaterConditionReports') }}
+                </p>
+              </div>
+            </div>
+          </NuxtLink>
+
+          <!-- Pathogen Risk -->
+          <NuxtLink :to="informUrl" class="block group">
+            <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#FF9500] dark:group-hover:border-[#FFAA33] transition-all duration-300">
+              <div class="w-24 h-24 bg-gradient-to-br from-[#FF9500] to-[#E67E22] dark:from-[#FFAA33] dark:to-[#FF9500] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
+                <span class="text-5xl">🦠</span>
+              </div>
+              <div class="text-center md:text-right">
+                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
+                  {{ $t('pathogenRisk') }}
+                </h3>
+                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
+                  {{ $t('assessContamination') }}
+                </p>
+              </div>
+            </div>
+          </NuxtLink>
+
+          <!-- Water Level -->
           <NuxtLink :to="lab3Url" class="block group">
             <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300">
               <div class="w-24 h-24 bg-gradient-to-br from-[#4DA3FF] to-[#1E6DFF] dark:from-[#75B9FF] dark:to-[#4DA3FF] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
@@ -81,7 +154,7 @@
             </div>
           </NuxtLink>
 
-          <!-- Transparency - Right -->
+          <!-- Transparency -->
           <NuxtLink :to="lab4Url" class="block group">
             <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#2ECC71] dark:group-hover:border-[#38E39A] transition-all duration-300">
               <div class="w-24 h-24 bg-gradient-to-br from-[#2ECC71] to-[#27AE60] dark:from-[#38E39A] dark:to-[#2ECC71] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
@@ -98,7 +171,7 @@
             </div>
           </NuxtLink>
 
-          <!-- Temperature - Left -->
+          <!-- Temperature -->
           <NuxtLink :to="lab5Url" class="block group">
             <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#FFCB2F] dark:group-hover:border-[#FFDD57] transition-all duration-300">
               <div class="w-24 h-24 bg-gradient-to-br from-[#FFCB2F] to-[#F39C12] dark:from-[#FFDD57] dark:to-[#FFCB2F] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
@@ -115,7 +188,7 @@
             </div>
           </NuxtLink>
 
-          <!-- Conductivity - Right -->
+          <!-- Conductivity -->
           <NuxtLink :to="lab6Url" class="block group">
             <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#FF4E4E] dark:group-hover:border-[#FF6B6B] transition-all duration-300">
               <div class="w-24 h-24 bg-gradient-to-br from-[#FF4E4E] to-[#E74C3C] dark:from-[#FF6B6B] dark:to-[#FF4E4E] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
@@ -132,39 +205,7 @@
             </div>
           </NuxtLink>
 
-          <!-- Pathogen Risk - Left -->
-          <NuxtLink :to="informUrl" class="block group">
-            <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#9B59B6] dark:group-hover:border-[#BB6BD9] transition-all duration-300">
-              <div class="w-24 h-24 bg-gradient-to-br from-[#9B59B6] to-[#8E44AD] dark:from-[#BB6BD9] dark:to-[#9B59B6] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
-                <span class="text-5xl">🦠</span>
-              </div>
-              <div class="text-center md:text-left">
-                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
-                  {{ $t('pathogenRisk') }}
-                </h3>
-                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
-                  {{ $t('assessContamination') }}
-                </p>
-              </div>
-            </div>
-          </NuxtLink>
-
-          <!-- Interactive Map - Right -->
-          <NuxtLink :to="mapUrl" class="block group">
-            <div class="flex flex-col md:flex-row-reverse items-center gap-8 bg-slate-50 dark:bg-[#212832] rounded-2xl p-8 md:p-10 shadow-md hover:shadow-2xl border-2 border-transparent group-hover:border-[#1E6DFF] dark:group-hover:border-[#6CA8FF] transition-all duration-300">
-              <div class="w-24 h-24 bg-gradient-to-br from-[#1E6DFF] to-[#1458CC] dark:from-[#6CA8FF] dark:to-[#4DA3FF] rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0">
-                <span class="text-5xl">🗺️</span>
-              </div>
-              <div class="text-center md:text-right">
-                <h3 class="text-2xl md:text-3xl font-bold text-primary dark:text-[#F1F5FF] mb-3">
-                  {{ $t('interactiveMap') }}
-                </h3>
-                <p class="text-secondary dark:text-[#A9B4C6] text-lg leading-relaxed">
-                  {{ $t('exploreAllMonitoring') }}
-                </p>
-              </div>
-            </div>
-          </NuxtLink>
+          
         </div>
       </div>
     </section>
@@ -185,7 +226,7 @@
             <div class="text-secondary dark:text-[#A9B4C6] font-medium">{{ $t('dataCollection') }}</div>
           </div>
           <div class="text-center p-6 bg-white dark:bg-[#1A1F27] rounded-xl shadow-md">
-            <div class="text-5xl font-bold text-[#FFCB2F] dark:text-[#FFDD57] mb-3">6</div>
+            <div class="text-5xl font-bold text-[#FFCB2F] dark:text-[#FFDD57] mb-3">7</div>
             <div class="text-secondary dark:text-[#A9B4C6] font-medium">{{ $t('parameters') }}</div>
           </div>
           <div class="text-center p-6 bg-white dark:bg-[#1A1F27] rounded-xl shadow-md">
@@ -270,12 +311,20 @@
         <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
           {{ $t('ctaDescription') }}
         </p>
-        <NuxtLink 
-          :to="mapUrl" 
-          class="inline-block px-12 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 font-semibold text-lg"
-        >
-          {{ $t('exploreNow') }}
-        </NuxtLink>
+        <div class="flex justify-center gap-6 flex-wrap">
+          <NuxtLink 
+            :to="mapUrl" 
+            class="inline-block px-12 py-4 bg-white text-[#1E6DFF] rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 font-semibold text-lg"
+          >
+            {{ $t('exploreNow') }}
+          </NuxtLink>
+          <NuxtLink 
+            :to="coordinatesUrl" 
+            class="inline-block px-12 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-semibold text-lg"
+          >
+            {{ $t('reportCoordinates') }}
+          </NuxtLink>
+        </div>
       </div>
     </section>
   </div>
@@ -291,6 +340,20 @@ const mapUrl = computed(() => {
   if (locale.value === 'ru') return '/ru/map'
   if (locale.value === 'kk') return '/kk/map'
   return '/map'
+})
+
+const coordinatesUrl = computed(() => {
+  if (locale.value === 'en') return '/coords'
+  if (locale.value === 'ru') return '/ru/coords'
+  if (locale.value === 'kk') return '/kk/coords'
+  return '/coords'
+})
+
+const reportsUrl = computed(() => {
+  if (locale.value === 'en') return '/reports'
+  if (locale.value === 'ru') return '/ru/reports'
+  if (locale.value === 'kk') return '/kk/reports'
+  return '/reports'
 })
 
 const informUrl = computed(() => {
@@ -333,7 +396,8 @@ $i18n.mergeLocaleMessage('en', {
   northKazakhstanWaterPortal: 'North Kazakhstan Water Portal',
   monitoringHydrological: 'Advanced monitoring of hydrological parameters and water quality across reservoirs in the Petropavlovsk region',
   viewInteractiveMap: 'View Interactive Map',
-  pathogenInformation: 'Pathogen Information',
+  reportCoordinates: 'Report Coordinates',
+  waterReports: 'Water Reports',
   ourMission: 'Our Mission',
   missionDescription: 'We provide real-time water quality monitoring and comprehensive data analysis to ensure safe, sustainable water management for communities across North Kazakhstan. Our system empowers decision-makers with accurate, timely information.',
   comprehensiveMonitoring: 'Comprehensive Monitoring System',
@@ -346,10 +410,13 @@ $i18n.mergeLocaleMessage('en', {
   trackWaterTemperature: 'Track water temperature variations and thermal patterns affecting aquatic ecosystems',
   electricalConductivity: 'Electrical Conductivity',
   measureSalinity: 'Measure salinity and mineral content through conductivity readings for water quality assessment',
+  coordinatesReporting: 'Coordinates Reporting',
+  reportWaterBodyCoordinates: 'Report water body locations and characteristics through our interactive mapping system',
   pathogenRisk: 'Pathogen Risk',
   assessContamination: 'Assess contamination levels and potential health risks from waterborne pathogens',
   interactiveMap: 'Interactive Map',
   exploreAllMonitoring: 'Explore all monitoring locations with real-time data visualization and historical trends',
+  manageWaterConditionReports: 'Manage and view comprehensive reports about water conditions and quality assessments',
   byTheNumbers: 'By the Numbers',
   monitoringSites: 'Monitoring Sites',
   dataCollection: 'Data Collection',
@@ -373,7 +440,8 @@ $i18n.mergeLocaleMessage('ru', {
   northKazakhstanWaterPortal: 'Водный портал Северного Казахстана',
   monitoringHydrological: 'Расширенный мониторинг гидрологических параметров и качества воды в водоемах Петропавловского региона',
   viewInteractiveMap: 'Посмотреть интерактивную карту',
-  pathogenInformation: 'Информация о патогенах',
+  reportCoordinates: 'Сообщить координаты',
+  waterReports: 'Водные отчеты',
   ourMission: 'Наша миссия',
   missionDescription: 'Мы обеспечиваем мониторинг качества воды в реальном времени и комплексный анализ данных для безопасного и устойчивого управления водными ресурсами сообществ Северного Казахстана. Наша система предоставляет лицам, принимающим решения, точную и своевременную информацию.',
   comprehensiveMonitoring: 'Комплексная система мониторинга',
@@ -386,10 +454,13 @@ $i18n.mergeLocaleMessage('ru', {
   trackWaterTemperature: 'Отслеживание изменений температуры воды и тепловых режимов, влияющих на водные экосистемы',
   electricalConductivity: 'Электропроводность',
   measureSalinity: 'Измерение солености и минерального содержания через показания проводимости для оценки качества воды',
+  coordinatesReporting: 'Отчетность по координатам',
+  reportWaterBodyCoordinates: 'Сообщайте о местоположении и характеристиках водных объектов через нашу интерактивную систему картографирования',
   pathogenRisk: 'Риск патогенов',
   assessContamination: 'Оценка уровней загрязнения и потенциальных рисков для здоровья от водных патогенов',
   interactiveMap: 'Интерактивная карта',
   exploreAllMonitoring: 'Исследуйте все точки мониторинга с визуализацией данных в реальном времени и историческими трендами',
+  manageWaterConditionReports: 'Управляйте и просматривайте комплексные отчеты о состоянии воды и оценках качества',
   byTheNumbers: 'В цифрах',
   monitoringSites: 'Точки мониторинга',
   dataCollection: 'Сбор данных',
@@ -413,7 +484,8 @@ $i18n.mergeLocaleMessage('kk', {
   northKazakhstanWaterPortal: 'Солтүстік Қазақстан су порталы',
   monitoringHydrological: 'Петропавл аймағындағы су қоймаларының гидрологиялық параметрлері мен су сапасын кеңейтілген мониторинг',
   viewInteractiveMap: 'Интерактивті картаны қарау',
-  pathogenInformation: 'Патогендер туралы ақпарат',
+  reportCoordinates: 'Координаттарды хабарлау',
+  waterReports: 'Су есептері',
   ourMission: 'Біздің миссиямыз',
   missionDescription: 'Біз Солтүстік Қазақстандағы қауымдастықтар үшін қауіпсіз, тұрақты су басқаруын қамтамасыз ету үшін нақты уақыттағы су сапасын бақылау және кешенді деректерді талдауды ұсынамыз. Біздің жүйе шешім қабылдаушыларға дәл, уақтылы ақпаратпен қамтамасыз етеді.',
   comprehensiveMonitoring: 'Кешенді мониторинг жүйесі',
@@ -426,10 +498,13 @@ $i18n.mergeLocaleMessage('kk', {
   trackWaterTemperature: 'Су экожүйелеріне әсер ететін су температурасының өзгерулері мен жылу режимдерін қадағалау',
   electricalConductivity: 'Электр өткізгіштік',
   measureSalinity: 'Су сапасын бағалау үшін өткізгіштік көрсеткіштері арқылы тұздылық пен минералдық құрамды өлшеу',
+  coordinatesReporting: 'Координаттарды хабарлау',
+  reportWaterBodyCoordinates: 'Біздің интерактивті карталау жүйесі арқылы су объектілерінің орналасуы мен сипаттамаларын хабарлаңыз',
   pathogenRisk: 'Патогендер қауіпі',
   assessContamination: 'Су арқылы берілетін патогендерден ластану деңгейлерін және денсаулыққа әлеуетті тәуекелдерді бағалау',
   interactiveMap: 'Интерактивті карта',
   exploreAllMonitoring: 'Нақты уақыт режиміндегі деректерді визуализациялау және тарихи тенденциялармен барлық мониторинг нүктелерін зерттеңіз',
+  manageWaterConditionReports: 'Су жағдайы мен сапасын бағалау туралы кешенді есептерді басқару және қарау',
   byTheNumbers: 'Сандармен',
   monitoringSites: 'Мониторинг нүктелері',
   dataCollection: 'Деректер жинау',
