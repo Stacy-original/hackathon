@@ -72,9 +72,16 @@
                 :Icon="defaultIcon"
               >
                 <LPopup>
-                  <strong>{{ coord.name }}</strong><br />
-                  {{ $t('waterLevel') }}: {{ coord.waterlevel }} {{ $t('meters') }}<br />
-                  {{ $t('temperature') }}: {{ coord.temperature }}°C
+                  <div class="lake-popup">
+                    <strong>{{ coord.name }}</strong><br />
+                    <div v-if="coord.transparency">{{ $t('transparency') }}: {{ coord.transparency }} {{ $t('meters') }}<br /></div>
+                    <div v-if="coord.temperature">{{ $t('temperature') }}: {{ coord.temperature }}°C<br /></div>
+                    <div v-if="coord.conductivity">{{ $t('conductivity') }}: {{ coord.conductivity }} µS/cm<br /></div>
+                    <div v-if="coord.waterlevel">{{ $t('waterLevel') }}: {{ coord.waterlevel }} {{ $t('meters') }}<br /></div>
+                    <div v-if="coord.pathogens">{{ $t('pathogens') }}: {{ coord.pathogens }}<br /></div>
+                    <div v-if="coord.description">{{ $t('additionalNotes') }}: {{ coord.description }}<br /></div>
+                    <div>{{ $t('status') }}: {{ $t(coord.status) }}</div>
+                  </div>
                 </LPopup>
               </LMarker>
             </LMap>
@@ -139,9 +146,10 @@
             </div>
 
             <!-- Water Characteristics -->
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label for="transparency" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- First row: Transparency & Temperature -->
+              <div class="space-y-2">
+                <label for="transparency" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">
                   {{ $t('transparency') }} (m)
                 </label>
                 <input
@@ -153,8 +161,8 @@
                   :placeholder="$t('transparencyPlaceholder')"
                 >
               </div>
-              <div>
-                <label for="temperature" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
+              <div class="space-y-2">
+                <label for="temperature" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">
                   {{ $t('temperature') }} (°C)
                 </label>
                 <input
@@ -168,9 +176,10 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label for="conductivity" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Second row: Conductivity & Water Level -->
+              <div class="space-y-2">
+                <label for="conductivity" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">
                   {{ $t('conductivity') }} (µS/cm)
                 </label>
                 <input
@@ -182,8 +191,8 @@
                   :placeholder="$t('conductivityPlaceholder')"
                 >
               </div>
-              <div>
-                <label for="waterlevel" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
+              <div class="space-y-2">
+                <label for="waterlevel" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">
                   {{ $t('waterLevel') }} (m)
                 </label>
                 <input
@@ -389,7 +398,8 @@ $i18n.mergeLocaleMessage('en', {
   meters: 'meters',
   pending: 'pending',
   reviewed: 'reviewed',
-  resolved: 'resolved'
+  resolved: 'resolved',
+  status: 'Status'
 })
 
 $i18n.mergeLocaleMessage('ru', {
@@ -428,7 +438,8 @@ $i18n.mergeLocaleMessage('ru', {
   meters: 'метров',
   pending: 'в ожидании',
   reviewed: 'рассмотрен',
-  resolved: 'решено'
+  resolved: 'решено',
+  status: 'Статус'
 })
 
 $i18n.mergeLocaleMessage('kk', {
@@ -467,7 +478,8 @@ $i18n.mergeLocaleMessage('kk', {
   meters: 'метр',
   pending: 'күтілуде',
   reviewed: 'қаралды',
-  resolved: 'шешілді'
+  resolved: 'шешілді',
+  status: 'Статус'
 })
 
 // ✅ UPDATE THIS URL WITH YOUR RENDER URL
@@ -654,5 +666,16 @@ onMounted(() => {
 <style scoped>
 .lake-popup {
   min-width: 200px;
+}
+
+/* Ensure consistent height for form labels and inputs on mobile */
+.space-y-2 > label {
+  min-height: 1.5rem; /* Ensure consistent label height */
+  display: flex;
+  align-items: center;
+}
+
+.space-y-2 > input {
+  min-height: 3rem; /* Ensure consistent input height */
 }
 </style>

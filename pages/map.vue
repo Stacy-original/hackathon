@@ -3,7 +3,7 @@
     <!-- Sidebar Toggle Button (when sidebar is closed) -->
     <button
       v-if="!sidebarOpen"
-      @click="sidebarOpen = true"
+      @click="openSidebar"
       class="absolute top-20 right-4 opacity-50 z-[1000] p-2 bg-white dark:bg-[#1A1F27] rounded-lg shadow-lg border border-[#E2E8F0] dark:border-[#313B47] hover:bg-[#F5F8FF] dark:hover:bg-[#212832]"
       aria-label="Open sidebar"
     >
@@ -12,15 +12,24 @@
       </svg>
     </button>
 
-    <!-- Map -->
-    <div :class="['z-0 relative', sidebarOpen ? 'flex-1' : 'w-full']">
+    <!-- Map Container -->
+    <div 
+      :class="[
+        'z-0 relative  ease-in-out',
+        sidebarOpen ? 'flex-1' : 'w-full'
+      ]"
+      :style="!sidebarOpen ? { width: '100%' } : {}"
+    >
       <LMap 
         v-if="isMounted" 
         ref="map"
         :zoom="currentZoom" 
         :center="currentCenter" 
+        :use-global-leaflet="false"
         style="height:100%; width:100%;"
         @ready="onMapReady"
+        @update:center="onMapMove"
+        @update:zoom="onMapZoom"
       >
         <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -61,13 +70,16 @@
 
     <!-- Sidebar -->
     <div 
-      v-if="sidebarOpen"
-      class="w-80 bg-white dark:bg-[#1A1F27] border-l border-[#E2E8F0] dark:border-[#313B47] p-6 overflow-y-auto z-[999]"
+      v-show="sidebarOpen"
+      :class="[
+        'bg-white dark:bg-[#1A1F27] border-l border-[#E2E8F0] dark:border-[#313B47] p-6 overflow-y-auto z-[999] ease-in-out',
+        sidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0'
+      ]"
     >
       <!-- Close Button -->
       <button
-        @click="sidebarOpen = false"
-        class="mb-4 p-2 rounded-lg hover:bg-[#F5F8FF] dark:hover:bg-[#212832] ml-auto "
+        @click="closeSidebar"
+        class="mb-4 p-2 rounded-lg hover:bg-[#F5F8FF] dark:hover:bg-[#212832] ml-auto"
         aria-label="Close sidebar"
       >
         <svg class="w-5 h-5 text-primary dark:text-[#F1F5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,7 +152,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, nextTick } from 'vue'
 import 'leaflet/dist/leaflet.css'
 import { LMap, LTileLayer, LMarker, LTooltip, LPopup } from '@vue-leaflet/vue-leaflet'
 import { Icon } from 'leaflet'
@@ -226,7 +238,13 @@ const map = ref()
 const mapReady = ref(false)
 const sidebarOpen = ref(true)
 
-// Rest of your script remains unchanged...
+// Fix: Use proper typing for Leaflet map
+interface LeafletMap {
+  setView: (center: [number, number], zoom: number) => void
+  invalidateSize: () => void
+  getBounds: () => any
+}
+
 const cityConfigs = {
   petropavl: { 
     center: [54.88, 69.16] as [number, number], 
@@ -283,20 +301,71 @@ const getParameterLabel = () => {
 
 const zoomToLake = (lake: any) => {
   if (map.value?.leafletObject) {
-    const leafletMap = map.value.leafletObject
+    const leafletMap = map.value.leafletObject as LeafletMap
     leafletMap.setView([lake.lat, lake.lng], 13)
+    
+    // Fix: Invalidate size after zoom to ensure proper centering
+    nextTick(() => {
+      leafletMap.invalidateSize()
+    })
   }
 }
 
 const onCityChange = () => {
   if (map.value?.leafletObject && mapReady.value) {
-    const leafletMap = map.value.leafletObject
+    const leafletMap = map.value.leafletObject as LeafletMap
     leafletMap.setView(currentCenter.value, currentZoom.value)
+    
+    // Fix: Invalidate size after city change
+    nextTick(() => {
+      leafletMap.invalidateSize()
+    })
   }
 }
 
 const onMapReady = () => {
   mapReady.value = true
+  // Fix: Ensure map is properly sized on initial load
+  nextTick(() => {
+    if (map.value?.leafletObject) {
+      const leafletMap = map.value.leafletObject as LeafletMap
+      leafletMap.invalidateSize()
+    }
+  })
+}
+
+const onMapMove = () => {
+  // Optional: Handle map move events if needed
+}
+
+const onMapZoom = () => {
+  // Optional: Handle map zoom events if needed
+}
+
+const openSidebar = () => {
+  sidebarOpen.value = true
+  // Fix: Invalidate map size when sidebar opens
+  nextTick(() => {
+    if (map.value?.leafletObject) {
+      const leafletMap = map.value.leafletObject as LeafletMap
+      setTimeout(() => {
+        leafletMap.invalidateSize()
+      }, 300) // Match the transition duration
+    }
+  })
+}
+
+const closeSidebar = () => {
+  sidebarOpen.value = false
+  // Fix: Invalidate map size when sidebar closes
+  nextTick(() => {
+    if (map.value?.leafletObject) {
+      const leafletMap = map.value.leafletObject as LeafletMap
+      setTimeout(() => {
+        leafletMap.invalidateSize()
+      }, 300) // Match the transition duration
+    }
+  })
 }
 
 onMounted(() => {
@@ -311,5 +380,15 @@ onMounted(() => {
   })
 
   isMounted.value = true
+  
+  // Fix: Initial map size validation
+  nextTick(() => {
+    if (map.value?.leafletObject) {
+      const leafletMap = map.value.leafletObject as LeafletMap
+      setTimeout(() => {
+        leafletMap.invalidateSize()
+      }, 100)
+    }
+  })
 })
 </script>

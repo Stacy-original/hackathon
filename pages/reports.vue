@@ -91,7 +91,7 @@
             <label class="block text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF] mb-3">
               {{ $t('severityLevel') }}
             </label>
-            <div class="grid grid-cols-4 gap-3">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
               <button
                 type="button"
                 v-for="severity in severityLevels"

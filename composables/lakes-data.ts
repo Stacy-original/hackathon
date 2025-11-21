@@ -1,5 +1,3 @@
-// composables/lakes-data.ts
-
 export interface Lake { 
   name: string; 
   lat: number; 
@@ -11,7 +9,6 @@ export interface Lake {
   pathogens?: string;
 }
 
-// Translation mappings
 export const lakeTranslations: Record<string, Record<string, string>> = {
   // Petropavl lakes
   'Pestroe Lake': {
@@ -130,12 +127,10 @@ export const lakeTranslations: Record<string, Record<string, string>> = {
   }
 };
 
-// Helper function to get translated lake name
 export const getTranslatedLakeName = (lakeName: string, language: string = 'en'): string => {
   return lakeTranslations[lakeName]?.[language] || lakeName;
 };
 
-// Your lakes data stays EXACTLY the same as before!
 export const lakesPetropavl: Lake[] = [
   { name: 'Pestroe Lake', lat: 54.836699, lng: 69.111328, transparency: 1.2, temperature: 17.4, conductivity: 420, waterlevel: 1.8, pathogens: 'Low' },
   { name: 'Beloe Lake', lat: 54.927154, lng: 69.254322, transparency: 1.8, temperature: 16.1, conductivity: 380, waterlevel: 2.4, pathogens: 'Medium' },
@@ -293,17 +288,14 @@ export const lakesAlmaty: Lake[] = [
   }
 ];
 
-// NEW: Simple list of all lakes
 export const allLakes: Lake[] = [
   ...lakesPetropavl,
   ...lakesAstana,
   ...lakesAlmaty
 ];
 
-// For backward compatibility with existing lab pages
 export const lakesData = lakesPetropavl;
 
-// Simple helper for map hub
 export const getLakesByCity = (city: string): Lake[] => {
   switch (city) {
     case 'petropavl': return lakesPetropavl;

@@ -235,14 +235,14 @@
 
         <!-- Submenu -->
         <div
-          class="transition-[transform,shadow,opacity] duration-500 ease-out overflow-hidden select-none
+          class="transition-all duration-500 ease-out overflow-hidden mx-2 rounded-lg select-none
           dark:bg-[#0E1117] dark:bg-opacity-50
           bg-[#FFFFFF] bg-opacity-80"
-          :class="{ 'max-h-0': !submenu, 'max-h-64': submenu }"
+          :class="{ 'max-h-0': !submenu, 'min-h-70': submenu }"
           @mouseleave="closeWithDelay"
           @mouseenter="cancelClose"
         >
-          <div class="flex flex-col text-center space-y-1 py-2 px-3">
+          <div class="flex flex-col text-center space-y-1 py-1 px-3">
             <NuxtLink v-for="lab in localizedLabs" :key="lab.path" :to="lab.url" @click="closeSidebar"
                 class="relative group flex items-center gap-3 px-3 py-3 rounded-lg transition-[transform,shadow,opacity] duration-300 border-l-2 border-transparent
                 dark:hover:bg-[#6CA8FF] dark:hover:border-[#75B9FF]
