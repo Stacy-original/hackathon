@@ -22,7 +22,6 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async initializeAuth(): Promise<boolean> {
-      // Only initialize once
       if (this.initialized) {
         return this.isAuthenticated;
       }
@@ -34,14 +33,12 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async checkAuth(): Promise<boolean> {
-      // Prevent multiple simultaneous auth checks
       if (this.isLoading) {
-        console.log('⏳ Auth check already in progress, skipping...');
         return this.isAuthenticated;
       }
 
       this.isLoading = true;
-      console.log('🔐 Starting auth check...');
+      console.log('🔐 Checking auth status...');
       
       try {
         const config = useRuntimeConfig();
@@ -52,10 +49,7 @@ export const useAuthStore = defineStore('auth', {
         const response = await $fetch<AuthResponse>(`${API_BASE}/auth/user`, {
           credentials: 'include',
           retry: 1,
-          timeout: 10000,
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
+          timeout: 10000
         });
         
         console.log('📨 Auth response:', response);
@@ -65,26 +59,19 @@ export const useAuthStore = defineStore('auth', {
           this.isAuthenticated = true;
           console.log('✅ User authenticated:', response.user.name);
           return true;
-        } else {
-          console.log('❌ No user data in response');
-          this.user = null;
-          this.isAuthenticated = false;
-          return false;
         }
+        
+        console.log('❌ No user data in response');
+        this.user = null;
+        this.isAuthenticated = false;
+        return false;
       } catch (error: any) {
         console.error('💥 Auth check failed:', error);
-        console.error('Error details:', {
-          status: error?.statusCode,
-          message: error?.message,
-          data: error?.data
-        });
-        
         this.user = null;
         this.isAuthenticated = false;
         return false;
       } finally {
         this.isLoading = false;
-        console.log('🏁 Auth check completed');
       }
     },
 
@@ -93,7 +80,6 @@ export const useAuthStore = defineStore('auth', {
         const config = useRuntimeConfig();
         const API_BASE = config.public.apiBaseUrl;
         
-        console.log('🚪 Logging out...');
         await $fetch(`${API_BASE}/auth/logout`, {
           method: 'POST',
           credentials: 'include'
@@ -104,9 +90,7 @@ export const useAuthStore = defineStore('auth', {
         this.user = null;
         this.isAuthenticated = false;
         this.initialized = false;
-        console.log('✅ Logout completed');
         
-        // Use navigateTo with proper locale handling
         const { locale } = useI18n();
         const homePath = locale.value === 'en' ? '/' : `/${locale.value}/`;
         await navigateTo(homePath);
@@ -122,7 +106,6 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isAdmin: (state) => state.user?.role === 'admin',
-    userName: (state) => state.user?.name || 'User',
-    isAuthChecked: (state) => state.initialized
+    userName: (state) => state.user?.name || 'User'
   }
 });
