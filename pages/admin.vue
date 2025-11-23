@@ -1,102 +1,37 @@
 <template>
-  <div>
-    <!-- Login Form (shown when not authenticated) -->
-    <div v-if="!isAuthenticated" class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0E1117] py-12 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-md w-full space-y-8">
-        <div>
-          <div class="mx-auto h-12 w-12 bg-[#1E6DFF] rounded-lg flex items-center justify-center">
-            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-          </div>
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-[#1A1A1A] dark:text-[#F1F5FF]">
-            Admin Login
-          </h2>
-          <p class="mt-2 text-center text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
-            Enter your credentials to access the admin panel
-          </p>
-        </div>
-        <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
-          <div class="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label for="username" class="sr-only">Username</label>
-              <input
-                id="username"
-                v-model="username"
-                name="username"
-                type="text"
-                required
-                class="relative block w-full px-3 py-3 border border-[#E2E8F0] dark:border-[#313B47] bg-white dark:bg-[#1A1F27] text-[#1A1A1A] dark:text-[#F1F5FF] rounded-t-lg focus:outline-none focus:ring-[#1E6DFF] focus:border-[#1E6DFF] focus:z-10 sm:text-sm placeholder-[#5A6A85] dark:placeholder-[#A9B4C6]"
-                placeholder="Username"
-                autocomplete="username"
-              >
-            </div>
-            <div>
-              <label for="password" class="sr-only">Password</label>
-              <input
-                id="password"
-                v-model="password"
-                name="password"
-                type="password"
-                required
-                class="relative block w-full px-3 py-3 border border-[#E2E8F0] dark:border-[#313B47] border-t-0 bg-white dark:bg-[#1A1F27] text-[#1A1A1A] dark:text-[#F1F5FF] rounded-b-lg focus:outline-none focus:ring-[#1E6DFF] focus:border-[#1E6DFF] focus:z-10 sm:text-sm placeholder-[#5A6A85] dark:placeholder-[#A9B4C6]"
-                placeholder="Password"
-                autocomplete="current-password"
-              >
-            </div>
-          </div>
-
-          <div v-if="error" class="bg-[#FF4E4E] dark:bg-[#FF6B6B] text-white p-3 rounded-lg text-sm text-center">
-            {{ error }}
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              :disabled="loading"
-              :class="[
-                'group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#1E6DFF] hover:bg-[#1458CC] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E6DFF] transition-all duration-200',
-                loading ? 'opacity-50 cursor-not-allowed' : ''
-              ]"
-            >
-              <span v-if="loading" class="flex items-center">
-                <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Signing in...
-              </span>
-              <span v-else>Sign in</span>
-            </button>
-          </div>
-
-        </form>
+  <div class="py-8">
+    <div class="container mx-auto px-4 max-w-7xl">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-4">
+          Admin Dashboard
+        </h1>
+        <p class="text-xl text-[#5A6A85] dark:text-[#A9B4C6]">
+          Manage reports, coordinates, and posts
+        </p>
       </div>
-    </div>
 
-    <!-- Admin Panel (shown when authenticated) -->
-    <div v-else class="py-8">
-      <div class="container mx-auto px-4 max-w-7xl">
-        <!-- Header with Logout -->
-        <div class="flex justify-between items-center mb-12">
-          <div>
-            <h1 class="text-4xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-2">
-              Reports Management
-            </h1>
-            <p class="text-xl text-[#5A6A85] dark:text-[#A9B4C6]">
-              Manage and review all submitted water condition reports and coordinates
-            </p>
-          </div>
-          <button 
-            @click="handleLogout"
-            class="px-6 py-3 bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded-lg font-medium transition-colors flex items-center gap-2"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-            Logout
-          </button>
-        </div>
+      <!-- Tabs -->
+      <div class="flex space-x-1 mb-8 bg-white dark:bg-[#212832] rounded-xl p-1 border border-[#E2E8F0] dark:border-[#313B47]">
+        <button
+          v-for="tab in tabs"
+          :key="tab.id"
+          @click="activeTab = tab.id"
+          :class="[
+            'flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200',
+            activeTab === tab.id
+              ? 'bg-[#1E6DFF] text-white shadow-sm'
+              : 'text-[#5A6A85] dark:text-[#A9B4C6] hover:text-[#1A1A1A] dark:hover:text-[#F1F5FF]'
+          ]"
+        >
+          {{ tab.name }}
+        </button>
+      </div>
 
-        <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <!-- Reports Management Section -->
+      <div v-if="activeTab === 'reports'" class="space-y-8">
+        <!-- Reports Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
             <div class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">{{ stats.total }}</div>
             <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Total Reports</div>
@@ -115,28 +50,8 @@
           </div>
         </div>
 
-        <!-- Coordinates Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
-            <div class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">{{ coordsStats.total }}</div>
-            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Total Coordinates</div>
-          </div>
-          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
-            <div class="text-2xl font-bold text-[#FFCB2F] dark:text-[#FFDD57]">{{ coordsStats.pending }}</div>
-            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Pending Coords</div>
-          </div>
-          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
-            <div class="text-2xl font-bold text-[#1E6DFF] dark:text-[#6CA8FF]">{{ coordsStats.reviewed }}</div>
-            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Reviewed Coords</div>
-          </div>
-          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
-            <div class="text-2xl font-bold text-[#2ECC71] dark:text-[#38E39A]">{{ coordsStats.resolved }}</div>
-            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Resolved Coords</div>
-          </div>
-        </div>
-
-        <!-- Reports Management Section -->
-        <div class="bg-white dark:bg-[#212832] rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47] overflow-hidden mb-8">
+        <!-- Reports Table -->
+        <div class="bg-white dark:bg-[#212832] rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47] overflow-hidden">
           <div class="p-6 border-b border-[#E2E8F0] dark:border-[#313B47]">
             <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">Water Condition Reports</h2>
             <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-1">Manage and review submitted water condition reports</p>
@@ -182,7 +97,7 @@
             </div>
           </div>
 
-          <!-- Reports Table -->
+          <!-- Reports Table Content -->
           <div v-if="loading" class="text-center py-8">
             <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
             <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">Loading reports...</p>
@@ -242,7 +157,7 @@
                     <div class="flex gap-2">
                       <select 
                         v-model="report.status" 
-                        @change="updateReportStatus(report.id, report.status)"
+                        @change="updateReportStatus(report._id, report.status)"
                         class="px-2 py-1 text-xs bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded text-[#1A1A1A] dark:text-[#F1F5FF] focus:outline-none focus:ring-1 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF]"
                       >
                         <option value="pending">Pending</option>
@@ -250,7 +165,7 @@
                         <option value="resolved">Resolved</option>
                       </select>
                       <button 
-                        @click="deleteReport(report.id)"
+                        @click="deleteReport(report._id)"
                         class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
                       >
                         Delete
@@ -262,8 +177,31 @@
             </table>
           </div>
         </div>
+      </div>
 
-        <!-- Coordinates Management Section -->
+      <!-- Coordinates Management Section -->
+      <div v-if="activeTab === 'coordinates'" class="space-y-8">
+        <!-- Coordinates Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+            <div class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">{{ coordsStats.total }}</div>
+            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Total Coordinates</div>
+          </div>
+          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+            <div class="text-2xl font-bold text-[#FFCB2F] dark:text-[#FFDD57]">{{ coordsStats.pending }}</div>
+            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Pending Coords</div>
+          </div>
+          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+            <div class="text-2xl font-bold text-[#1E6DFF] dark:text-[#6CA8FF]">{{ coordsStats.reviewed }}</div>
+            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Reviewed Coords</div>
+          </div>
+          <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+            <div class="text-2xl font-bold text-[#2ECC71] dark:text-[#38E39A]">{{ coordsStats.resolved }}</div>
+            <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Resolved Coords</div>
+          </div>
+        </div>
+
+        <!-- Coordinates Table -->
         <div class="bg-white dark:bg-[#212832] rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47] overflow-hidden">
           <div class="p-6 border-b border-[#E2E8F0] dark:border-[#313B47]">
             <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">Coordinates Management</h2>
@@ -296,101 +234,254 @@
                 </svg>
                 Refresh
               </button>
+              </div>
+            </div>
+
+            <!-- Coordinates Table Content -->
+            <div v-if="coordsLoading" class="text-center py-8">
+              <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
+              <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">Loading coordinates...</p>
+            </div>
+
+            <div v-else-if="filteredCoordinates.length === 0" class="text-center py-8">
+              <p class="text-[#5A6A85] dark:text-[#A9B4C6]">No coordinates found.</p>
+            </div>
+
+            <div v-else class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-[#E2E8F0] dark:border-[#313B47]">
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Name</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Coordinates</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Water Level</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Temperature</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Status</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Date</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr 
+                    v-for="coord in filteredCoordinates" 
+                    :key="coord.id"
+                    class="border-b border-[#E2E8F0] dark:border-[#313B47] hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-colors"
+                  >
+                    <td class="p-4">
+                      <div class="font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">{{ coord.name }}</div>
+                      <div class="text-sm text-[#5A6A85] dark:text-[#A9B4C6]">{{ coord.pathogens }} pathogens</div>
+                    </td>
+                    <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
+                      {{ coord.lat.toFixed(6) }}, {{ coord.lng.toFixed(6) }}
+                    </td>
+                    <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
+                      {{ coord.waterlevel || '-' }} m
+                    </td>
+                    <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
+                      {{ coord.temperature || '-' }}°C
+                    </td>
+                    <td class="p-4">
+                      <span :class="[
+                        'px-2 py-1 rounded-full text-xs font-medium',
+                        getStatusColor(coord.status)
+                      ]">
+                        {{ coord.status }}
+                      </span>
+                    </td>
+                    <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
+                      {{ formatDate(coord.createdAt) }}
+                    </td>
+                    <td class="p-4">
+                      <div class="flex gap-2">
+                        <select 
+                          v-model="coord.status" 
+                          @change="updateCoordinateStatus(coord._id, coord.status)"
+                          class="px-2 py-1 text-xs bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded text-[#1A1A1A] dark:text-[#F1F5FF] focus:outline-none focus:ring-1 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF]"
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="reviewed">Reviewed</option>
+                          <option value="resolved">Resolved</option>
+                        </select>
+                        <button 
+                          @click="deleteCoordinate(coord._id)"
+                          class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posts Management Section -->
+        <div v-if="activeTab === 'posts'" class="space-y-8">
+          <!-- Posts Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+              <div class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">{{ postsStats.total }}</div>
+              <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Total Posts</div>
+            </div>
+            <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+              <div class="text-2xl font-bold text-[#FFCB2F] dark:text-[#FFDD57]">{{ postsStats.pending }}</div>
+              <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Pending</div>
+            </div>
+            <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+              <div class="text-2xl font-bold text-[#1E6DFF] dark:text-[#6CA8FF]">{{ postsStats.approved }}</div>
+              <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Approved</div>
+            </div>
+            <div class="bg-white dark:bg-[#212832] p-6 rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47]">
+              <div class="text-2xl font-bold text-[#2ECC71] dark:text-[#38E39A]">{{ postsStats.rejected }}</div>
+              <div class="text-[#5A6A85] dark:text-[#A9B4C6] text-sm">Rejected</div>
             </div>
           </div>
 
-          <!-- Coordinates Table -->
-          <div v-if="coordsLoading" class="text-center py-8">
-            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
-            <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">Loading coordinates...</p>
-          </div>
+          <!-- Posts Table -->
+          <div class="bg-white dark:bg-[#212832] rounded-2xl shadow-sm border border-[#E2E8F0] dark:border-[#313B47] overflow-hidden">
+            <div class="p-6 border-b border-[#E2E8F0] dark:border-[#313B47]">
+              <h2 class="text-2xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF]">Posts Management</h2>
+              <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-1">Approve or reject posts for the community feed</p>
+            </div>
 
-          <div v-else-if="filteredCoordinates.length === 0" class="text-center py-8">
-            <p class="text-[#5A6A85] dark:text-[#A9B4C6]">No coordinates found.</p>
-          </div>
-
-          <div v-else class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr class="border-b border-[#E2E8F0] dark:border-[#313B47]">
-                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Name</th>
-                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Coordinates</th>
-                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Water Level</th>
-                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Temperature</th>
-                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Status</th>
-                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Date</th>
-                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr 
-                  v-for="coord in filteredCoordinates" 
-                  :key="coord.id"
-                  class="border-b border-[#E2E8F0] dark:border-[#313B47] hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-colors"
+            <!-- Posts Filters -->
+            <div class="p-6 border-b border-[#E2E8F0] dark:border-[#313B47]">
+              <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <select v-model="postsFilters.status" class="px-4 py-2 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF]">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                  <select v-model="postsFilters.type" class="px-4 py-2 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF]">
+                    <option value="">All Types</option>
+                    <option value="news">News</option>
+                    <option value="alert">Alert</option>
+                    <option value="update">Update</option>
+                    <option value="event">Event</option>
+                  </select>
+                  <input
+                    v-model="postsFilters.search"
+                    type="text"
+                    placeholder="Search title..."
+                    class="px-4 py-2 bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-lg text-[#1A1A1A] dark:text-[#F1F5FF] placeholder-[#5A6A85] dark:placeholder-[#A9B4C6] focus:outline-none focus:ring-2 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF]"
+                  >
+                </div>
+                <button 
+                  @click="fetchPosts"
+                  class="px-6 py-2 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg font-medium transition-colors flex items-center gap-2"
                 >
-                  <td class="p-4">
-                    <div class="font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">{{ coord.name }}</div>
-                    <div class="text-sm text-[#5A6A85] dark:text-[#A9B4C6]">{{ coord.pathogens }} pathogens</div>
-                  </td>
-                  <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
-                    {{ coord.lat.toFixed(6) }}, {{ coord.lng.toFixed(6) }}
-                  </td>
-                  <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
-                    {{ coord.waterlevel || '-' }} m
-                  </td>
-                  <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
-                    {{ coord.temperature || '-' }}°C
-                  </td>
-                  <td class="p-4">
-                    <span :class="[
-                      'px-2 py-1 rounded-full text-xs font-medium',
-                      getStatusColor(coord.status)
-                    ]">
-                      {{ coord.status }}
-                    </span>
-                  </td>
-                  <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
-                    {{ formatDate(coord.createdAt) }}
-                  </td>
-                  <td class="p-4">
-                    <div class="flex gap-2">
-                      <select 
-                        v-model="coord.status" 
-                        @change="updateCoordinateStatus(coord.id, coord.status)"
-                        class="px-2 py-1 text-xs bg-white dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded text-[#1A1A1A] dark:text-[#F1F5FF] focus:outline-none focus:ring-1 focus:ring-[#1E6DFF] dark:focus:ring-[#6CA8FF]"
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="reviewed">Reviewed</option>
-                        <option value="resolved">Resolved</option>
-                      </select>
-                      <button 
-                        @click="deleteCoordinate(coord.id)"
-                        class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- Posts Table Content -->
+            <div v-if="postsLoading" class="text-center py-8">
+              <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
+              <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">Loading posts...</p>
+            </div>
+
+            <div v-else-if="filteredPosts.length === 0" class="text-center py-8">
+              <p class="text-[#5A6A85] dark:text-[#A9B4C6]">No posts found.</p>
+            </div>
+
+            <div v-else class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-[#E2E8F0] dark:border-[#313B47]">
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Title</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Type</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Severity</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Status</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Date</th>
+                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr 
+                    v-for="post in filteredPosts" 
+                    :key="post._id"
+                    class="border-b border-[#E2E8F0] dark:border-[#313B47] hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-colors"
+                  >
+                    <td class="p-4">
+                      <div class="font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">{{ post.title }}</div>
+                      <div class="text-sm text-[#5A6A85] dark:text-[#A9B4C6] truncate max-w-xs">{{ post.description }}</div>
+                    </td>
+                    <td class="p-4">
+                      <span class="text-sm text-[#1E6DFF] dark:text-[#6CA8FF] font-medium capitalize">
+                        {{ post.type }}
+                      </span>
+                    </td>
+                    <td class="p-4">
+                      <span :class="[
+                        'px-2 py-1 rounded-full text-xs font-medium',
+                        getSeverityColor(post.severity)
+                      ]">
+                        {{ getSeverityLabel(post.severity) }}
+                      </span>
+                    </td>
+                    <td class="p-4">
+                      <span :class="[
+                        'px-2 py-1 rounded-full text-xs font-medium',
+                        getPostStatusColor(post.status)
+                      ]">
+                        {{ post.status }}
+                      </span>
+                    </td>
+                    <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
+                      {{ formatDate(post.createdAt) }}
+                    </td>
+                    <td class="p-4">
+                      <div class="flex gap-2">
+                        <button 
+                          v-if="post.status !== 'approved'"
+                          @click="updatePostStatus(post._id, 'approved')"
+                          class="px-2 py-1 text-xs bg-[#2ECC71] hover:bg-[#38E39A] text-white rounded transition-colors"
+                        >
+                          Approve
+                        </button>
+                        <button 
+                          v-if="post.status !== 'rejected'"
+                          @click="updatePostStatus(post._id, 'rejected')"
+                          class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
+                        >
+                          Reject
+                        </button>
+                        <button 
+                          @click="deletePost(post._id)"
+                          class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
 // API base URL - update this with your Render URL
 const API_BASE = 'https://skogeohydro-backend.onrender.com';
 
-// Authentication state
-const isAuthenticated = ref(false);
-const username = ref('');
-const password = ref('');
-const error = ref('');
-const loading = ref(false);
+// Tabs
+const activeTab = ref('reports');
+const tabs = [
+  { id: 'reports', name: 'Reports' },
+  { id: 'coordinates', name: 'Coordinates' },
+  { id: 'posts', name: 'Posts' }
+];
 
 // Reports data
 const allReports = ref([]);
@@ -400,6 +491,7 @@ const filters = ref({
   type: '',
   search: ''
 });
+const loading = ref(false);
 
 // Coordinates data
 const allCoordinates = ref([]);
@@ -409,36 +501,14 @@ const coordsFilters = ref({
 });
 const coordsLoading = ref(false);
 
-// Login handler
-const handleLogin = async () => {
-  error.value = '';
-  loading.value = true;
-
-  await new Promise(resolve => setTimeout(resolve, 800));
-
-  try {
-    if (username.value === 'admin337' && password.value === '3141') {
-      isAuthenticated.value = true;
-      fetchReports();
-      fetchCoordinates();
-    } else {
-      error.value = 'Invalid username or password';
-    }
-  } catch (err) {
-    error.value = 'Login failed. Please try again.';
-  } finally {
-    loading.value = false;
-  }
-};
-
-// Logout handler
-const handleLogout = () => {
-  isAuthenticated.value = false;
-  username.value = '';
-  password.value = '';
-  allReports.value = [];
-  allCoordinates.value = [];
-};
+// Posts data
+const allPosts = ref([]);
+const postsFilters = ref({
+  status: '',
+  type: '',
+  search: ''
+});
+const postsLoading = ref(false);
 
 // Stats computed
 const stats = computed(() => {
@@ -457,6 +527,15 @@ const coordsStats = computed(() => {
   const resolved = allCoordinates.value.filter(c => c.status === 'resolved').length;
   
   return { total, pending, reviewed, resolved };
+});
+
+const postsStats = computed(() => {
+  const total = allPosts.value.length;
+  const pending = allPosts.value.filter(p => p.status === 'pending').length;
+  const approved = allPosts.value.filter(p => p.status === 'approved').length;
+  const rejected = allPosts.value.filter(p => p.status === 'rejected').length;
+  
+  return { total, pending, approved, rejected };
 });
 
 const filteredReports = computed(() => {
@@ -479,6 +558,18 @@ const filteredCoordinates = computed(() => {
       coord.name.toLowerCase().includes(coordsFilters.value.search.toLowerCase());
     
     return matchesStatus && matchesSearch;
+  });
+});
+
+const filteredPosts = computed(() => {
+  return allPosts.value.filter(post => {
+    const matchesStatus = !postsFilters.value.status || post.status === postsFilters.value.status;
+    const matchesType = !postsFilters.value.type || post.type === postsFilters.value.type;
+    const matchesSearch = !postsFilters.value.search || 
+      post.title.toLowerCase().includes(postsFilters.value.search.toLowerCase()) ||
+      post.description.toLowerCase().includes(postsFilters.value.search.toLowerCase());
+    
+    return matchesStatus && matchesType && matchesSearch;
   });
 });
 
@@ -529,6 +620,24 @@ const fetchCoordinates = async () => {
   }
 };
 
+// Fetch all posts
+const fetchPosts = async () => {
+  postsLoading.value = true;
+  try {
+    const response = await fetch(`${API_BASE}/api/posts`);
+    if (response.ok) {
+      const posts = await response.json();
+      allPosts.value = posts;
+    } else {
+      console.error('Failed to fetch posts');
+    }
+  } catch (error) {
+    console.error('Network error:', error);
+  } finally {
+    postsLoading.value = false;
+  }
+};
+
 // Update report status
 const updateReportStatus = async (id, status) => {
   try {
@@ -573,6 +682,28 @@ const updateCoordinateStatus = async (id, status) => {
   }
 };
 
+// Update post status
+const updatePostStatus = async (id, status) => {
+  try {
+    const response = await fetch(`${API_BASE}/api/posts/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status }),
+    });
+
+    if (response.ok) {
+      await fetchPosts();
+    } else {
+      const error = await response.json();
+      console.error('Failed to update post:', error);
+    }
+  } catch (error) {
+    console.error('Network error:', error);
+  }
+};
+
 // Delete report
 const deleteReport = async (id) => {
   if (!confirm('Are you sure you want to delete this report?')) return;
@@ -607,6 +738,26 @@ const deleteCoordinate = async (id) => {
     } else {
       const error = await response.json();
       console.error('Failed to delete coordinate:', error);
+    }
+  } catch (error) {
+    console.error('Network error:', error);
+  }
+};
+
+// Delete post
+const deletePost = async (id) => {
+  if (!confirm('Are you sure you want to delete this post?')) return;
+
+  try {
+    const response = await fetch(`${API_BASE}/api/posts/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      await fetchPosts();
+    } else {
+      const error = await response.json();
+      console.error('Failed to delete post:', error);
     }
   } catch (error) {
     console.error('Network error:', error);
@@ -648,4 +799,20 @@ const getStatusColor = (status) => {
   };
   return statusMap[status] || statusMap.pending;
 };
+
+const getPostStatusColor = (status) => {
+  const statusMap = {
+    pending: 'bg-[#FFCB2F] dark:bg-[#FFDD57] text-[#1A1A1A]',
+    approved: 'bg-[#2ECC71] dark:bg-[#38E39A] text-white',
+    rejected: 'bg-[#FF4E4E] dark:bg-[#FF6B6B] text-white'
+  };
+  return statusMap[status] || statusMap.pending;
+};
+
+// Fetch data when component mounts
+onMounted(() => {
+  fetchReports();
+  fetchCoordinates();
+  fetchPosts();
+});
 </script>
