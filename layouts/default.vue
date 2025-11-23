@@ -29,6 +29,40 @@
             </svg>
           </span>
         </div>
+
+        <!-- Auth Button -->
+        <div class="flex items-center max-sm:mx-1 sm:mx-2 my-2">
+          <div v-if="authStore.isAuthenticated && authStore.user" class="flex items-center gap-3">
+            <!-- User Avatar and Name -->
+            <div class="flex items-center gap-2 px-3 py-2 bg-[#F5F8FF] dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl">
+              <img 
+                :src="authStore.user.photo" 
+                :alt="authStore.user.name"
+                class="w-6 h-6 rounded-full"
+              />
+              <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
+                {{ authStore.user.name }}
+              </span>
+            </div>
+            <!-- Logout Button -->
+            <button
+              @click="authStore.logout"
+              class="px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
+          <button
+            v-else
+            @click="login"
+            class="px-4 py-2 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            Login
+          </button>
+        </div>
       </div>
     </header>
     <main class="min-h-screen transition-none sm:pt-16 bg-[#F5F8FF] dark:bg-[#1A1F27] text-[#1A1A1A] dark:text-[#F1F5FF]" :class="{ 'ml-64 max-sm:overflow-hidden max-sm:h-screen max-sm:hidden': sidebar }">
@@ -41,12 +75,17 @@
 </template>
 
 <script setup lang="ts">
-import { useHead } from "#app";
-import { ref, computed, onMounted } from "vue";
-
 const colorMode = useColorMode();
 const { locale, locales, setLocale } = useI18n();
 const sidebar = ref<boolean>(false);
+
+// Auth store - should work now with Pinia
+const authStore = useAuthStore();
+
+// Initialize auth when component mounts
+onMounted(async () => {
+  await authStore.checkAuth();
+});
 
 function toggleTheme() {
   colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
@@ -66,6 +105,11 @@ function switchLanguage() {
   const nextIndex = (currentIndex >= 0 ? currentIndex + 1 : 0) % availableLocales.length;
 
   setLocale(availableLocales[nextIndex]);
+}
+
+// Login function
+function login() {
+  window.location.href = authStore.getLoginUrl();
 }
 
 const currentLanguage = computed(() => {

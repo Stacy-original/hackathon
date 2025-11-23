@@ -283,6 +283,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+});
 // Define translations for this page only
 const { $i18n } = useNuxtApp()
 

@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 // nuxt.config.ts
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -7,7 +6,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
-    '@nuxtjs/leaflet'
+    '@nuxtjs/leaflet',
+    '@pinia/nuxt'
   ],
   colorMode: {
     classSuffix: '',
@@ -31,6 +31,15 @@ export default defineNuxtConfig({
       fallbackLocale: 'en'
     }
   },
+  // FIXED: Remove autoImports from pinia config
+  pinia: {
+    // Pinia Nuxt module handles auto-imports automatically
+  },
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'https://skogeohydro-backend.onrender.com'
+    }
+  },
   app: {
     head: {
       title: 'SKO GeoHydro Portal',
@@ -43,5 +52,5 @@ export default defineNuxtConfig({
     '/admin-reports': { 
       // This will help with client-side protection
     }
-  },
+  }
 })
