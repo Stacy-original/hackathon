@@ -107,12 +107,7 @@ onMounted(async () => {
   console.log('🔄 Default layout mounted - initializing auth...');
   
   try {
-    // Use initializeAuth if available, otherwise fall back to checkAuth
-    if (typeof authStore.initializeAuth === 'function') {
-      await authStore.initializeAuth();
-    } else {
-      await authStore.checkAuth();
-    }
+    await authStore.initializeAuth();
     console.log('✅ Auth initialization completed in layout');
   } catch (error) {
     console.error('❌ Auth initialization failed:', error);

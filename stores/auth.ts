@@ -17,7 +17,8 @@ export const useAuthStore = defineStore('auth', {
     user: null as User | null,
     isAuthenticated: false,
     isLoading: false,
-    initialized: false
+    initialized: false,
+    token: null as string | null
   }),
 
   actions: {
@@ -27,76 +28,101 @@ export const useAuthStore = defineStore('auth', {
       }
 
       console.log('🔄 Initializing auth...');
-      const result = await this.checkAuth();
+      
+      // Check for token in localStorage
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        this.token = token;
+        const result = await this.validateToken();
+        this.initialized = true;
+        return result;
+      }
+      
       this.initialized = true;
-      return result;
+      return false;
     },
 
-    async checkAuth(): Promise<boolean> {
-      if (this.isLoading) {
-        return this.isAuthenticated;
-      }
+    async validateToken(): Promise<boolean> {
+      if (!this.token) return false;
 
       this.isLoading = true;
-      console.log('🔐 Checking auth status...');
+      console.log('🔐 Validating token...');
       
       try {
-        // Use direct URL since config might not be available yet
         const API_BASE = 'https://skogeohydro-backend.onrender.com';
         
-        console.log('🌐 Calling auth endpoint:', `${API_BASE}/auth/user`);
-        
-        const response = await $fetch<AuthResponse>(`${API_BASE}/auth/user`, {
-          credentials: 'include',
-          retry: 1,
-          timeout: 10000
+        const response = await $fetch<{ valid: boolean; user: any }>(`${API_BASE}/auth/validate`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.token}`
+          }
         });
         
-        console.log('📨 Auth response:', response);
+        console.log('📨 Token validation response:', response);
         
-        if (response && response.user) {
+        if (response.valid && response.user) {
           this.user = response.user;
           this.isAuthenticated = true;
-          console.log('✅ User authenticated:', response.user.name);
+          console.log('✅ Token valid, user authenticated:', response.user.name);
           return true;
+        } else {
+          this.clearAuth();
+          return false;
         }
-        
-        console.log('❌ No user data in response');
-        this.user = null;
-        this.isAuthenticated = false;
-        return false;
       } catch (error: any) {
-        console.error('💥 Auth check failed:', error);
-        // Don't clear state on network errors, just return current status
-        return this.isAuthenticated;
+        console.error('💥 Token validation failed:', error);
+        this.clearAuth();
+        return false;
       } finally {
         this.isLoading = false;
       }
+    },
+
+    async checkAuth(): Promise<boolean> {
+      // For JWT, this is the same as validateToken
+      return this.validateToken();
+    },
+
+    setAuth(token: string, user: User) {
+      this.token = token;
+      this.user = user;
+      this.isAuthenticated = true;
+      localStorage.setItem('auth_token', token);
+      console.log('✅ Auth set for user:', user.name);
+    },
+
+    clearAuth() {
+      this.token = null;
+      this.user = null;
+      this.isAuthenticated = false;
+      this.initialized = false;
+      localStorage.removeItem('auth_token');
+      console.log('🧹 Auth cleared');
     },
 
     async logout() {
       try {
         const API_BASE = 'https://skogeohydro-backend.onrender.com';
         
-        await $fetch(`${API_BASE}/auth/logout`, {
-          method: 'POST',
-          credentials: 'include'
-        });
+        if (this.token) {
+          await $fetch(`${API_BASE}/auth/logout`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${this.token}`
+            }
+          });
+        }
       } catch (error) {
         console.error('Logout error:', error);
       } finally {
-        this.user = null;
-        this.isAuthenticated = false;
-        this.initialized = false;
-        
-        // Use navigateTo from nuxt app
+        this.clearAuth();
         await navigateTo('/');
       }
     },
 
     getLoginUrl(): string {
       const API_BASE = 'https://skogeohydro-backend.onrender.com';
-      const currentUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      const currentUrl = typeof window !== 'undefined' ? window.location.origin + '/auth/success' : '';
       return `${API_BASE}/auth/google?redirect=${encodeURIComponent(currentUrl)}`;
     }
   },

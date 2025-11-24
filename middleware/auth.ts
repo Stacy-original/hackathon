@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     '/profile',
     '/my-reports',
     '/dashboard',
-    '/admin' // and any other protected routes
+    '/admin'
   ];
   
   // Check if current route is protected
@@ -26,13 +26,14 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
   
   console.log('🔄 Checking auth status for protected route...');
-  const isAuthenticated = await authStore.checkAuth();
+  
+  // For JWT, we validate the token
+  const isAuthenticated = await authStore.validateToken();
   
   console.log('✅ Auth check result:', isAuthenticated);
   
   if (!isAuthenticated) {
     console.log('❌ User not authenticated, redirecting to login');
-    // Redirect to login page if not authenticated
     return navigateTo('/login');
   }
   

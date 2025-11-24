@@ -8,7 +8,7 @@
           Signing you in...
         </h1>
         <p class="text-[#5A6A85] dark:text-[#A9B4C6]">
-          Completing authentication
+          Processing authentication
         </p>
       </div>
 
@@ -92,30 +92,44 @@ const authSuccess = ref(false);
 
 onMounted(async () => {
   console.log('🔄 OAuth callback page mounted');
+  console.log('📋 Route query:', route.query);
   
   try {
-    // Immediately check auth status after OAuth redirect
-    console.log('🔐 Checking authentication status...');
-    const isAuthenticated = await authStore.checkAuth();
+    // Extract token and user data from URL parameters
+    const token = route.query.token as string;
+    const userParam = route.query.user as string;
     
-    console.log('✅ Auth check result:', isAuthenticated);
-    console.log('👤 User data:', authStore.user);
-    console.log('🔑 Is authenticated:', authStore.isAuthenticated);
-    
-    if (isAuthenticated && authStore.user) {
-      authSuccess.value = true;
-      console.log('🎉 Authentication successful!');
+    if (token && userParam) {
+      console.log('✅ Token and user data received from OAuth');
       
-      // Redirect to dashboard after a brief delay
-      setTimeout(() => {
-        navigateTo('/dashboard');
-      }, 2000);
+      try {
+        const userData = JSON.parse(userParam);
+        
+        // Set authentication in store
+        authStore.setAuth(token, userData);
+        
+        console.log('🎉 Authentication successful!');
+        console.log('👤 User:', userData);
+        console.log('🔑 Token stored');
+        
+        authSuccess.value = true;
+        
+        // Redirect to dashboard after a brief delay
+        setTimeout(() => {
+          navigateTo('/dashboard');
+        }, 1500);
+        
+      } catch (parseError) {
+        console.error('❌ Error parsing user data:', parseError);
+        authSuccess.value = false;
+      }
     } else {
+      console.error('❌ No token or user data in URL');
+      console.log('🔍 Available query params:', Object.keys(route.query));
       authSuccess.value = false;
-      console.error('❌ Authentication failed - no user data');
     }
   } catch (error) {
-    console.error('💥 Auth error:', error);
+    console.error('💥 Auth processing error:', error);
     authSuccess.value = false;
   } finally {
     loading.value = false;
