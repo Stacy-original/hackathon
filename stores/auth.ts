@@ -41,8 +41,8 @@ export const useAuthStore = defineStore('auth', {
       console.log('🔐 Checking auth status...');
       
       try {
-        const config = useRuntimeConfig();
-        const API_BASE = config.public.apiBaseUrl;
+        // Use direct URL since config might not be available yet
+        const API_BASE = 'https://skogeohydro-backend.onrender.com';
         
         console.log('🌐 Calling auth endpoint:', `${API_BASE}/auth/user`);
         
@@ -67,9 +67,8 @@ export const useAuthStore = defineStore('auth', {
         return false;
       } catch (error: any) {
         console.error('💥 Auth check failed:', error);
-        this.user = null;
-        this.isAuthenticated = false;
-        return false;
+        // Don't clear state on network errors, just return current status
+        return this.isAuthenticated;
       } finally {
         this.isLoading = false;
       }
@@ -77,8 +76,7 @@ export const useAuthStore = defineStore('auth', {
 
     async logout() {
       try {
-        const config = useRuntimeConfig();
-        const API_BASE = config.public.apiBaseUrl;
+        const API_BASE = 'https://skogeohydro-backend.onrender.com';
         
         await $fetch(`${API_BASE}/auth/logout`, {
           method: 'POST',
@@ -91,16 +89,15 @@ export const useAuthStore = defineStore('auth', {
         this.isAuthenticated = false;
         this.initialized = false;
         
-        const { locale } = useI18n();
-        const homePath = locale.value === 'en' ? '/' : `/${locale.value}/`;
-        await navigateTo(homePath);
+        // Use navigateTo from nuxt app
+        await navigateTo('/');
       }
     },
 
     getLoginUrl(): string {
-      const config = useRuntimeConfig();
-      const API_BASE = config.public.apiBaseUrl;
-      return `${API_BASE}/auth/google`;
+      const API_BASE = 'https://skogeohydro-backend.onrender.com';
+      const currentUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      return `${API_BASE}/auth/google?redirect=${encodeURIComponent(currentUrl)}`;
     }
   },
 

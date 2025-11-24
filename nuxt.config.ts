@@ -1,4 +1,3 @@
-// nuxt.config.ts
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -31,14 +30,12 @@ export default defineNuxtConfig({
       fallbackLocale: 'en'
     }
   },
-  // FIXED: Remove autoImports from pinia config
   pinia: {
-    // Pinia Nuxt module handles auto-imports automatically
+    // Keep as is
   },
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'https://skogeohydro-backend.onrender.com',
-      // Add Google OAuth client ID if needed
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID || ''
     }
   },
@@ -50,24 +47,6 @@ export default defineNuxtConfig({
       ],
     },
   },
-  routeRules: {
-    '/admin-reports': { 
-      // This will help with client-side protection
-    },
-    '/auth/success': {
-      // Ensure auth success page is SSG or properly handled
-      prerender: false
-    }
-  },
-  // Add nitro configuration for proxy if needed
-  nitro: {
-    devProxy: {
-      '/api': {
-        target: 'https://skogeohydro-backend.onrender.com/api',
-        changeOrigin: true
-      }
-    }
-  },
-  // Enable SSR for better auth handling
-  ssr: true
+  // Only change SSR for auth
+  ssr: false
 })
