@@ -35,8 +35,8 @@ export default defineNuxtConfig({
   },
    runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL || 'https://skogeohydro-backend.onrender.com',
-      googleClientId: process.env.GOOGLE_CLIENT_ID || '',
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'https://skogeohydro-backend.onrender.com',
+      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID || '',
     }
   },
   app: {
