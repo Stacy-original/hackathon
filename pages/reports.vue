@@ -232,7 +232,15 @@
 </template>
 
 <script setup lang="ts">
-// Define translations for this page only
+import { ref, onMounted } from 'vue'
+const { isAuthenticated, checkAuthStatus } = useGoogleAuth()
+
+onMounted(async () => {
+  await checkAuthStatus()
+  if (!isAuthenticated.value) {
+    await navigateTo('/login')
+  }
+})
 const { $i18n } = useNuxtApp()
 
 $i18n.mergeLocaleMessage('en', {

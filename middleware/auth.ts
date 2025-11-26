@@ -1,41 +1,37 @@
-// middleware/auth.ts
-export default defineNuxtRouteMiddleware(async (to) => {
-  const authStore = useAuthStore();
+export default defineNuxtRouteMiddleware(async (to, from) => {
+  const { isAuthenticated, user, hasRole } = useGoogleAuth()
   
-  console.log('🔐 Auth middleware running for route:', to.path);
+  // Check if route requires auth
+  const requiresAuth = to.meta.requiresAuth
+  const requiresRole = to.meta.requiresRole as number | undefined
   
-  // Define routes that require authentication
-  const protectedRoutes = [
-    '/profile',
-    '/my-reports',
-    '/dashboard',
-    '/admin'
-  ];
+  console.log(`🛡️ Route ${to.path} - requiresAuth: ${requiresAuth}, requiresRole: ${requiresRole}`)
+  console.log(`🛡️ User authenticated: ${isAuthenticated.value}, user role: ${user.value?.role}`)
   
-  // Check if current route is protected
-  const isProtectedRoute = protectedRoutes.some(route => 
-    to.path.startsWith(route)
-  );
-  
-  console.log('🛡️ Is protected route:', isProtectedRoute);
-  
-  // If route doesn't require auth, skip the check
-  if (!isProtectedRoute) {
-    console.log('✅ Public route, skipping auth check');
-    return;
+  if (requiresAuth || requiresRole !== undefined) {
+    // Verify user is authenticated
+    if (!isAuthenticated.value) {
+      console.log('🛡️ Redirecting to login: User not authenticated')
+      return navigateTo('/login')
+    }
+    
+    // For role-protected routes, check role
+    if (requiresRole !== undefined) {
+      console.log(`🛡️ Checking role: Required ${requiresRole}, User has ${user.value?.role}`)
+      
+      // Use the hasRole function from useGoogleAuth
+      if (!hasRole(requiresRole)) {
+        console.warn(`🛡️ Access denied: Required role ${requiresRole}, user role ${user.value?.role}`)
+        return navigateTo('/unauthorized')
+      }
+      
+      console.log(`🛡️ Role check passed: User has role ${user.value?.role}`)
+    }
   }
   
-  console.log('🔄 Checking auth status for protected route...');
-  
-  // For JWT, we validate the token
-  const isAuthenticated = await authStore.validateToken();
-  
-  console.log('✅ Auth check result:', isAuthenticated);
-  
-  if (!isAuthenticated) {
-    console.log('❌ User not authenticated, redirecting to login');
-    return navigateTo('/login');
+  // Redirect authenticated users away from login page to home
+  if (to.path === '/login' && isAuthenticated.value) {
+    console.log('🛡️ Redirecting authenticated user from login to home')
+    return navigateTo('/login')
   }
-  
-  console.log('✅ User authenticated, allowing access to:', to.path);
-});
+})

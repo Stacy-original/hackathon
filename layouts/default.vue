@@ -1,18 +1,6 @@
 <template>
   <div class="overscroll-none font-sans transition-colors duration-300">
-    <!-- Global auth loader -->
-    <div 
-      v-if="showGlobalLoader" 
-      class="fixed inset-0 bg-white dark:bg-[#1A1F27] flex items-center justify-center z-[6000] transition-opacity duration-300"
-    >
-      <div class="text-center">
-        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#1E6DFF] mb-4"></div>
-        <p class="text-[#5A6A85] dark:text-[#A9B4C6]">Loading your session...</p>
-      </div>
-    </div>
-    
-    <!-- Main content -->
-    <div :class="{'opacity-0': showGlobalLoader, 'opacity-100': !showGlobalLoader, 'transition-opacity duration-300': true}">
+    <div>
       <header class="z-[5000] sm:fixed flex flex-row w-full max-sm:justify-between min-h-16 max-sm:relative overscroll-none bg-[#FFFFFF] dark:bg-[#0E1117] border-b border-[#E2E8F0] dark:border-[#313B47]">
         <Sidebar :sidebar="sidebar" @update:sidebar="sidebar = $event" @close-sidebar="sidebar = false"/>
         <div class="flex-1 flex items-center justify-start px-8 max-sm:px-4 max-sm:flex-initial select-none">
@@ -25,14 +13,14 @@
         <!-- Buttons Container -->
         <div class="flex items-center max-sm:gap-2 sm:gap-0 max-sm:pr-4">
           <!-- Language Switcher Button -->
-          <div class="px-3 py-2 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2" @click="switchLanguage">
+          <div class="px-3 py-2.5 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 " @click="switchLanguage">
             <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6]">
               {{ currentLanguage }}
             </span>
           </div>
           
           <!-- Theme Toggle Button -->
-          <div class="px-3 py-2 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-4 my-2" @click="toggleTheme">
+          <div class="px-3 py-2.5 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2" @click="toggleTheme">
             <span class="text-xl">
               <svg v-if="colorMode.value === 'dark'" class="w-5 h-5 text-[#F1F5FF]" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
@@ -43,38 +31,92 @@
             </span>
           </div>
 
-          <!-- Auth Button -->
-          <div class="flex items-center max-sm:mx-1 sm:mx-2 my-2">
-            <div v-if="authStore.isAuthenticated && authStore.user" class="flex items-center gap-3">
-              <!-- User Avatar and Name -->
-              <div class="flex items-center gap-2 px-3 py-2 bg-[#F5F8FF] dark:bg-[#1A1F27] border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl">
-                <img 
-                  :src="authStore.user.photo" 
-                  :alt="authStore.user.name"
-                  class="w-6 h-6 rounded-full"
-                />
-                <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
-                  {{ authStore.user.name }}
-                </span>
-              </div>
-              <!-- Logout Button -->
-              <button
-                @click="authStore.logout"
-                class="px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
-              >
-                Logout
-              </button>
-            </div>
-            <button
-              v-else
-              @click="login"
-              class="px-4 py-2 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
-            >
-              <svg class="w-4 h-4" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          <!-- User Account Button -->
+          <div class="px-3 py-2 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2 relative">
+            <div v-if="isAuthenticated" class="flex items-center gap-2" @click="toggleUserMenu">
+              <img :src="user?.picture" :alt="user?.name" class="w-6 h-6 rounded-full" />
+              <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
+                {{ user?.given_name || user?.name }}
+              </span>
+              <!-- Role badge -->
+              <span class="text-xs px-1.5 py-0.5 rounded-full" 
+                    :class="roleBadgeClass">
+                {{ roleText }}
+              </span>
+              <svg class="w-4 h-4 text-[#5A6A85] dark:text-[#A9B4C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
-              Login
-            </button>
+            </div>
+            <NuxtLink v-else to="/login" class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-[#5A6A85] dark:text-[#A9B4C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+              <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
+                Login
+              </span>
+            </NuxtLink>
+
+            <!-- User Dropdown Menu -->
+            <div v-if="showUserDropdown && isAuthenticated" class="absolute top-16 right-0 mt-2 w-64 bg-white dark:bg-[#1A1F27] rounded-lg shadow-lg border border-[#E2E8F0] dark:border-[#313B47] z-50">
+              <div class="p-4 border-b border-[#E2E8F0] dark:border-[#313B47]">
+                <p class="text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">{{ user?.name }}</p>
+                <p class="text-sm text-[#5A6A85] dark:text-[#A9B4C6] truncate">{{ user?.email }}</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-xs px-2 py-1 rounded-full" :class="roleBadgeClass">
+                    {{ roleText }}
+                  </span>
+                </div>
+              </div>
+              <div class="p-2 space-y-1">
+                <NuxtLink 
+                  to="/profile" 
+                  class="flex items-center gap-2 px-3 py-2 text-sm text-[#5A6A85] dark:text-[#A9B4C6] hover:bg-[#F5F8FF] dark:hover:bg-[#313B47] rounded-md transition-colors"
+                  @click="showUserDropdown = false"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                  </svg>
+                  Profile
+                </NuxtLink>
+                
+                <!-- Editor Links -->
+                <NuxtLink 
+                  v-if="isEditor"
+                  to="/editor" 
+                  class="flex items-center gap-2 px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
+                  @click="showUserDropdown = false"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                  Editor Panel
+                </NuxtLink>
+                
+                <!-- Admin Links -->
+                <NuxtLink 
+                  v-if="isAdmin"
+                  to="/admin" 
+                  class="flex items-center gap-2 px-3 py-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-md transition-colors"
+                  @click="showUserDropdown = false"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  Admin Panel
+                </NuxtLink>
+                
+                <button 
+                  @click="handleSignOut"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                  </svg>
+                  Sign Out
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -86,10 +128,12 @@
       <Footer />
     </div>
 
-    <!-- Debug component (remove in production) -->
-    <ClientOnly>
-      <AuthStatus v-if="false" /> <!-- Set to true temporarily for debugging -->
-    </ClientOnly>
+    <!-- Overlay for closing dropdown -->
+    <div 
+      v-if="showUserDropdown" 
+      class="fixed inset-0 z-40" 
+      @click="showUserDropdown = false"
+    ></div>
   </div>
 </template>
 
@@ -97,27 +141,71 @@
 const colorMode = useColorMode();
 const { locale, locales, setLocale } = useI18n();
 const sidebar = ref<boolean>(false);
+const showUserDropdown = ref<boolean>(false);
+const route = useRoute();
 
-// Auth store
-const authStore = useAuthStore();
+const { user, isAuthenticated, signOut, checkAuthStatus, isAdmin, isEditor, refreshUserRole } = useGoogleAuth()
+
 const showGlobalLoader = ref(true);
 
-// Initialize auth when component mounts
 onMounted(async () => {
-  console.log('🔄 Default layout mounted - initializing auth...');
+  setTimeout(() => {
+    showGlobalLoader.value = false;
+  }, 500);
   
-  try {
-    await authStore.initializeAuth();
-    console.log('✅ Auth initialization completed in layout');
-  } catch (error) {
-    console.error('❌ Auth initialization failed:', error);
-  } finally {
-    // Hide global loader
-    setTimeout(() => {
-      showGlobalLoader.value = false;
-    }, 500);
+  await checkAuthStatus()
+  
+  // Verify role every 5 minutes to prevent tampering
+  setInterval(async () => {
+    if (isAuthenticated.value) {
+      await refreshUserRole()
+    }
+  }, 5 * 60 * 1000) // 5 minutes
+});
+
+// NEW: Watch for route changes and refresh auth state
+watch(() => route.path, async (newPath, oldPath) => {
+  console.log('🔄 Route changed, refreshing auth state...', { from: oldPath, to: newPath });
+  
+  // Refresh auth status when navigating between pages
+  await checkAuthStatus();
+  
+  // If user just logged in (coming from login/success pages), refresh role
+  if (oldPath.includes('/login') || oldPath.includes('/success')) {
+    console.log('🔐 User likely just logged in, refreshing role...');
+    await refreshUserRole();
   }
 });
+
+// NEW: Also watch for auth state changes from other components
+watch(isAuthenticated, async (newAuthState, oldAuthState) => {
+  console.log('🔐 Auth state changed:', { from: oldAuthState, to: newAuthState });
+  if (newAuthState) {
+    // If user just became authenticated, refresh their role
+    await refreshUserRole();
+  }
+});
+
+// Role-based computed properties - NOW USING VERIFIED ROLES
+const roleText = computed(() => {
+  if (!user.value?.role) return 'User'
+  switch (user.value.role) {
+    case 0: return 'User'
+    case 1: return 'Editor'
+    case 2: return 'Admin'
+    default: return 'User'
+  }
+})
+
+const roleBadgeClass = computed(() => {
+  if (!user.value?.role) return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+  switch (user.value.role) {
+    case 0: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+    case 1: return 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200'
+    case 2: return 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-200'
+    default: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+  }
+})
 
 function toggleTheme() {
   colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
@@ -137,11 +225,19 @@ function switchLanguage() {
   const nextIndex = (currentIndex >= 0 ? currentIndex + 1 : 0) % availableLocales.length;
 
   setLocale(availableLocales[nextIndex]);
+};
+
+function toggleUserMenu() {
+  if (!isAuthenticated.value) {
+    navigateTo('/login')
+    return
+  }
+  showUserDropdown.value = !showUserDropdown.value
 }
 
-// Login function
-function login() {
-  window.location.href = authStore.getLoginUrl();
+async function handleSignOut() {
+  await signOut()
+  showUserDropdown.value = false
 }
 
 const currentLanguage = computed(() => {

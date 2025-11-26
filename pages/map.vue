@@ -161,6 +161,12 @@ import markerShadowPng from 'leaflet/dist/images/marker-shadow.png'
 import { getLakesByCity } from '~/composables/lakes-data'
 import { getTranslatedLakeName } from '~/composables/lakes-data';
 
+// In your page components, add meta:
+definePageMeta({
+  middleware: 'auth',
+  requiresAuth: true,
+  requiresRole: 2 // for admin pages
+})
 // Get current language
 const { locale } = useI18n();
 const currentLanguage = locale.value;

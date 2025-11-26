@@ -357,6 +357,15 @@ import { getTranslatedLakeName } from '~/composables/lakes-data';
 const { locale } = useI18n();
 const currentLanguage = locale.value;
 
+const { isAuthenticated, checkAuthStatus } = useGoogleAuth()
+
+onMounted(async () => {
+  await checkAuthStatus()
+  if (!isAuthenticated.value) {
+    await navigateTo('/login')
+  }
+})
+
 
 // Define translations for this page only
 const { $i18n } = useNuxtApp()

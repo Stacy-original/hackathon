@@ -283,9 +283,20 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  middleware: 'auth'
-});
+const { isAuthenticated, hasRole, checkAuthStatus } = useGoogleAuth()
+
+onMounted(async () => {
+  await checkAuthStatus()
+  
+  if (!isAuthenticated.value) {
+    await navigateTo('/login')
+    return
+  }
+  
+  if (!hasRole(1)) {
+    await navigateTo('/unauthorized')
+  }
+})
 // Define translations for this page only
 const { $i18n } = useNuxtApp()
 

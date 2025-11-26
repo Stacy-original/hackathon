@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
     '@nuxtjs/leaflet',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
   ],
   colorMode: {
     classSuffix: '',
@@ -33,10 +33,10 @@ export default defineNuxtConfig({
   pinia: {
     // Keep as is
   },
-  runtimeConfig: {
+   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'https://skogeohydro-backend.onrender.com',
-      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID || ''
+      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID || '',
     }
   },
   app: {
@@ -47,6 +47,5 @@ export default defineNuxtConfig({
       ],
     },
   },
-  // Only change SSR for auth
   ssr: false
 })
