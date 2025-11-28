@@ -274,7 +274,6 @@ import { LMap, LTileLayer, LMarker, LTooltip, LPopup } from '@vue-leaflet/vue-le
 import { Icon } from 'leaflet'
 import markerIconPng from 'leaflet/dist/images/marker-icon.png'
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png'
-import reviewedIconPng from '~/assets/reviewed-marker.png' // You can create a different icon for reviewed points
 import { getLakesByCity } from '~/composables/lakes-data'
 import { getTranslatedLakeName } from '~/composables/lakes-data';
 
