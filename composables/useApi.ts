@@ -2,21 +2,36 @@ export const useApi = () => {
   const config = useRuntimeConfig()
   const { getUserData, apiCall } = useGoogleAuth()
 
-  // Public API calls (no authentication needed)
+  // Public API calls (with API keys) - use same pattern as reports.vue
   const publicApi = {
     // Get all reports
     getReports: () => {
-      return $fetch(`${config.public.apiBaseUrl}/api/reports`)
+      return $fetch(`${config.public.apiBaseUrl}/api/reports`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': config.public.defaultApiKey || 'user_key_123'
+        }
+      })
     },
 
     // Get coordinates
     getCoordinates: () => {
-      return $fetch(`${config.public.apiBaseUrl}/api/coordinates`)
+      return $fetch(`${config.public.apiBaseUrl}/api/coordinates`, {
+        headers: {
+          'Content-Type': 'application/json', 
+          'X-API-Key': config.public.defaultApiKey || 'user_key_123'
+        }
+      })
     },
 
     // Get feed posts
     getFeedPosts: () => {
-      return $fetch(`${config.public.apiBaseUrl}/api/posts/feed`)
+      return $fetch(`${config.public.apiBaseUrl}/api/posts/feed`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': config.public.defaultApiKey || 'user_key_123'
+        }
+      })
     },
 
     // Submit report (anonymous or authenticated)
@@ -24,6 +39,10 @@ export const useApi = () => {
       const body = userData ? { ...reportData, userData } : reportData
       return $fetch(`${config.public.apiBaseUrl}/api/reports`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': config.public.defaultApiKey || 'user_key_123'
+        },
         body
       })
     },
@@ -33,12 +52,16 @@ export const useApi = () => {
       const body = userData ? { ...coordinateData, userData } : coordinateData
       return $fetch(`${config.public.apiBaseUrl}/api/coordinates`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': config.public.defaultApiKey || 'user_key_123'
+        },
         body
       })
     }
   }
 
-  // Authenticated API calls (requires user data)
+  // Authenticated API calls (requires user data + API keys)
   const authApi = {
     // Get user's reports
     getMyReports: () => {

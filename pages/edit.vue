@@ -1,6 +1,30 @@
 <template>
   <div class="py-8">
-    <div class="container mx-auto px-4 max-w-4xl">
+    <!-- Access Denied Message -->
+    <div v-if="accessDenied" class="container mx-auto px-4 max-w-4xl">
+      <div class="text-center mb-12">
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8">
+          <h1 class="text-4xl font-bold text-red-600 dark:text-red-400 mb-4">
+            {{ $t('accessDenied') }}
+          </h1>
+          <p class="text-xl text-red-600 dark:text-red-400 mb-6">
+            {{ $t('editorAccessRequired') }}
+          </p>
+          <p class="text-lg text-[#5A6A85] dark:text-[#A9B4C6] mb-8">
+            {{ $t('contactAdminForAccess') }}
+          </p>
+          <NuxtLink 
+            to="/" 
+            class="px-6 py-3 bg-[#1E6DFF] hover:bg-[#1458CC] text-white rounded-lg font-medium transition-colors"
+          >
+            {{ $t('backToHome') }}
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor Content -->
+    <div v-else class="container mx-auto px-4 max-w-4xl">
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-[#1A1A1A] dark:text-[#F1F5FF] mb-4">
@@ -9,6 +33,11 @@
         <p class="text-xl text-[#5A6A85] dark:text-[#A9B4C6] max-w-2xl mx-auto">
           {{ $t('createPostDescription') }}
         </p>
+        
+        <!-- Role Indicator -->
+        <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full" :class="roleBadgeClass">
+          <span class="text-sm font-medium">{{ roleText }}</span>
+        </div>
       </div>
 
       <!-- Create Post Form -->
@@ -75,8 +104,8 @@
                   :class="[
                     'py-3 px-4 rounded-lg border text-sm font-medium transition-all duration-200',
                     postForm.type === type.value
-                      ? 'bg-[#1E6DFF] text-white border-[#1E6DFF]'
-                      : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-[#1E6DFF]'
+                      ? 'bg-[#1E6DFF] text-white border-[#1E6DFF] dark:bg-[#6CA8FF] dark:border-[#6CA8FF]'
+                      : 'bg-white dark:bg-[#1A1F27] text-[#5A6A85] dark:text-[#A9B4C6] border-[#E2E8F0] dark:border-[#313B47] hover:border-[#1E6DFF] dark:hover:border-[#6CA8FF]'
                   ]"
                 >
                   {{ $t(type.value) }}
@@ -283,20 +312,111 @@
 </template>
 
 <script setup lang="ts">
-const { isAuthenticated, hasRole, checkAuthStatus } = useGoogleAuth()
+import { ref, onMounted, computed } from 'vue'
+
+const config = useRuntimeConfig()
+const API_BASE = config.public.apiBaseUrl;
+
+// FIXED: Proper API key configuration - all keys should be from public config
+const API_KEYS = {
+  USER: config.public.defaultApiKey || 'user_key_123',
+  EDITOR: config.public.editorApiKey || 'editor_key_123',
+  ADMIN: config.public.adminApiKey || 'admin_key_123'
+};
+
+// Get API headers for different operations
+const getApiHeaders = (operation = 'read') => {
+  let apiKey = API_KEYS.USER; // Default to user key
+  
+  // Determine which API key to use based on operation
+  switch(operation) {
+    case 'read':
+      // GET operations can use user key
+      apiKey = API_KEYS.USER;
+      break;
+    case 'posts':
+      // Posts operations require editor key
+      apiKey = API_KEYS.EDITOR;
+      break;
+    case 'update':
+      // PUT operations require editor or admin key
+      apiKey = API_KEYS.EDITOR;
+      break;
+    case 'delete':
+      // DELETE operations require admin key
+      apiKey = API_KEYS.ADMIN;
+      break;
+    default:
+      apiKey = API_KEYS.USER;
+  }
+  
+  return {
+    'Content-Type': 'application/json',
+    'X-API-Key': apiKey
+  };
+};
+
+// Auth check - only editors and admins can create posts
+const { isAuthenticated, user, checkAuthStatus, hasRole } = useGoogleAuth()
+
+const accessDenied = ref(false)
+
+// Role-based computed properties
+const roleText = computed(() => {
+  if (!user.value?.role) return 'User'
+  switch (user.value.role) {
+    case 0: return 'User'
+    case 1: return 'Editor'
+    case 2: return 'Admin'
+    default: return 'User'
+  }
+})
+
+const roleBadgeClass = computed(() => {
+  if (!user.value?.role) return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+  switch (user.value.role) {
+    case 0: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+    case 1: return 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200'
+    case 2: return 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-200'
+    default: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+  }
+})
 
 onMounted(async () => {
   await checkAuthStatus()
+  
+  console.log('🔐 Edit page auth check:', {
+    isAuthenticated: isAuthenticated.value,
+    userRole: user.value?.role,
+    hasEditorRole: hasRole(1),
+    hasAdminRole: hasRole(2)
+  })
   
   if (!isAuthenticated.value) {
     await navigateTo('/login')
     return
   }
   
+  // CRITICAL FIX: Check if user has editor or admin role (role 1 or 2)
   if (!hasRole(1)) {
-    await navigateTo('/unauthorized')
+    console.warn('❌ Access denied: User does not have editor role', {
+      userRole: user.value?.role,
+      requiredRole: 1
+    })
+    accessDenied.value = true
+    return
+  }
+  
+  console.log('✅ Access granted: User has editor role', { userRole: user.value?.role })
+  
+  // Set user data for the post
+  if (user.value) {
+    postForm.value.userId = user.value.id
+    postForm.value.userName = user.value.name
+    postForm.value.userEmail = user.value.email
   }
 })
+
 // Define translations for this page only
 const { $i18n } = useNuxtApp()
 
@@ -307,6 +427,7 @@ $i18n.mergeLocaleMessage('en', {
   description: 'Description',
   content: 'Content',
   postType: 'Post Type',
+  severityLevel: 'Severity Level',
   location: 'Location',
   imageUrl: 'Image URL',
   videoUrl: 'Video URL',
@@ -324,7 +445,13 @@ $i18n.mergeLocaleMessage('en', {
   high: 'High',
   critical: 'Critical',
   clearMedia: 'Clear Media',
-  videoNotSupported: 'Your browser does not support the video tag.'
+  videoNotSupported: 'Your browser does not support the video tag.',
+  postCreated: 'Post created successfully!',
+  postCreationFailed: 'Failed to create post',
+  accessDenied: 'Access Denied',
+  editorAccessRequired: 'Editor access required',
+  contactAdminForAccess: 'You need editor or admin privileges to create posts. Please contact an administrator.',
+  backToHome: 'Back to Home'
 })
 
 $i18n.mergeLocaleMessage('ru', {
@@ -334,6 +461,7 @@ $i18n.mergeLocaleMessage('ru', {
   description: 'Описание',
   content: 'Содержание',
   postType: 'Тип поста',
+  severityLevel: 'Уровень серьезности',
   location: 'Местоположение',
   imageUrl: 'URL изображения',
   videoUrl: 'URL видео',
@@ -351,7 +479,13 @@ $i18n.mergeLocaleMessage('ru', {
   high: 'Высокий',
   critical: 'Критический',
   clearMedia: 'Очистить медиа',
-  videoNotSupported: 'Ваш браузер не поддерживает видео тег.'
+  videoNotSupported: 'Ваш браузер не поддерживает видео тег.',
+  postCreated: 'Пост успешно создан!',
+  postCreationFailed: 'Не удалось создать пост',
+  accessDenied: 'Доступ запрещен',
+  editorAccessRequired: 'Требуются права редактора',
+  contactAdminForAccess: 'Вам нужны права редактора или администратора для создания постов. Обратитесь к администратору.',
+  backToHome: 'На главную'
 })
 
 $i18n.mergeLocaleMessage('kk', {
@@ -361,6 +495,7 @@ $i18n.mergeLocaleMessage('kk', {
   description: 'Сипаттама',
   content: 'Мазмұны',
   postType: 'Пост түрі',
+  severityLevel: 'Маңыздылық деңгейі',
   location: 'Орналасқан жері',
   imageUrl: 'Сурет URL мекенжайы',
   videoUrl: 'Бейне URL мекенжайы',
@@ -378,11 +513,14 @@ $i18n.mergeLocaleMessage('kk', {
   high: 'Жоғары',
   critical: 'Сыни',
   clearMedia: 'Медианы тазалау',
-  videoNotSupported: 'Сіздің браузеріңіз бейне тегін қолдамайды.'
+  videoNotSupported: 'Сіздің браузеріңіз бейне тегін қолдамайды.',
+  postCreated: 'Пост сәтті жасалды!',
+  postCreationFailed: 'Пост жасау сәтсіз аяқталды',
+  accessDenied: 'Қол жеткізу шектеулі',
+  editorAccessRequired: 'Редактор құқығы қажет',
+  contactAdminForAccess: 'Посттар жасау үшін сізге редактор немесе әкімші құқықтары қажет. Әкімшіге хабарласыңыз.',
+  backToHome: 'Басты бетке оралу'
 })
-
-// ✅ UPDATE THIS URL WITH YOUR RENDER URL
-const API_BASE = 'https://skogeohydro-backend.onrender.com';
 
 // Define types
 interface Post {
@@ -395,6 +533,9 @@ interface Post {
   imageUrl: string;
   videoUrl: string;
   tags: string[];
+  userId?: string;
+  userName?: string;
+  userEmail?: string;
 }
 
 interface Message {
@@ -418,7 +559,10 @@ const postForm = ref<Post>({
   location: '',
   imageUrl: '',
   videoUrl: '',
-  tags: []
+  tags: [],
+  userId: '',
+  userName: '',
+  userEmail: ''
 });
 
 // Post types
@@ -583,7 +727,10 @@ const resetForm = () => {
     location: '',
     imageUrl: '',
     videoUrl: '',
-    tags: []
+    tags: [],
+    userId: user.value?.id,
+    userName: user.value?.name,
+    userEmail: user.value?.email
   };
   tagInput.value = '';
   imageLoading.value = false;
@@ -597,25 +744,50 @@ const submitPost = async () => {
     return;
   }
 
+  // Double-check role before submitting
+  if (!hasRole(1)) {
+    showMessage('Access denied: Editor role required', 'error');
+    accessDenied.value = true;
+    return;
+  }
+
   isSubmitting.value = true;
 
   try {
+    // Map the frontend fields to backend expected fields
+    const backendPostData = {
+      title: postForm.value.title,
+      content: postForm.value.content,
+      image: postForm.value.imageUrl,
+      category: postForm.value.type,
+      userId: postForm.value.userId,
+      userName: postForm.value.userName,
+      userEmail: postForm.value.userEmail,
+      description: postForm.value.description,
+      severity: postForm.value.severity,
+      location: postForm.value.location,
+      videoUrl: postForm.value.videoUrl,
+      tags: postForm.value.tags
+    };
+
+    console.log('🔐 Using editor API key for post creation');
+
     const response = await fetch(`${API_BASE}/api/posts`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postForm.value),
+      headers: getApiHeaders('posts'), // Use editor key for posts
+      body: JSON.stringify(backendPostData),
     });
 
     if (response.ok) {
-      showMessage('Post created successfully! It will be reviewed by admin before appearing in the feed.');
+      showMessage($t('postCreated') + ' It will be reviewed by admin before appearing in the feed.', 'success');
       resetForm();
     } else {
       const error = await response.json();
-      showMessage(error.error || 'Failed to create post', 'error');
+      console.error('Post creation failed:', error);
+      showMessage(error.error || $t('postCreationFailed'), 'error');
     }
   } catch (error) {
+    console.error('Network error:', error);
     showMessage('Network error. Please try again.', 'error');
   } finally {
     isSubmitting.value = false;

@@ -47,7 +47,7 @@
       <!-- Action Buttons -->
       <div class="space-y-4 pt-6">
         <NuxtLink 
-          to="/" 
+          :to="homeUrl" 
           class="block w-full px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 dark:from-[#10B981] dark:to-[#059669] text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold text-lg"
         >
           {{ $t('goToHomepage') }}
@@ -55,7 +55,7 @@
         
         <div class="grid grid-cols-2 gap-4">
           <NuxtLink 
-            to="/profile" 
+            :to="profileUrl" 
             class="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 font-medium"
           >
             {{ $t('viewProfile') }}
@@ -90,7 +90,12 @@
 
 <script setup lang="ts">
 const { user, isAuthenticated, checkAuthStatus, refreshUserRole } = useGoogleAuth()
-
+import { onMounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
+const route = useRoute()
+const router = useRouter()
+const { locale } = useI18n()
 const roleText = computed(() => {
   if (!user.value?.role) return 'User'
   switch (user.value.role) {
@@ -100,6 +105,25 @@ const roleText = computed(() => {
     default: return 'User'
   }
 })
+
+const homeUrl = computed(() => {
+  if (locale.value === 'en') return '/'
+  if (locale.value === 'ru') return '/ru/'
+  if (locale.value === 'kk') return '/kk/'
+  return '/'
+});
+const profileUrl = computed(() => {
+  if (locale.value === 'en') return '/profile'
+  if (locale.value === 'ru') return '/ru/profile'
+  if (locale.value === 'kk') return '/kk/profile'
+  return '/profile'
+});
+const termsUrl = computed(() => {
+  if (locale.value === 'en') return '/terms'
+  if (locale.value === 'ru') return '/ru/terms'
+  if (locale.value === 'kk') return '/kk/terms'
+  return '/terms'
+});
 
 const roleBadgeClass = computed(() => {
   if (!user.value?.role) return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'

@@ -33,17 +33,25 @@ export default defineNuxtConfig({
   pinia: {
     // Keep as is
   },
-   runtimeConfig: {
+  runtimeConfig: {
+    // Private keys (server-side only)
+    userApiKey: process.env.USER_API_KEY,
+    editorApiKey: process.env.EDITOR_API_KEY,
+    adminApiKey: process.env.ADMIN_API_KEY,
+    
+    // Public keys (client-side)
     public: {
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'https://skogeohydro-backend.onrender.com',
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID || '',
+      // Default to user API key for public access
+      defaultApiKey: process.env.USER_API_KEY || 'user_key_123',
     }
   },
   app: {
     head: {
       title: 'SKO GeoHydro Portal',
       link: [
-        { rel: 'icon', type: 'image/png', href: '/newfavicon.png'}
+        { rel: 'icon', type:'image/png', href: '/newfavicon.png'}
       ],
     },
   },

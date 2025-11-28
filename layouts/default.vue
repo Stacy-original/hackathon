@@ -1,3 +1,5 @@
+[file name]: layouts/default.vue
+[file content begin]
 <template>
   <div class="overscroll-none font-sans transition-colors duration-300">
     <div>
@@ -12,15 +14,15 @@
         
         <!-- Buttons Container -->
         <div class="flex items-center max-sm:gap-2 sm:gap-0 max-sm:pr-4">
-          <!-- Language Switcher Button -->
-          <div class="px-3 py-2.5 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 " @click="switchLanguage">
+          <!-- Language Switcher Button - Show only when NOT authenticated -->
+          <div v-if="!isAuthenticated" class="px-3 py-2.5 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 " @click="switchLanguage">
             <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6]">
               {{ currentLanguage }}
             </span>
           </div>
           
-          <!-- Theme Toggle Button -->
-          <div class="px-3 py-2.5 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2" @click="toggleTheme">
+          <!-- Theme Toggle Button - Show only when NOT authenticated -->
+          <div v-if="!isAuthenticated" class="px-3 py-2.5 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2" @click="toggleTheme">
             <span class="text-xl">
               <svg v-if="colorMode.value === 'dark'" class="w-5 h-5 text-[#F1F5FF]" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
@@ -32,32 +34,40 @@
           </div>
 
           <!-- User Account Button -->
-          <div class="px-3 py-2 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2 relative">
-            <div v-if="isAuthenticated" class="flex items-center gap-2" @click="toggleUserMenu">
-              <img :src="user?.picture" :alt="user?.name" class="w-6 h-6 rounded-full" />
-              <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
-                {{ user?.given_name || user?.name }}
-              </span>
-              <!-- Role badge -->
-              <span class="text-xs px-1.5 py-0.5 rounded-full" 
-                    :class="roleBadgeClass">
-                {{ roleText }}
-              </span>
-              <svg class="w-4 h-4 text-[#5A6A85] dark:text-[#A9B4C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
+          <div class="relative">
+            <!-- Authenticated User Button -->
+            <div v-if="isAuthenticated" class="px-3 py-2 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2" @click="toggleUserMenu">
+              <div class="flex items-center gap-2">
+                <img :src="user?.picture" :alt="user?.name" crossorigin="anonymous" class="w-6 h-6 rounded-full" />
+                <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
+                  {{ user?.given_name || user?.name }}
+                </span>
+                <!-- Role badge -->
+                <span class="text-xs px-1.5 py-0.5 rounded-full" 
+                      :class="roleBadgeClass">
+                  {{ roleText }}
+                </span>
+                <svg class="w-4 h-4 text-[#5A6A85] dark:text-[#A9B4C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
             </div>
-            <NuxtLink v-else to="/login" class="flex items-center gap-2">
-              <svg class="w-5 h-5 text-[#5A6A85] dark:text-[#A9B4C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-              </svg>
-              <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
-                Login
-              </span>
+
+            <!-- Login Button -->
+            <NuxtLink v-else to="/login" class="px-3 py-2 flex items-center justify-center bg-[#F5F8FF] dark:bg-[#1A1F27] hover:bg-[#E2E8F0] dark:hover:bg-[#313B47] cursor-pointer border border-[#E2E8F0] dark:border-[#313B47] rounded-3xl transition-colors max-sm:mx-1 sm:mx-2 my-2">
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#5A6A85] dark:text-[#A9B4C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
+                  Login
+                </span>
+              </div>
             </NuxtLink>
 
             <!-- User Dropdown Menu -->
-            <div v-if="showUserDropdown && isAuthenticated" class="absolute top-16 right-0 mt-2 w-64 bg-white dark:bg-[#1A1F27] rounded-lg shadow-lg border border-[#E2E8F0] dark:border-[#313B47] z-50">
+            <div v-if="showUserDropdown && isAuthenticated" class="absolute top-16 right-0 mt-2 w-72 bg-white dark:bg-[#1A1F27] rounded-lg shadow-lg border border-[#E2E8F0] dark:border-[#313B47] z-50">
+              <!-- User Info Section -->
               <div class="p-4 border-b border-[#E2E8F0] dark:border-[#313B47]">
                 <p class="text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">{{ user?.name }}</p>
                 <p class="text-sm text-[#5A6A85] dark:text-[#A9B4C6] truncate">{{ user?.email }}</p>
@@ -67,9 +77,39 @@
                   </span>
                 </div>
               </div>
+              
+              <!-- Settings Section -->
               <div class="p-2 space-y-1">
+                <!-- Theme Toggle in Dropdown -->
+                <button 
+                  @click="toggleTheme"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-[#5A6A85] dark:text-[#A9B4C6] hover:bg-[#F5F8FF] dark:hover:bg-[#313B47] rounded-md transition-colors"
+                >
+                  <span class="text-xl">
+                    <svg v-if="colorMode.value === 'dark'" class="w-4 h-4 text-[#F1F5FF]" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                    </svg>
+                    <svg v-else class="w-4 h-4 text-[#5A6A85]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                    </svg>
+                  </span>
+                  <span>{{ colorMode.value === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+                </button>
+
+                <!-- Language Switcher in Dropdown -->
+                <button 
+                  @click="switchLanguage"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-[#5A6A85] dark:text-[#A9B4C6] hover:bg-[#F5F8FF] dark:hover:bg-[#313B47] rounded-md transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                  </svg>
+                  <span>Language: {{ currentLanguage }}</span>
+                </button>
+
+                <!-- Profile Link -->
                 <NuxtLink 
-                  to="/profile" 
+                  :to="profileUrl" 
                   class="flex items-center gap-2 px-3 py-2 text-sm text-[#5A6A85] dark:text-[#A9B4C6] hover:bg-[#F5F8FF] dark:hover:bg-[#313B47] rounded-md transition-colors"
                   @click="showUserDropdown = false"
                 >
@@ -79,10 +119,10 @@
                   Profile
                 </NuxtLink>
                 
-                <!-- Editor Links -->
+                <!-- Editor Panel - Show only for role 1 (Editor) or 2 (Admin) -->
                 <NuxtLink 
-                  v-if="isEditor"
-                  to="/editor" 
+                  v-if="user?.role && user.role >= 1"
+                  :to="editUrl" 
                   class="flex items-center gap-2 px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
                   @click="showUserDropdown = false"
                 >
@@ -92,10 +132,10 @@
                   Editor Panel
                 </NuxtLink>
                 
-                <!-- Admin Links -->
+                <!-- Admin Panel - Show only for role 2 (Admin) -->
                 <NuxtLink 
-                  v-if="isAdmin"
-                  to="/admin" 
+                  v-if="user?.role && user.role === 2"
+                  :to="adminUrl" 
                   class="flex items-center gap-2 px-3 py-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-md transition-colors"
                   @click="showUserDropdown = false"
                 >
@@ -105,7 +145,10 @@
                   </svg>
                   Admin Panel
                 </NuxtLink>
-                
+              </div>
+
+              <!-- Sign Out Section -->
+              <div class="p-2 border-t border-[#E2E8F0] dark:border-[#313B47]">
                 <button 
                   @click="handleSignOut"
                   class="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
@@ -155,15 +198,20 @@ onMounted(async () => {
   
   await checkAuthStatus()
   
-  // Verify role every 5 minutes to prevent tampering
+  // Force role refresh on mount for admin users
+  if (isAuthenticated.value && user.value?.role === 0) {
+    console.log('🔄 Force refreshing role for potential admin user...')
+    await refreshUserRole()
+  }
+  
+  // Verify role every 2 minutes to prevent tampering
   setInterval(async () => {
     if (isAuthenticated.value) {
       await refreshUserRole()
     }
-  }, 5 * 60 * 1000) // 5 minutes
+  }, 2 * 60 * 1000) // 2 minutes
 });
 
-// NEW: Watch for route changes and refresh auth state
 watch(() => route.path, async (newPath, oldPath) => {
   console.log('🔄 Route changed, refreshing auth state...', { from: oldPath, to: newPath });
   
@@ -255,4 +303,24 @@ const homeUrl = computed(() => {
   if (locale.value === 'kk') return '/kk/'
   return '/'
 });
+const profileUrl = computed(() => {
+  if (locale.value === 'en') return '/profile'
+  if (locale.value === 'ru') return '/ru/profile'
+  if (locale.value === 'kk') return '/kk/profile'
+  return '/profile'
+});
+const adminUrl = computed(() => {
+  if (locale.value === 'en') return '/admin'
+  if (locale.value === 'ru') return '/ru/admin'
+  if (locale.value === 'kk') return '/kk/admin'
+  return '/admin'
+});
+const editUrl = computed(() => {
+  if (locale.value === 'en') return '/edit'
+  if (locale.value === 'ru') return '/ru/edit'
+  if (locale.value === 'kk') return '/kk/edit'
+  return '/edit'
+});
+
 </script>
+[file content end]

@@ -375,103 +375,105 @@
                 >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  Refresh
-                </button>
-              </div>
+                </svg>
+                Refresh
+              </button>
             </div>
+          </div>
 
-            <!-- Posts Table Content -->
-            <div v-if="postsLoading" class="text-center py-8">
-              <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
-              <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">Loading posts...</p>
-            </div>
+          <!-- Posts Table Content -->
+          <div v-if="postsLoading" class="text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E6DFF]"></div>
+            <p class="text-[#5A6A85] dark:text-[#A9B4C6] mt-2">Loading posts...</p>
+          </div>
 
-            <div v-else-if="filteredPosts.length === 0" class="text-center py-8">
-              <p class="text-[#5A6A85] dark:text-[#A9B4C6]">No posts found.</p>
-            </div>
+          <div v-else-if="filteredPosts.length === 0" class="text-center py-8">
+            <p class="text-[#5A6A85] dark:text-[#A9B4C6]">No posts found.</p>
+          </div>
 
-            <div v-else class="overflow-x-auto">
-              <table class="w-full">
-                <thead>
-                  <tr class="border-b border-[#E2E8F0] dark:border-[#313B47]">
-                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Title</th>
-                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Type</th>
-                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Severity</th>
-                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Status</th>
-                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Date</th>
-                    <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr 
-                    v-for="post in filteredPosts" 
-                    :key="post._id"
-                    class="border-b border-[#E2E8F0] dark:border-[#313B47] hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-colors"
-                  >
-                    <td class="p-4">
-                      <div class="font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">{{ post.title }}</div>
-                      <div class="text-sm text-[#5A6A85] dark:text-[#A9B4C6] truncate max-w-xs">{{ post.description }}</div>
-                    </td>
-                    <td class="p-4">
-                      <span class="text-sm text-[#1E6DFF] dark:text-[#6CA8FF] font-medium capitalize">
-                        {{ post.type }}
-                      </span>
-                    </td>
-                    <td class="p-4">
-                      <span :class="[
-                        'px-2 py-1 rounded-full text-xs font-medium',
-                        getSeverityColor(post.severity)
-                      ]">
-                        {{ getSeverityLabel(post.severity) }}
-                      </span>
-                    </td>
-                    <td class="p-4">
-                      <span :class="[
-                        'px-2 py-1 rounded-full text-xs font-medium',
-                        getPostStatusColor(post.status)
-                      ]">
-                        {{ post.status }}
-                      </span>
-                    </td>
-                    <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
-                      {{ formatDate(post.createdAt) }}
-                    </td>
-                    <td class="p-4">
-                      <div class="flex gap-2">
-                        <button 
-                          v-if="post.status !== 'approved'"
-                          @click="updatePostStatus(post._id, 'approved')"
-                          class="px-2 py-1 text-xs bg-[#2ECC71] hover:bg-[#38E39A] text-white rounded transition-colors"
-                        >
-                          Approve
-                        </button>
-                        <button 
-                          v-if="post.status !== 'rejected'"
-                          @click="updatePostStatus(post._id, 'rejected')"
-                          class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
-                        >
-                          Reject
-                        </button>
-                        <button 
-                          @click="deletePost(post._id)"
-                          class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div v-else class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-[#E2E8F0] dark:border-[#313B47]">
+                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Title</th>
+                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Type</th>
+                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Severity</th>
+                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Status</th>
+                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Date</th>
+                  <th class="text-left p-4 text-sm font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr 
+                  v-for="post in filteredPosts" 
+                  :key="post._id"
+                  class="border-b border-[#E2E8F0] dark:border-[#313B47] hover:bg-[#F5F8FF] dark:hover:bg-[#1A1F27] transition-colors"
+                >
+                  <td class="p-4">
+                    <div class="font-medium text-[#1A1A1A] dark:text-[#F1F5FF]">{{ post.title }}</div>
+                    <div class="text-sm text-[#5A6A85] dark:text-[#A9B4C6] truncate max-w-xs">{{ post.description }}</div>
+                  </td>
+                  <td class="p-4">
+                    <span class="text-sm text-[#1E6DFF] dark:text-[#6CA8FF] font-medium capitalize">
+                      {{ post.type }}
+                    </span>
+                  </td>
+                  <td class="p-4">
+                    <span :class="[
+                      'px-2 py-1 rounded-full text-xs font-medium',
+                      getSeverityColor(post.severity)
+                    ]">
+                      {{ getSeverityLabel(post.severity) }}
+                    </span>
+                  </td>
+                  <td class="p-4">
+                    <span :class="[
+                      'px-2 py-1 rounded-full text-xs font-medium',
+                      getPostStatusColor(post.status)
+                    ]">
+                      {{ post.status }}
+                    </span>
+                  </td>
+                  <td class="p-4 text-sm text-[#5A6A85] dark:text-[#A9B4C6]">
+                    {{ formatDate(post.createdAt) }}
+                  </td>
+                  <td class="p-4">
+                    <div class="flex gap-2">
+                      <button 
+                        v-if="post.status !== 'approved'"
+                        @click="updatePostStatus(post._id, 'approved')"
+                        class="px-2 py-1 text-xs bg-[#2ECC71] hover:bg-[#38E39A] text-white rounded transition-colors"
+                      >
+                        Approve
+                      </button>
+                      <button 
+                        v-if="post.status !== 'rejected'"
+                        @click="updatePostStatus(post._id, 'rejected')"
+                        class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
+                      >
+                        Reject
+                      </button>
+                      <button 
+                        @click="deletePost(post._id)"
+                        class="px-2 py-1 text-xs bg-[#FF4E4E] hover:bg-[#DC2626] text-white rounded transition-colors"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup>
+// Import runtime config for environment variables
+const config = useRuntimeConfig()
 
 const { isAuthenticated, hasRole, checkAuthStatus } = useGoogleAuth()
 
@@ -488,8 +490,47 @@ onMounted(async () => {
   }
 })
 
-// API base URL - update this with your Render URL
-const API_BASE = 'https://skogeohydro-backend.onrender.com';
+// API base URL from environment
+const API_BASE = config.public.apiBaseUrl;
+
+// API Keys from environment
+const API_KEYS = {
+  USER: config.public.defaultApiKey || 'user_key_123',
+  EDITOR: config.editorApiKey || 'editor_key_123',
+  ADMIN: config.adminApiKey || 'admin_key_123'
+};
+
+// Get API headers for different operations
+const getApiHeaders = (operation = 'read') => {
+  let apiKey = API_KEYS.USER; // Default to user key
+  
+  // Determine which API key to use based on operation
+  switch(operation) {
+    case 'read':
+      // GET operations can use user key
+      apiKey = API_KEYS.USER;
+      break;
+    case 'update':
+      // PUT operations require editor or admin key
+      apiKey = API_KEYS.EDITOR;
+      break;
+    case 'delete':
+      // DELETE operations require admin key
+      apiKey = API_KEYS.ADMIN;
+      break;
+    case 'posts':
+      // Posts operations require editor key
+      apiKey = API_KEYS.EDITOR;
+      break;
+    default:
+      apiKey = API_KEYS.USER;
+  }
+  
+  return {
+    'Content-Type': 'application/json',
+    'X-API-Key': apiKey
+  };
+};
 
 // Tabs
 const activeTab = ref('reports');
@@ -604,7 +645,9 @@ const reportTypes = [
 const fetchReports = async () => {
   loading.value = true;
   try {
-    const response = await fetch(`${API_BASE}/api/reports`);
+    const response = await fetch(`${API_BASE}/api/reports`, {
+      headers: getApiHeaders('read') // User key for GET
+    });
     if (response.ok) {
       const reports = await response.json();
       allReports.value = reports;
@@ -622,7 +665,9 @@ const fetchReports = async () => {
 const fetchCoordinates = async () => {
   coordsLoading.value = true;
   try {
-    const response = await fetch(`${API_BASE}/api/coordinates`);
+    const response = await fetch(`${API_BASE}/api/coordinates`, {
+      headers: getApiHeaders('read') // User key for GET
+    });
     if (response.ok) {
       const coordinates = await response.json();
       allCoordinates.value = coordinates;
@@ -640,7 +685,9 @@ const fetchCoordinates = async () => {
 const fetchPosts = async () => {
   postsLoading.value = true;
   try {
-    const response = await fetch(`${API_BASE}/api/posts`);
+    const response = await fetch(`${API_BASE}/api/posts`, {
+      headers: getApiHeaders('posts') // Editor key for posts GET
+    });
     if (response.ok) {
       const posts = await response.json();
       allPosts.value = posts;
@@ -659,9 +706,7 @@ const updateReportStatus = async (id, status) => {
   try {
     const response = await fetch(`${API_BASE}/api/reports/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getApiHeaders('update'), // Editor key for PUT
       body: JSON.stringify({ status }),
     });
 
@@ -681,9 +726,7 @@ const updateCoordinateStatus = async (id, status) => {
   try {
     const response = await fetch(`${API_BASE}/api/coordinates/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getApiHeaders('update'), // Editor key for PUT
       body: JSON.stringify({ status }),
     });
 
@@ -703,9 +746,7 @@ const updatePostStatus = async (id, status) => {
   try {
     const response = await fetch(`${API_BASE}/api/posts/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getApiHeaders('posts'), // Editor key for posts operations
       body: JSON.stringify({ status }),
     });
 
@@ -727,6 +768,7 @@ const deleteReport = async (id) => {
   try {
     const response = await fetch(`${API_BASE}/api/reports/${id}`, {
       method: 'DELETE',
+      headers: getApiHeaders('delete'), // Admin key for DELETE
     });
 
     if (response.ok) {
@@ -747,6 +789,7 @@ const deleteCoordinate = async (id) => {
   try {
     const response = await fetch(`${API_BASE}/api/coordinates/${id}`, {
       method: 'DELETE',
+      headers: getApiHeaders('delete'), // Admin key for DELETE
     });
 
     if (response.ok) {
@@ -767,6 +810,7 @@ const deletePost = async (id) => {
   try {
     const response = await fetch(`${API_BASE}/api/posts/${id}`, {
       method: 'DELETE',
+      headers: getApiHeaders('delete'), // Admin key for DELETE
     });
 
     if (response.ok) {

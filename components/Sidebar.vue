@@ -84,6 +84,56 @@
         <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1 max-sm:text-lg max-sm:font-semibold">{{ $t('home') }}</span>
       </NuxtLink>
       
+      <!-- Profile -->
+      <NuxtLink
+        :to="profileUrl"
+        @click="closeSidebar"
+        class="ml-2 mr-2 text-center text-xl cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-4 mx-3 mt-3 transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
+        dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
+        hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]
+        max-sm:border-b-2 max-sm:border-x-2 max-sm:rounded-2xl max-sm:border-[#E2E8F0] dark:max-sm:border-[#313B47] max-sm:bg-white dark:max-sm:bg-[#212832] max-sm:shadow-sm max-sm:min-h-16 max-sm:items-center max-sm:justify-start"
+      >
+        <svg
+          class="w-6 h-6 transition-transform duration-300 group-hover:scale-110 max-sm:w-7 max-sm:h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1 max-sm:text-lg max-sm:font-semibold">{{ $t('profile') }}</span>
+      </NuxtLink>
+      
+      <!-- News -->
+      <NuxtLink
+        :to="newsUrl"
+        @click="closeSidebar"
+        class="ml-2 mr-2 text-center text-xl cursor-pointer select-none max-sm:text-center flex items-center justify-start gap-3 px-4 py-4 mx-3 mt-3 transition-[transform,shadow,opacity] duration-300 group border-l-4 border-transparent
+        dark:hover:bg-[#6CA8FF] dark:hover:shadow-lg dark:hover:scale-[1.02] dark:hover:border-[#8CB9FF]
+        hover:bg-[#1E6DFF] hover:bg-opacity-10 hover:text-[#1A1A1A] hover:border-[#1E6DFF]
+        max-sm:border-b-2 max-sm:border-x-2 max-sm:rounded-2xl max-sm:border-[#E2E8F0] dark:max-sm:border-[#313B47] max-sm:bg-white dark:max-sm:bg-[#212832] max-sm:shadow-sm max-sm:min-h-16 max-sm:items-center max-sm:justify-start"
+      >
+        <svg
+          class="w-6 h-6 transition-transform duration-300 group-hover:scale-110 max-sm:w-7 max-sm:h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9m0 0v12m0 0h4m-4 0h2"
+          />
+        </svg>
+        <span class="font-medium transition-[transform,shadow,opacity] duration-300 group-hover:translate-x-1 max-sm:text-lg max-sm:font-semibold">{{ $t('news') }}</span>
+      </NuxtLink>
+      
       <!-- Map -->
       <NuxtLink
         :to="mapUrl"
@@ -191,7 +241,7 @@
       </NuxtLink> -->
 
       <!-- Lab Menu -->
-      <div class="max-sm:text-center mt-2 rounded-xl overflow-hidden max-sm:mx-0">
+      <!-- <div class="max-sm:text-center mt-2 rounded-xl overflow-hidden max-sm:mx-0">
         <div
           class="relative ml-2 mr-2 text-center text-xl flex items-center justify-start gap-3 px-4 py-4 rounded-xl transition-[transform,shadow,opacity] duration-300 group cursor-pointer select-none border-l-4
           dark:hover:bg-[#212832] dark:border-transparent dark:hover:border-[#6CA8FF]
@@ -231,10 +281,10 @@
           >
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
-        </div>
+        </div> -->
 
         <!-- Submenu -->
-        <div
+        <!-- <div
           class="transition-all duration-500 ease-out overflow-hidden mx-2 rounded-lg select-none
           dark:bg-[#0E1117] dark:bg-opacity-50
           bg-[#FFFFFF] bg-opacity-80"
@@ -253,8 +303,8 @@
             </NuxtLink>
             </div>
 
-        </div>
-      </div>
+        </div> 
+      </div>-->
 
       <!-- Information Button -->
       <NuxtLink
@@ -378,6 +428,20 @@ const homeUrl = computed(() => {
   return '/'
 });
 
+const profileUrl = computed(() => {
+  if (locale.value === 'en') return '/profile'
+  if (locale.value === 'ru') return '/ru/profile'
+  if (locale.value === 'kk') return '/kk/profile'
+  return '/profile'
+});
+
+const newsUrl = computed(() => {
+  if (locale.value === 'en') return '/news'
+  if (locale.value === 'ru') return '/ru/news'
+  if (locale.value === 'kk') return '/kk/news'
+  return '/news'
+});
+
 const mapUrl = computed(() => {
   if (locale.value === 'en') return '/map'
   if (locale.value === 'ru') return '/ru/map'
@@ -414,12 +478,11 @@ const termsUrl = computed(() => {
 });
 
 const labs = [
-  { path: 'lab3', nameKey: 'levelOfWater' },
-  { path: 'lab4', nameKey: 'transparency' },
-  { path: 'lab5', nameKey: 'temperatureShort' },
-  { path: 'lab6', nameKey: 'electricalConductivityShort' },
-  { path: 'inform', nameKey: 'pathogens' }
-
+  { path: 'lab/2', nameKey: 'pathogens' },
+  { path: 'lab/3', nameKey: 'levelOfWater' },
+  { path: 'lab/4', nameKey: 'transparency' },
+  { path: 'lab/5', nameKey: 'temperatureShort' },
+  { path: 'lab/6', nameKey: 'electricalConductivityShort' },
 ];
 
 const localizedLabs = computed(() => {
@@ -434,6 +497,8 @@ const { $i18n } = useNuxtApp()
 
 $i18n.mergeLocaleMessage('en', {
   home: 'Home',
+  profile: 'Profile',
+  news: 'News',
   map: 'Map',
   report: 'Report',
   coordinates: 'Coordinates',
@@ -450,6 +515,8 @@ $i18n.mergeLocaleMessage('en', {
 
 $i18n.mergeLocaleMessage('ru', {
   home: 'Главная',
+  profile: 'Профиль',
+  news: 'Новости',
   map: 'Карта',
   report: 'Отчет',
   coordinates: 'Координаты',
@@ -466,6 +533,8 @@ $i18n.mergeLocaleMessage('ru', {
 
 $i18n.mergeLocaleMessage('kk', {
   home: 'Басты',
+  profile: 'Профиль',
+  news: 'Жаңалықтар',
   map: 'Карта',
   report: 'Есеп',
   coordinates: 'Координаттар',

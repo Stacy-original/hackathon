@@ -21,6 +21,17 @@ export const useGoogleAuth = () => {
   const user = ref<GoogleUser | null>(null)
   const isAuthenticated = ref(false)
 
+  // API Keys - use the same pattern as reports.vue
+  const getApiHeaders = (operation = 'read') => {
+    // Always use the defaultApiKey like in reports.vue
+    const apiKey = config.public.defaultApiKey || 'user_key_123'
+    
+    return {
+      'Content-Type': 'application/json',
+      'X-API-Key': apiKey
+    };
+  };
+
   const loadGoogleScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (document.getElementById('google-oauth-script')) {
@@ -85,25 +96,44 @@ export const useGoogleAuth = () => {
     }
   }
 
-  // Enhanced backend sync that always returns database role
+  // Test backend connection
+  const testBackendConnection = async (): Promise<void> => {
+    try {
+      console.log('🔍 Testing backend connection...')
+      
+      const response = await $fetch(`${config.public.apiBaseUrl}/api/users/test`, {
+        method: 'GET',
+        headers: getApiHeaders()
+      })
+      
+      console.log('✅ Backend connection test:', response)
+    } catch (error) {
+      console.error('❌ Backend connection test failed:', error)
+    }
+  }
+
+  // Enhanced backend sync with proper API key
   const syncUserWithBackend = async (userData: any): Promise<GoogleUser> => {
     try {
+      console.log('🔐 Attempting to sync user with backend:', userData)
+
       const response = await $fetch(`${config.public.apiBaseUrl}/api/users/sync`, {
         method: 'POST',
+        headers: getApiHeaders(),
         body: {
           userData: {
             id: userData.id,
             email: userData.email,
             name: userData.name,
             photo: userData.picture,
-            role: userData.role || 0 // This will be ignored by backend for existing users
+            role: 0
           }
         }
       }) as BackendResponse
 
       console.log('🔐 Backend sync response:', response)
 
-      // Extract user data from response - backend now returns actual database role
+      // Handle different response formats
       let backendUser = null
       
       if (response?.user) {
@@ -112,15 +142,21 @@ export const useGoogleAuth = () => {
         backendUser = response
       } else if (response?.data) {
         backendUser = response.data
+      } else if (response) {
+        // If response itself is the user object
+        backendUser = response
       }
 
       if (!backendUser) {
-        throw new Error('No user data in backend response')
+        console.warn('⚠️ No user data in backend response, using local data')
+        return {
+          ...userData,
+          role: 0
+        }
       }
 
-      console.log('🔐 Backend user role:', backendUser.role)
+      console.log('🔐 Backend user data received:', backendUser)
 
-      // ALWAYS use the role from backend response
       const syncedUser = {
         id: backendUser.id || userData.id,
         name: backendUser.name || userData.name,
@@ -128,23 +164,58 @@ export const useGoogleAuth = () => {
         picture: backendUser.photo || backendUser.picture || userData.picture,
         given_name: userData.given_name,
         family_name: userData.family_name,
-        role: backendUser.role !== undefined ? backendUser.role : 0 // Critical: Use backend role
+        role: backendUser.role !== undefined ? backendUser.role : 0
       }
 
-      console.log('🔐 Final synced user with role:', syncedUser.role)
+      console.log('✅ User synced successfully with role:', syncedUser.role)
       return syncedUser
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to sync user with backend:', error)
-      // If sync fails, use local data but with default role for security
+      
+      // Log the specific error for debugging
+      if (error?.data) {
+        console.error('🔍 Backend error details:', error.data)
+      }
+      
+      if (error?.status) {
+        console.error('🔍 HTTP Status:', error.status)
+      }
+      
+      // If sync fails, still allow login but with default role
       return {
         ...userData,
-        role: 0 // Default to user role for security
+        role: 0
       }
     }
   }
 
-  // NEW: Verify user role with backend (call this periodically)
+  // Fallback user creation method
+  const createUserInBackend = async (userData: any): Promise<any> => {
+    try {
+      console.log('🔐 Attempting to create user in backend...')
+      
+      const response = await $fetch(`${config.public.apiBaseUrl}/api/users`, {
+        method: 'POST',
+        headers: getApiHeaders(),
+        body: {
+          id: userData.id,
+          email: userData.email,
+          name: userData.name,
+          photo: userData.picture,
+          role: 0
+        }
+      })
+      
+      console.log('✅ User created in backend:', response)
+      return response
+    } catch (error) {
+      console.error('❌ Failed to create user in backend:', error)
+      throw error
+    }
+  }
+
+  // NEW: Verify user role with backend using API keys
   const verifyUserRole = async (): Promise<GoogleUser | null> => {
     try {
       const currentUser = getUserData()
@@ -152,8 +223,9 @@ export const useGoogleAuth = () => {
 
       const response = await $fetch(`${config.public.apiBaseUrl}/api/users/verify-role`, {
         method: 'POST',
-        headers: {
-          'User-Data': JSON.stringify(currentUser)
+        headers: getApiHeaders(),
+        body: {
+          userData: currentUser
         }
       }) as BackendResponse
 
@@ -188,6 +260,8 @@ export const useGoogleAuth = () => {
         throw new Error('No credential received')
       }
 
+      console.log('🔐 Received Google credential')
+
       // Decode the JWT token to get user info
       const userData = decodeJWT(credential)
       
@@ -201,8 +275,23 @@ export const useGoogleAuth = () => {
         role: 0 // This will be overridden by backend
       }
       
-      // Sync user with backend - this now returns the actual database role
-      const syncedUser = await syncUserWithBackend(userPayload)
+      console.log('👤 Decoded user data:', userPayload)
+
+      // Try to sync with backend
+      let syncedUser
+      try {
+        syncedUser = await syncUserWithBackend(userPayload)
+      } catch (syncError) {
+        console.warn('⚠️ Sync failed, trying direct user creation...')
+        try {
+          await createUserInBackend(userPayload)
+          // If creation succeeds but doesn't return user data, use local data
+          syncedUser = { ...userPayload, role: 0 }
+        } catch (createError) {
+          console.error('❌ All user creation methods failed, using local data')
+          syncedUser = { ...userPayload, role: 0 }
+        }
+      }
       
       user.value = syncedUser
       isAuthenticated.value = true
@@ -212,12 +301,15 @@ export const useGoogleAuth = () => {
       localStorage.setItem('user', JSON.stringify(syncedUser))
 
       console.log('✅ User authenticated with role:', syncedUser.role)
+      console.log('💾 User data stored in localStorage')
 
       // Redirect to dashboard
       await navigateTo('/success')
 
     } catch (error) {
-      console.error('Authentication failed:', error)
+      console.error('❌ Authentication failed:', error)
+      // Show user-friendly error message
+      alert('Authentication failed. Please try again.')
     }
   }
 
@@ -317,7 +409,7 @@ export const useGoogleAuth = () => {
     }
   }
 
-  // Make authenticated API calls
+  // Make authenticated API calls with proper API keys
   const apiCall = async (url: string, options: any = {}) => {
     const userData = getUserData()
     
@@ -325,9 +417,12 @@ export const useGoogleAuth = () => {
       throw new Error('User not authenticated')
     }
 
+    const headers = getApiHeaders()
+
     const mergedOptions = {
       ...options,
       headers: {
+        ...headers,
         ...options.headers,
         'User-Data': JSON.stringify(userData)
       }
@@ -368,7 +463,9 @@ export const useGoogleAuth = () => {
     hasRole,
     isAdmin,
     isEditor,
-    refreshUserRole, // Export the refresh function
-    verifyUserRole   // Export for manual calls
+    refreshUserRole,
+    verifyUserRole,
+    getApiHeaders,
+    testBackendConnection // Export for debugging
   }
 }

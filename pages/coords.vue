@@ -357,7 +357,8 @@ import { getTranslatedLakeName } from '~/composables/lakes-data';
 const { locale } = useI18n();
 const currentLanguage = locale.value;
 
-const { isAuthenticated, checkAuthStatus } = useGoogleAuth()
+// Auth check
+const { isAuthenticated, checkAuthStatus, user } = useGoogleAuth()
 
 onMounted(async () => {
   await checkAuthStatus()
@@ -366,12 +367,15 @@ onMounted(async () => {
   }
 })
 
+// Get runtime config for API
+const config = useRuntimeConfig()
+const API_BASE = config.public.apiBaseUrl
+const API_KEY = config.public.defaultApiKey // Using user API key by default
 
 // Define translations for this page only
 const { $i18n } = useNuxtApp()
 
 $i18n.mergeLocaleMessage('en', {
-
   waterBodyCoordinates: 'Water Body Coordinates',
   mapWaterBodies: 'Map water bodies and record their characteristics',
   selectOnMap: 'Select on Map',
@@ -491,9 +495,6 @@ $i18n.mergeLocaleMessage('kk', {
   status: 'Статус'
 })
 
-// ✅ UPDATE THIS URL WITH YOUR RENDER URL
-const API_BASE = 'https://skogeohydro-backend.onrender.com';
-
 // Define types
 interface Coordinate {
   id: string;
@@ -520,6 +521,9 @@ interface FormData {
   waterlevel: string;
   pathogens: string;
   description: string;
+  userId?: string;
+  userName?: string;
+  userEmail?: string;
 }
 
 interface Message {
@@ -575,10 +579,18 @@ const submitCoordinates = async () => {
   isSubmitting.value = true;
 
   try {
+    // Set user data from auth if available
+    if (user.value) {
+      formData.value.userId = user.value.id;
+      formData.value.userName = user.value.name;
+      formData.value.userEmail = user.value.email;
+    }
+
     const response = await fetch(`${API_BASE}/api/coordinates`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-API-Key': API_KEY
       },
       body: JSON.stringify(formData.value),
     });
@@ -595,7 +607,10 @@ const submitCoordinates = async () => {
         conductivity: '',
         waterlevel: '',
         pathogens: 'Unknown',
-        description: ''
+        description: '',
+        userId: user.value?.id,
+        userName: user.value?.name,
+        userEmail: user.value?.email
       };
       // Refresh coordinates list
       await fetchCoordinates();
@@ -614,7 +629,12 @@ const submitCoordinates = async () => {
 const fetchCoordinates = async () => {
   loading.value = true;
   try {
-    const response = await fetch(`${API_BASE}/api/coordinates`);
+    const response = await fetch(`${API_BASE}/api/coordinates`, {
+      headers: {
+        'X-API-Key': API_KEY
+      }
+    });
+    
     if (response.ok) {
       const coordinates = await response.json();
       // Show only the 6 most recent coordinates
