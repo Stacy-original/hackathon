@@ -32,6 +32,109 @@ export const useGoogleAuth = () => {
     };
   };
 
+  // NEW: Function to normalize and handle Cyrillic characters
+  const normalizeCyrillicName = (name: string): string => {
+    if (!name) return name;
+    
+    // Check if the name contains Cyrillic characters
+    const cyrillicPattern = /[\u0400-\u04FF]/;
+    if (!cyrillicPattern.test(name)) {
+      return name; // Return as-is if no Cyrillic characters
+    }
+    
+    console.log('🔤 Normalizing Cyrillic name:', name);
+    
+    // Trim and clean up the name
+    return name.trim().replace(/\s+/g, ' ');
+  }
+
+  // NEW: Function to update user display name and avatar in frontend
+  const updateUserDisplay = (userData: any): GoogleUser => {
+    const normalizedName = normalizeCyrillicName(userData.name);
+    
+    const updatedUser: GoogleUser = {
+      id: userData.id,
+      name: normalizedName,
+      email: userData.email,
+      picture: userData.picture,
+      given_name: userData.given_name || normalizedName.split(' ')[0],
+      family_name: userData.family_name || normalizedName.split(' ').slice(1).join(' '),
+      role: userData.role || 0
+    };
+
+    // Update the reactive user object
+    user.value = updatedUser;
+    
+    // Update localStorage with fresh data
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    
+    console.log('🔄 Updated user display:', {
+      original: userData.name,
+      normalized: normalizedName,
+      picture: userData.picture
+    });
+    
+    return updatedUser;
+  }
+
+  // NEW: Function to force overwrite user name and avatar using the profile endpoint
+  const overwriteUserProfile = async (): Promise<GoogleUser | null> => {
+    try {
+      const currentUser = user.value;
+      if (!currentUser) {
+        console.warn('⚠️ No user logged in to overwrite profile');
+        return null;
+      }
+
+      console.log('🔄 Overwriting user profile with fresh Google data...');
+
+      // Get fresh token from localStorage
+      const token = localStorage.getItem('google_token');
+      if (!token) {
+        console.warn('⚠️ No Google token found');
+        return null;
+      }
+
+      // Decode token to get fresh user data
+      const freshUserData = decodeJWT(token);
+      
+      // Use the normalized name for backend update
+      const normalizedName = normalizeCyrillicName(freshUserData.name);
+      
+      // Use the same endpoint that worked in the curl command
+      const response = await $fetch(`${config.public.apiBaseUrl}/api/users/${currentUser.id}/profile`, {
+        method: 'PUT',
+        headers: getApiHeaders(),
+        body: {
+          name: normalizedName, // Send normalized name to backend
+          photo: freshUserData.picture
+        }
+      }) as BackendResponse;
+
+      console.log('✅ Profile updated via backend:', response);
+
+      // Create updated user object with fresh data
+      const updatedUser = {
+        id: currentUser.id,
+        name: normalizedName, // Use normalized name
+        email: currentUser.email, // Keep original email
+        picture: freshUserData.picture, // Always use fresh avatar
+        given_name: freshUserData.given_name, // Keep original given_name from Google
+        family_name: freshUserData.family_name, // Keep original family_name from Google
+        role: currentUser.role // Keep original role
+      };
+
+      // Update display with the updated data
+      const normalizedUser = updateUserDisplay(updatedUser);
+
+      return normalizedUser;
+
+    } catch (error) {
+      console.error('❌ Failed to overwrite user profile:', error);
+      return null;
+    }
+  }
+
   const loadGoogleScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (document.getElementById('google-oauth-script')) {
@@ -112,10 +215,13 @@ export const useGoogleAuth = () => {
     }
   }
 
-  // Enhanced backend sync with proper API key
+  // Enhanced backend sync with proper API key and profile overwriting
   const syncUserWithBackend = async (userData: any): Promise<GoogleUser> => {
     try {
       console.log('🔐 Attempting to sync user with backend:', userData)
+
+      // Normalize the name before sending to backend
+      const normalizedName = normalizeCyrillicName(userData.name);
 
       const response = await $fetch(`${config.public.apiBaseUrl}/api/users/sync`, {
         method: 'POST',
@@ -124,7 +230,7 @@ export const useGoogleAuth = () => {
           userData: {
             id: userData.id,
             email: userData.email,
-            name: userData.name,
+            name: normalizedName, // Send normalized name to backend
             photo: userData.picture,
             role: 0
           }
@@ -149,23 +255,24 @@ export const useGoogleAuth = () => {
 
       if (!backendUser) {
         console.warn('⚠️ No user data in backend response, using local data')
-        return {
+        return updateUserDisplay({
           ...userData,
+          name: normalizedName, // Use normalized name
           role: 0
-        }
+        })
       }
 
       console.log('🔐 Backend user data received:', backendUser)
 
-      const syncedUser = {
+      const syncedUser = updateUserDisplay({
         id: backendUser.id || userData.id,
-        name: backendUser.name || userData.name,
+        name: backendUser.name || normalizedName, // Use backend name or normalized name
         email: backendUser.email || userData.email,
         picture: backendUser.photo || backendUser.picture || userData.picture,
-        given_name: userData.given_name,
-        family_name: userData.family_name,
+        given_name: userData.given_name, // Keep original from Google
+        family_name: userData.family_name, // Keep original from Google
         role: backendUser.role !== undefined ? backendUser.role : 0
-      }
+      })
 
       console.log('✅ User synced successfully with role:', syncedUser.role)
       return syncedUser
@@ -183,10 +290,12 @@ export const useGoogleAuth = () => {
       }
       
       // If sync fails, still allow login but with default role
-      return {
+      const normalizedName = normalizeCyrillicName(userData.name);
+      return updateUserDisplay({
         ...userData,
+        name: normalizedName, // Use normalized name
         role: 0
-      }
+      })
     }
   }
 
@@ -195,13 +304,15 @@ export const useGoogleAuth = () => {
     try {
       console.log('🔐 Attempting to create user in backend...')
       
+      const normalizedName = normalizeCyrillicName(userData.name);
+      
       const response = await $fetch(`${config.public.apiBaseUrl}/api/users`, {
         method: 'POST',
         headers: getApiHeaders(),
         body: {
           id: userData.id,
           email: userData.email,
-          name: userData.name,
+          name: normalizedName, // Send normalized name to backend
           photo: userData.picture,
           role: 0
         }
@@ -215,7 +326,7 @@ export const useGoogleAuth = () => {
     }
   }
 
-  // NEW: Verify user role with backend using API keys
+  // Verify user role with backend using API keys
   const verifyUserRole = async (): Promise<GoogleUser | null> => {
     try {
       const currentUser = getUserData()
@@ -230,7 +341,7 @@ export const useGoogleAuth = () => {
       }) as BackendResponse
 
       if (response?.user) {
-        const verifiedUser = {
+        const verifiedUser = updateUserDisplay({
           id: response.user.id,
           name: response.user.name,
           email: response.user.email,
@@ -238,11 +349,8 @@ export const useGoogleAuth = () => {
           given_name: user.value?.given_name || response.user.name?.split(' ')[0],
           family_name: user.value?.family_name || response.user.name?.split(' ').slice(1).join(' '),
           role: response.user.role
-        }
+        })
 
-        user.value = verifiedUser
-        localStorage.setItem('user', JSON.stringify(verifiedUser))
-        
         console.log('🔐 Role verified:', verifiedUser.role)
         return verifiedUser
       }
@@ -286,10 +394,10 @@ export const useGoogleAuth = () => {
         try {
           await createUserInBackend(userPayload)
           // If creation succeeds but doesn't return user data, use local data
-          syncedUser = { ...userPayload, role: 0 }
+          syncedUser = updateUserDisplay({ ...userPayload, role: 0 })
         } catch (createError) {
           console.error('❌ All user creation methods failed, using local data')
-          syncedUser = { ...userPayload, role: 0 }
+          syncedUser = updateUserDisplay({ ...userPayload, role: 0 })
         }
       }
       
@@ -302,6 +410,11 @@ export const useGoogleAuth = () => {
 
       console.log('✅ User authenticated with role:', syncedUser.role)
       console.log('💾 User data stored in localStorage')
+
+      // NEW: Force overwrite profile on every login (non-blocking)
+      setTimeout(() => {
+        overwriteUserProfile().catch(console.error);
+      }, 1000);
 
       // Redirect to dashboard
       await navigateTo('/success')
@@ -362,7 +475,7 @@ export const useGoogleAuth = () => {
     }
   }
 
-  // Enhanced auth status check with role verification
+  // Enhanced auth status check with role verification and profile overwriting
   const checkAuthStatus = async (): Promise<void> => {
     try {
       const token = localStorage.getItem('google_token')
@@ -378,10 +491,11 @@ export const useGoogleAuth = () => {
           user.value = parsedUser
           isAuthenticated.value = true
           
-          // Verify role with backend (but don't block if it fails)
+          // Verify role with backend and overwrite profile (but don't block if it fails)
           setTimeout(() => {
-            verifyUserRole().catch(console.error)
-          }, 1000)
+            verifyUserRole().catch(console.error);
+            overwriteUserProfile().catch(console.error);
+          }, 1000);
           
         } else {
           // Token expired, clear storage
@@ -466,6 +580,8 @@ export const useGoogleAuth = () => {
     refreshUserRole,
     verifyUserRole,
     getApiHeaders,
-    testBackendConnection // Export for debugging
+    testBackendConnection, // Export for debugging
+    overwriteUserProfile, // NEW: Export the overwrite function
+    normalizeCyrillicName // NEW: Export for testing
   }
 }

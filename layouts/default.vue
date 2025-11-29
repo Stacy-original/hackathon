@@ -40,7 +40,7 @@
               <div class="flex items-center gap-2">
                 <img :src="user?.picture" :alt="user?.name" crossorigin="anonymous" class="w-6 h-6 rounded-full" />
                 <span class="text-sm font-medium text-[#5A6A85] dark:text-[#A9B4C6] max-sm:hidden">
-                  {{ user?.given_name || user?.name }}
+                  {{ user?.name }}
                 </span>
                 <!-- Role badge -->
                 <span class="text-xs px-1.5 py-0.5 rounded-full" 

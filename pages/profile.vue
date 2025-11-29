@@ -164,7 +164,7 @@
             </div>
 
             <!-- Comments -->
-            <div v-else-if="activeTab === 'comments' && userComments.length" class="space-y-4">
+            <!-- <div v-else-if="activeTab === 'comments' && userComments.length" class="space-y-4">
               <div
                 v-for="comment in userComments"
                 :key="comment._id"
@@ -184,7 +184,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Coordinates -->
             <div v-else-if="activeTab === 'coordinates' && userCoordinates.length" class="space-y-4">
@@ -336,12 +336,21 @@
 </template>
 
 <script setup lang="ts">
-const { user, signOut, checkAuthStatus } = useGoogleAuth()
+const {isAuthenticated, user, signOut, checkAuthStatus } = useGoogleAuth()
 import { computed, onMounted, ref } from 'vue'
 
 definePageMeta({
   middleware: 'auth'
 })
+
+
+onMounted(async () => {
+  await checkAuthStatus()
+  if (!isAuthenticated.value) {
+    await navigateTo('/login')
+  }
+})
+
 
 const config = useRuntimeConfig()
 const API_BASE = config.public.apiBaseUrl
@@ -363,7 +372,7 @@ const activeTab = ref('reports')
 const tabs = computed(() => [
   { id: 'reports', label: $i18n.t('reports') },
   { id: 'posts', label: $i18n.t('posts') },
-  { id: 'comments', label: $i18n.t('comments') },
+  // { id: 'comments', label: $i18n.t('comments') },
   { id: 'coordinates', label: $i18n.t('coordinates') }
 ])
 
